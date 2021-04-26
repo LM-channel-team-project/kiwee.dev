@@ -12,25 +12,26 @@ const ATLAS_DATABASE = process.env.ATLAS_DB_NAME as string;
 const ATLAS_USERNAME = process.env.ATLAS_USERNAME as string;
 const ATLAS_PASSWORD = process.env.ATLAS_PASSWORD as string;
 
-console.log(ATLAS_URI);
-
-const connect = () => {
-  mongoose.connect(ATLAS_URI, {
-    user: ATLAS_USERNAME,
-    pass: ATLAS_PASSWORD,
-    dbName: ATLAS_DATABASE,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  });
+const AtlasClient = class {
+  private mongoose = mongoose;
+  constructor() {
+    const db = this.mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+    db.on('open', () => {
+      console.log('atlas db connected.');
+    });
+  }
+  connect() {
+    this.mongoose.connect(ATLAS_URI, {
+      user: ATLAS_USERNAME,
+      pass: ATLAS_PASSWORD,
+      dbName: ATLAS_DATABASE,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
+  }
 };
 
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error'));
-db.on('open', () => {
-  console.log('atlas db connected.');
-});
-
-export default connect;
+export default new AtlasClient();

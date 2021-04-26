@@ -1,17 +1,25 @@
 import { v4 as uuidV4 } from 'uuid';
 import RssProviderModel from '../model/RssProvider';
-import { RssProviderType } from '../type/RssProviderType';
+import { providerType, RssProviderType } from '../type/RssProviderType';
+
+export interface SaveRssProviderProps {
+  providerName: string;
+  providerEmail: string;
+  providerAvatar?: string;
+  providerType: providerType;
+  rssLink: String;
+}
 
 const RssProviderRepository = class {
   private rssProviderModel = RssProviderModel;
 
-  createRssProvider = async ({
+  saveRssProvider = async ({
     providerEmail,
     providerAvatar,
     providerName,
     providerType,
     rssLink,
-  }: RssProviderType): Promise<{
+  }: SaveRssProviderProps): Promise<{
     code: number;
     message: string;
   }> => {
@@ -37,7 +45,7 @@ const RssProviderRepository = class {
       await this.rssProviderModel.create(rssProvider);
       return {
         code: 200,
-        message: '성공적으로 등록되엇습니다.',
+        message: '성공적으로 등록되었습니다.',
       };
     } catch (e) {
       console.log(e.message);
