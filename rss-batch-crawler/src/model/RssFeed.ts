@@ -1,4 +1,6 @@
-import { Document, Schema, model } from 'mongoose';
+import { Document, Schema, model, PaginateModel } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2'
+
 import RssFeedType from '../type/RssFeedType';
 
 export interface RssFeedModel extends RssFeedType, Document {}
@@ -27,7 +29,6 @@ const RssFeedSchema = new Schema({
   providerName: {
     type: String,
     required: true,
-    unique: true,
   },
   providerAvatar: {
     type: String,
@@ -37,5 +38,5 @@ const RssFeedSchema = new Schema({
     default: new Array<string>(),
   },
 });
-
-export default model<RssFeedModel>('RssFeed', RssFeedSchema);
+RssFeedSchema.plugin(mongoosePaginate);
+export default model<RssFeedModel, PaginateModel<RssFeedModel>>('RssFeed', RssFeedSchema);

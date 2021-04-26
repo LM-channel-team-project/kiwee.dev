@@ -68,7 +68,14 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose@^5.10.5":
+"@types/mongoose-paginate-v2@^1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@types/mongoose-paginate-v2/-/mongoose-paginate-v2-1.3.9.tgz#a211bf0da49473e9e1f1a65d3aacbd5d5ff0408c"
+  integrity sha512-NHqTgOZRmi7gd/IkRJ2VXo88m0efKatLFrG63VEcAB98nO6nzbeRaXPUUgEFJ2Le6vleTE0WqvAuL0gO5IQF5A==
+  dependencies:
+    "@types/mongoose" "*"
+
+"@types/mongoose@*", "@types/mongoose@^5.10.5":
   version "5.10.5"
   resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.10.5.tgz#0f4fb0440e8cf0213caec1e5c7b163dbd9847c56"
   integrity sha512-37QMIA954T3n+HSksSNLlxZsqF8fMJu5S4dyPBod6gRxGtsXlQ9jUtL8BE8Seimv99u79eLXI3bggoCnSQ/fxQ==
@@ -894,6 +901,11 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
+
+mongoose-paginate-v2@^1.3.17:
+  version "1.3.17"
+  resolved "https://registry.yarnpkg.com/mongoose-paginate-v2/-/mongoose-paginate-v2-1.3.17.tgz#b13db59d3877d7b0ef9d26e941b66511a0fa8459"
+  integrity sha512-7HHVu+OTA7XQs/P7E2QIzPCAwUn2Wzdxr/Wau5GaOceCf35DsrT2PwOUVuUm8GaHhswWzRnSX9N8kxdUn4Zj6g==
 
 mongoose@^5.12.5:
   version "5.12.5"
