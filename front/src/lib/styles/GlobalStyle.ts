@@ -14,6 +14,8 @@ export const GlobalStyle = createGlobalStyle`
       'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
       'Noto Color Emoji';
     font-size: 1.6rem;
+    color: ${({ theme }) => theme['font']};
+    background: ${({ theme }) => theme['background']};
   }
   a:link,
   a:visited {

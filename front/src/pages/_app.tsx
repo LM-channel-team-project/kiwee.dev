@@ -7,8 +7,8 @@ import AppLayout from '@/components/AppLayout';
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <GlobalStyle />
       <ThemeProvider theme={theme['light']}>
+        <GlobalStyle />
         <AppLayout>
           <Component {...pageProps} />
         </AppLayout>
