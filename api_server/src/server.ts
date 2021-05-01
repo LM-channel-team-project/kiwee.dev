@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 import express from 'express';
 // router
 import providerRouter from './router/providerRouter';
-import feedRouter from './router/feedRouter';
+import feedRouter from './router/articleRouter';
 
 dotenv.config({
-  path: '.dev.env',
+  path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env',
 });
 
 const Server = class {
@@ -18,7 +18,7 @@ const Server = class {
     this.app.use(express.json());
     // add router
     this.app.use('/provider', providerRouter);
-    this.app.use('/feed', feedRouter);
+    this.app.use('/article', feedRouter);
   }
   listen() {
     this.app.listen(this.port, () =>
