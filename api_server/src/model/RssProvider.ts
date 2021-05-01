@@ -9,7 +9,7 @@ const RssProviderSchema = new Schema(
       required: true,
       unique: true,
     },
-    providerEmail: { type: String, required: true },
+    providerEmail: { type: String, required: true, unique: true  },
     providerName: { type: String, required: true },
     providerAvatar: { type: String },
     providerType: {

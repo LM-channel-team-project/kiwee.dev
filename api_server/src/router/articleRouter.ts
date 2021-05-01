@@ -1,5 +1,5 @@
 import express from 'express';
-import RssFeedRepository from '../repository/RssFeedRepository';
+import RssFeedRepository from '../repository/ArticleRepository';
 
 const router = express.Router();
 
