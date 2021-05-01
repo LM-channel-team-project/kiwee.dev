@@ -50,10 +50,9 @@ const HeaderBlock = styled.header`
   display: flex;
   width: 100%;
   height: 60px;
-  padding: 0 1rem;
+  padding: 0 1.6rem;
   justify-content: space-between;
   align-items: center;
-
   .header-logo-wrapper {
     display: flex;
     height: 100%;
@@ -74,7 +73,7 @@ const HeaderBlock = styled.header`
       }
     }
     .header-auth-block {
-      margin-left: 1rem;
+      margin-left: 1.6rem;
     }
   }
 `;

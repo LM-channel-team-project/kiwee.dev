@@ -11,15 +11,17 @@ const FooterBlock = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.75rem;
-  a:link,
-  a:visited {
-    text-decoration: none;
-    color: #999999;
-  }
-  a:hover {
-    color: rgba(0, 0, 0, 0.8);
-    text-decoration: underline;
+  font-size: 1.4rem;
+  a {
+    color: ${({ theme }) => theme['font-inactive']};
+    &:link,
+    &:visited {
+      text-decoration: none;
+    }
+    &:hover {
+      color: ${({ theme }) => theme['font']};
+      text-decoration: underline;
+    }
   }
 `;
 
