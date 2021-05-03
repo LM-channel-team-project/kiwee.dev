@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import HeaderPreference from './HeaderPreference';
 import HeaderAuth from './HeaderAuth';
 import HeaderUserProfile from './HeaderUserProfile';
+import ToggleDarkmode from '../Settings/ToggleDarkmode';
 
 function header() {
   /**
@@ -41,6 +42,7 @@ function header() {
         </nav>
         {router.pathname === '/' && <HeaderPreference />}
         <div className="header-auth-block">{isLogged ? <HeaderUserProfile /> : <HeaderAuth />}</div>
+        <ToggleDarkmode />
       </div>
     </HeaderBlock>
   );
