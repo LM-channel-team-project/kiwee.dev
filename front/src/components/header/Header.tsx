@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import HeaderPreference from './HeaderPreference';
 import HeaderAuth from './HeaderAuth';
 import HeaderUserProfile from './HeaderUserProfile';
-import ToggleDarkmode from '../Settings/ToggleDarkmode';
+import Settings from '../Settings';
 
 function header() {
   /**
@@ -16,35 +16,44 @@ function header() {
    */
   const router = useRouter();
   const [isLogged, setIsLogged] = useState(false);
+  const [isSettingView, setIsSettingView] = useState<boolean>(false);
+
+  const onClickSetting = () => {
+    setIsSettingView(!isSettingView);
+  };
 
   return (
-    <HeaderBlock>
-      <Link href="/">
-        <a className="header-logo-wrapper">
-          <span>LOGO</span>&nbsp;
-          <span>LOGONAME</span>
-        </a>
-      </Link>
-      <div className="header-contents">
-        <nav className="header-nav">
-          <ul className="header-nav-list">
-            <li>
-              <Link href="/blogs">
-                <a>목록</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/bookmarks">
-                <a>북마크</a>
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        {router.pathname === '/' && <HeaderPreference />}
-        <div className="header-auth-block">{isLogged ? <HeaderUserProfile /> : <HeaderAuth />}</div>
-        <ToggleDarkmode />
-      </div>
-    </HeaderBlock>
+    <>
+      <HeaderBlock>
+        <Link href="/">
+          <a className="header-logo-wrapper">
+            <span>LOGO</span>&nbsp;
+            <span>LOGONAME</span>
+          </a>
+        </Link>
+        <div className="header-contents">
+          <nav className="header-nav">
+            <ul className="header-nav-list">
+              <li>
+                <Link href="/blogs">
+                  <a>목록</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/bookmarks">
+                  <a>북마크</a>
+                </Link>
+              </li>
+            </ul>
+          </nav>
+          {router.pathname === '/' && <HeaderPreference onClickSetting={onClickSetting} />}
+          <div className="header-auth-block">
+            {isLogged ? <HeaderUserProfile /> : <HeaderAuth />}
+          </div>
+        </div>
+      </HeaderBlock>
+      {isSettingView && <Settings />}
+    </>
   );
 }
 
