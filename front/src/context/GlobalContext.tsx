@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { GlobalStyle, theme } from '@/lib/styles';
+import { theme } from '@/lib/styles';
 
 type ModeType = 'light' | 'dark';
 type ContextType = [ModeType, () => void];
@@ -11,10 +11,7 @@ interface ChildrenType {
 export const GlobalContext = createContext<ContextType>({} as ContextType);
 
 function GlobalProvider({ children }: ChildrenType) {
-  let initialState: ModeType = 'dark';
-  if (typeof window !== 'undefined') {
-    initialState = (window.localStorage.getItem('MODE') as ModeType) || 'dark';
-  }
+  const initialState = (window?.localStorage?.getItem('MODE') as ModeType) || 'light';
 
   const [mode, setMode] = useState<ModeType>(initialState);
   const toggleMode = () => {
