@@ -9,19 +9,14 @@ const RssProviderSchema = new Schema(
       required: true,
       unique: true,
     },
-    providerEmail: { type: String, required: true, unique: true  },
+    providerEmail: { type: String, required: true, unique: true },
     providerName: { type: String, required: true },
     providerAvatar: { type: String },
-    providerType: {
-      type: String,
-      required: true,
-    },
     rssLink: {
       type: String,
       required: true,
     },
     lastModifiedTime: Date,
-    numOfArticles: Number,
   },
   {
     versionKey: false,

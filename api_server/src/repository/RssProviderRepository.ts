@@ -1,56 +1,61 @@
 import { v4 as uuidV4 } from 'uuid';
-import RssProviderModel from '../model/RssProvider';
-import { providerType, RssProviderType } from '../type/RssProviderType';
+import RssProvider from '../model/RssProvider';
+import { RssProviderType } from '../type/RssProviderType';
 
-export interface SaveRssProviderProps {
-  providerName: string;
+export interface SaveProviderProps {
   providerEmail: string;
-  providerAvatar?: string;
-  providerType: providerType;
-  rssLink: String;
+  providerName: string;
+  providerAvatar: string;
 }
 
 const RssProviderRepository = class {
-  private rssProviderModel = RssProviderModel;
+  private RssProvider = RssProvider;
 
   saveRssProvider = async ({
     providerEmail,
     providerAvatar,
     providerName,
-    providerType,
-    rssLink,
-  }: SaveRssProviderProps): Promise<{
+  }: SaveProviderProps): Promise<{
     code: number;
     message: string;
+    data?: RssProviderType;
   }> => {
-    const isExist = await this.rssProviderModel.exists({ providerEmail });
-    if (isExist)
-      return {
-        code: 400,
-        message: '이미 존재하는 이메일입니다.',
-      };
     try {
       const providerId = uuidV4();
-      const lastModifiedTime = new Date();
-      const rssProvider = new RssProviderModel({
-        providerId,
-        providerEmail,
-        providerName,
-        providerAvatar,
-        providerType,
-        rssLink,
-        lastModifiedTime,
-        numOfArticles: 0,
-      });
-      await this.rssProviderModel.create(rssProvider);
+      const lastModifiedTime = new Date(1970, 1, 1);
+      const rssLink = '';
+      const updateResponse = await this.RssProvider.updateOne(
+        { providerEmail },
+        {
+          providerId,
+          providerEmail,
+          providerName,
+          providerAvatar,
+          rssLink,
+          lastModifiedTime,
+        },
+        { new: true, upsert: true }
+      ).exec();
+      console.log(updateResponse);
       return {
-        code: 200,
-        message: '성공적으로 등록되었습니다.',
+        code: 201,
+        message:
+          updateResponse.n === 0
+            ? '성공적으로 등록되었습니다.'
+            : '로그인에 성공하였습니다.',
+        data: {
+          providerId,
+          providerEmail,
+          providerName,
+          providerAvatar,
+          rssLink,
+          lastModifiedTime,
+        },
       };
     } catch (e) {
       console.log(e.message);
       return {
-        code: 503,
+        code: 500,
         message: '오류가 발생했습니다.',
       };
     }

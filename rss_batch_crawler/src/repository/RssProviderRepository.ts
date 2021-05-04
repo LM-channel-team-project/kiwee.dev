@@ -1,12 +1,9 @@
-import { v4 as uuidV4 } from 'uuid';
 import RssProviderModel from '../model/RssProvider';
-import { providerType, RssProviderType } from '../type/RssProviderType';
 
 export interface SaveRssProviderProps {
   providerName: string;
   providerEmail: string;
   providerAvatar?: string;
-  providerType: providerType;
   rssLink: String;
 }
 
