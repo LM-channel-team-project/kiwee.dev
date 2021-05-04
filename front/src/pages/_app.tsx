@@ -2,17 +2,17 @@ import { AppProps } from 'next/app';
 
 import { GlobalStyle } from '@/lib/styles';
 import AppLayout from '@/components/AppLayout';
-import GlobalProvider from '@/context/GlobalContext';
+import ThemeProvider from '@/context/ThemeContext';
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <GlobalProvider>
+      <ThemeProvider>
         <GlobalStyle />
         <AppLayout>
           <Component {...pageProps} />
         </AppLayout>
-      </GlobalProvider>
+      </ThemeProvider>
     </>
   );
 }

@@ -1,10 +1,9 @@
-import { useContext } from 'react';
-import { GlobalContext } from '@/context/GlobalContext';
 import { SwitchButton, SwitchOnOff } from '@/components/Settings/common/styles';
 import { Container } from './styles';
+import { useThemeContext } from '@/hooks/useThemeContext';
 
 function ToggleDarkmode() {
-  const [mode, setMode] = useContext(GlobalContext);
+  const [mode, setMode] = useThemeContext();
 
   return (
     <>
