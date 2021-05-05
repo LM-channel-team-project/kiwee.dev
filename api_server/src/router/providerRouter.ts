@@ -65,6 +65,8 @@ const router = express.Router();
  * /provider:
  *  post:
  *    summary: OAuth2.0 로그인시 회원 정보 동기화 및 인증 토큰 발급
+ *    tags:
+ *      - provider
  *    consumes:
  *      - application/json
  *    produces:
