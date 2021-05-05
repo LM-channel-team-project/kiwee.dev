@@ -6,10 +6,10 @@ import { BaseButtonProps, ButtonProps, AnchorProps, NextLinkProps } from './butt
 import { styles } from './style';
 
 function Button(props: BaseButtonProps) {
-  const { children, ...restPorps } = props;
+  const { children, ...restProps } = props;
 
-  if (isLink(restPorps)) {
-    const { to, as, passHref, locale, replace, shallow, prefetch, scroll, ...rest } = restPorps;
+  if (isLink(restProps)) {
+    const { to, as, passHref, locale, replace, shallow, prefetch, scroll, ...rest } = restProps;
     const linkProps = { to, as, passHref, locale, replace, shallow, prefetch, scroll };
     return (
       <Link href={to as string} {...linkProps}>
@@ -17,15 +17,15 @@ function Button(props: BaseButtonProps) {
       </Link>
     );
   }
-  if (isAnchor(restPorps)) {
+  if (isAnchor(restProps)) {
     return (
-      <StyledAnchor href={restPorps.href} target="_blank" rel="noopener noreferrer" {...restPorps}>
+      <StyledAnchor href={restProps.href} target="_blank" rel="noopener noreferrer" {...restProps}>
         {children}
       </StyledAnchor>
     );
   }
-  if (isButton(restPorps)) {
-    return <StyledButton {...restPorps}>{children}</StyledButton>;
+  if (isButton(restProps)) {
+    return <StyledButton {...restProps}>{children}</StyledButton>;
   }
   return null;
 }

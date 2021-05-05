@@ -6,11 +6,11 @@ import Icon from '@/components/Common/Icon';
 import { IconType } from '@/components/Common/Icon/Icon';
 import { BaseButtonProps } from '../button';
 
-interface IconButtonPorps {
+interface IconButtonProps {
   iconName: IconType;
 }
 
-function IconButton({ iconName, ...props }: IconButtonPorps & BaseButtonProps) {
+function IconButton({ iconName, ...props }: IconButtonProps & BaseButtonProps) {
   return (
     <Button {...props}>
       <StyledIcon name={iconName} styleType={props.styleType} selected={props.selected} />
@@ -18,7 +18,7 @@ function IconButton({ iconName, ...props }: IconButtonPorps & BaseButtonProps) {
   );
 }
 
-const StyledIcon = styled(Icon).attrs((props: IconButtonPorps & BaseButtonProps) => ({
+const StyledIcon = styled(Icon).attrs((props: IconButtonProps & BaseButtonProps) => ({
   styleType: props.styleType,
   selected: props.selected,
 }))`
