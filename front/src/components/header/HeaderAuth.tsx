@@ -2,16 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 import TextButton from '@/components/Common/Button/Text';
+import { useModal } from '@/hooks/useModalContext';
 
 function HeaderAuth() {
+  const [modal, toggleModal] = useModal();
+
   return (
     <HeaderAuthBlock>
-      <TextButton
-        label="Login"
-        styleType="primary"
-        size="large"
-        onClick={() => console.log('Login Click')}
-      />
+      <TextButton label="Login" styleType="primary" size="large" onClick={toggleModal} />
     </HeaderAuthBlock>
   );
 }
