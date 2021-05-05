@@ -21,7 +21,7 @@ interface ExtractResponse {
   thumbnail: string;
 }
 
-const INTERVAL = parseInt(process.env.INTERVAL || `${1000 * 60 * 60 * 12}`);
+const INTERVAL = parseInt(process.env.INTERVAL_HOURS || '3') * 1000 * 60 * 60;
 const KEYWORD_EXTRACTOR_URL = process.env.KEYWORD_EXTRACTOR_URL as string;
 const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '2');
 async function compactItem(
