@@ -93,7 +93,11 @@ router.get(
       );
       return response
         .status(code)
+<<<<<<< HEAD
         .json({ message: '정상적으로 처리되었습니다.', data: [...data.docs] });
+=======
+        .json({ message: '정상적으로 처리되었습니다.', data });
+>>>>>>> cb3039b93e1dd569c78088fd1735684f3aeabbc9
     } catch (e) {
       console.log(e);
       return response.status(500).json({ message: '에러가 발생했습니다.' });
