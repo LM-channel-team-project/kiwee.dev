@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '@/components/Common/Button';
+import TextButton from '@/components/Common/Button/Text';
 
 function HeaderAuth() {
   return (
     <HeaderAuthBlock>
-      <Button>Login</Button>
+      <TextButton
+        label="Login"
+        styleType="primary"
+        size="large"
+        onClick={() => console.log('Login Click')}
+      />
     </HeaderAuthBlock>
   );
 }
