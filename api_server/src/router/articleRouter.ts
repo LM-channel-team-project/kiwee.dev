@@ -88,10 +88,12 @@ router.get(
       });
 
     try {
-      const { code, payload } = await RssFeedRepository.pagenateFeed(
+      const { code, data } = await RssFeedRepository.pagenateFeed(
         parseInt(page as string)
       );
-      return response.status(code).json({ payload });
+      return response
+        .status(code)
+        .json({ message: '정상적으로 처리되었습니다.', data });
     } catch (e) {
       console.log(e);
       return response.status(500).json({ message: '에러가 발생했습니다.' });
