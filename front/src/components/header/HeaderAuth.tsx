@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '@/components/Common/Button';
+import TextButton from '@/components/Common/Button/Text';
 import { useModal } from '@/hooks/useModalContext';
 
 function HeaderAuth() {
@@ -9,7 +9,7 @@ function HeaderAuth() {
 
   return (
     <HeaderAuthBlock>
-      <Button onClick={toggleModal}>Login</Button>
+      <TextButton label="Login" styleType="primary" size="large" onClick={toggleModal} />
     </HeaderAuthBlock>
   );
 }

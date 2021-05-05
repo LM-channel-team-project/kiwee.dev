@@ -1,5 +1,4 @@
 module.exports = {
-  distDir: './dist/.next',
   future: {
     webpack5: true,
   },
