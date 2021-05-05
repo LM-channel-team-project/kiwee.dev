@@ -19,6 +19,16 @@ const JwtUtils = class {
       expiresIn: '24h',
     });
   }
+  verify(token: string) {
+    // TODO error message별 예외처리
+    try {
+      const verified = jwt.verify(token, this.secret);
+      console.log(verified);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 };
 
 export default new JwtUtils(JWT_SECRET);
