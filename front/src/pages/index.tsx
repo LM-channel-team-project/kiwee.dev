@@ -1,6 +1,11 @@
-import PostCardLayout from '@/components/PostCardLayout';
+import Modal from '@/components/Common/Modal';
 import React from 'react';
 
 export default function Home() {
-  return <PostCardLayout />;
+  return (
+    <>
+      <div>hi</div>
+      <Modal>contents</Modal>
+    </>
+  );
 }

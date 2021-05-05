@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Button from '@/components/Common/Button';
+import { useModal } from '@/hooks/useModalContext';
 
 function HeaderAuth() {
+  const [modal, toggleModal] = useModal();
+
   return (
     <HeaderAuthBlock>
-      <Button>Login</Button>
+      <Button onClick={toggleModal}>Login</Button>
     </HeaderAuthBlock>
   );
 }
