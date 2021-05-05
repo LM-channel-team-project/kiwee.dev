@@ -12,7 +12,7 @@ const RssFeedRepository = class {
     page: number
   ): Promise<{
     code: number;
-    payload: any;
+    data: any;
   }> {
     try {
       const result = await this.articleModel.paginate(
@@ -22,13 +22,13 @@ const RssFeedRepository = class {
       console.log(result);
       return {
         code: 200,
-        payload: result,
+        data: result,
       };
     } catch (e) {
       console.log(e);
       return {
         code: 503,
-        payload: '에러가 발생했습니다.',
+        data: '에러가 발생했습니다.',
       };
     }
   }
