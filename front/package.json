@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "yarn prebuild && next dev",
     "build": "next build",
     "start": "next start",
+    "prebuild": "rm -rf .next",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
