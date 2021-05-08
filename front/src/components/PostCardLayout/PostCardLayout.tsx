@@ -8,11 +8,9 @@ function PostCardLayout() {
   return (
     <Container>
       <CardsWrap>
-        {/* <div style={{ display: 'flex', flexWrap: 'wrap', margin: '-1.6rem' }}> */}
         {cards.map((card, i) => (
           <Card key={i} />
         ))}
-        {/* </div> */}
       </CardsWrap>
     </Container>
   );

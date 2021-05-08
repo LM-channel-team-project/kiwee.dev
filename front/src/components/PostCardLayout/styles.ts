@@ -26,4 +26,8 @@ export const CardsWrap = styled.div`
   flex: 1 1 0%;
   flex-wrap: wrap;
   margin: -1.6rem;
+
+  .buttons {
+    display: flex;
+  }
 `;

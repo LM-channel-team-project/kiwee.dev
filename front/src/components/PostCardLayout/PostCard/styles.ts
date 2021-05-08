@@ -5,13 +5,13 @@ export const CardContainer = styled.article`
   border-radius: 0.8rem;
   background: ${({ theme }) => theme['article-bg']};
   margin: 1.6rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   @media (max-width: 1056px) {
     width: calc(50% - 3.2rem);
   }
 
   @media (max-width: 767px) {
-    margin: 0px;
     width: 100%;
   }
 `;
@@ -68,5 +68,25 @@ export const CardContent = styled.a`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+`;
+
+export const CardInfoWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem;
+  border-top: 1px solid rgb(248, 249, 250);
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme['font-inactive']};
+  .card-info-left {
+    display: flex;
+    align-items: center;
+    img.post-info-image {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      margin-right: 0.4rem;
+    }
   }
 `;
