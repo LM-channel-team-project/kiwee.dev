@@ -1,8 +1,11 @@
 import IconButton from '@/components/Common/Button/Icon';
-import React from 'react';
+import { useAxios } from '@/hooks/useAxios';
 import { CardContainer, CardContent, CardContentWrap, CardImage, CardInfoWrap } from './styles';
 
 function PostCard() {
+  const articles = useAxios(`http://localhost:8080/article?page=9`);
+  console.log(articles);
+
   return (
     <CardContainer>
       <CardImage href="https://www.naver.com">
