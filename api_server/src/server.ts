@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
+import cors, { CorsOptions } from 'cors';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 // router
@@ -38,11 +39,12 @@ const swaggerOption = {
 const Server = class {
   public app: Express;
   private port: string;
-  constructor(port = process.env.port || '8080') {
+  constructor(port: string, corsOptions: CorsOptions) {
     this.port = port;
     this.app = express();
     // add middleware
     this.app.use(express.json());
+    this.app.use(cors(corsOptions));
     this.app.use(
       '/api-docs',
       swaggerUi.serve,
@@ -58,4 +60,8 @@ const Server = class {
     );
   }
 };
-export default new Server();
+export default new Server(process.env.port || '8080', {
+  origin: 'http://localhost:3000',
+  allowedHeaders: "*",
+  methods: "*"
+});
