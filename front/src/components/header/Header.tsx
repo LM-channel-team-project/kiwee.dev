@@ -1,22 +1,21 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 
-import HeaderPreference from './HeaderPreference';
 import HeaderAuth from './HeaderAuth';
 import HeaderUserProfile from './HeaderUserProfile';
 import Settings from '../Settings';
+import IconButton from '@/components/Common/Button/Icon';
+import TextButton from '@/components/Common/Button/Text';
 
 function header() {
   /**
    * TODO: 로그인, 모달, 설정 추가되면 밑에 있는 기능들 구현
-   * - 로그인 버튼 누르면 로그인 모달창 띄우기
    * - 로그인에 따라 로그인 버튼, 유저 프로필 보여주기
+   * - 프로필 ui 작업
    */
-  const router = useRouter();
   const [isLogged, setIsLogged] = useState(false);
-  const [isSettingView, setIsSettingView] = useState<boolean>(false);
+  const [isSettingView, setIsSettingView] = useState(false);
 
   const onClickSetting = () => {
     setIsSettingView(!isSettingView);
@@ -35,18 +34,24 @@ function header() {
           <nav className="header-nav">
             <ul className="header-nav-list">
               <li>
-                <Link href="/blogs">
-                  <a>목록</a>
-                </Link>
+                <TextButton
+                  label="기술 블로그 목록"
+                  to="/blogs"
+                  size="medium"
+                  styleType="default"
+                />
               </li>
               <li>
-                <Link href="/bookmarks">
-                  <a>북마크</a>
-                </Link>
+                <IconButton to="/bookmark" iconName="bookmark" size="small" styleType="default" />
               </li>
             </ul>
           </nav>
-          {router.pathname === '/' && <HeaderPreference onClickSetting={onClickSetting} />}
+          <IconButton
+            iconName="setting"
+            size="small"
+            styleType="default"
+            onClick={onClickSetting}
+          />
           <div className="header-auth-block">
             {isLogged ? <HeaderUserProfile /> : <HeaderAuth />}
           </div>
@@ -80,6 +85,8 @@ const HeaderBlock = styled.header`
     .header-nav {
       .header-nav-list {
         display: flex;
+        justify-content: center;
+        align-items: center;
         list-style: none;
       }
     }
