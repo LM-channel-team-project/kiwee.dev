@@ -84,6 +84,8 @@ async function checkRss({
         }),
       filteredItem
     );
+    if(articles.length === 0) return;
+    
     const lastUploadedTime = new Date(
       articles.reduce((latest, cur) => {
         return Math.max(latest, cur.insertDate.getTime());
