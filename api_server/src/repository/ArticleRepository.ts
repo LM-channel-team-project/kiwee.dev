@@ -1,21 +1,26 @@
-import ArticleModel from '../model/Article';
+import { PaginateOptions, PaginateResult } from 'mongoose';
+import Article, {ArticleModel} from '../model/Article';
 
 const RssFeedRepository = class {
-  private articleModel;
-  private paginateOptions = {
+  private article;
+  private paginateOptions: PaginateOptions = {
     limit: 20,
+    sort: {
+      insertDate: -1
+    }
   };
-  constructor(articleModel: typeof ArticleModel) {
-    this.articleModel = articleModel;
+  constructor(article: typeof Article) {
+    this.article = article;
   }
   async pagenateFeed(
     page: number
   ): Promise<{
     code: number;
-    data: any;
+    data?: PaginateResult<ArticleModel>;
+    message?: string;
   }> {
     try {
-      const result = await this.articleModel.paginate(
+      const result = await this.article.paginate(
         {},
         { ...this.paginateOptions, page }
       );
@@ -23,15 +28,16 @@ const RssFeedRepository = class {
       return {
         code: 200,
         data: result,
+        message: '정상적으로 처리되었습니다.'
       };
     } catch (e) {
       console.log(e);
       return {
         code: 503,
-        data: '에러가 발생했습니다.',
+        message: '에러가 발생했습니다.',
       };
     }
   }
 };
 
-export default new RssFeedRepository(ArticleModel);
+export default new RssFeedRepository(Article);

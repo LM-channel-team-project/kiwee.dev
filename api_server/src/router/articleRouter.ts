@@ -1,5 +1,7 @@
 import express from 'express';
 import RssFeedRepository from '../repository/ArticleRepository';
+import { PaginateResult } from 'mongoose';
+import Article, { ArticleModel } from '../model/Article';
 
 const router = express.Router();
 /**
@@ -64,6 +66,26 @@ const router = express.Router();
  *                  type: array
  *                  items:
  *                    $ref: '#/components/schemas/Article'
+ *                totalDocs:
+ *                  type: number
+ *                limit:
+ *                  type: number
+ *                totalPages:
+ *                  type: number
+ *                page:
+ *                  type: number
+ *                pagingCounter:
+ *                  type: number
+ *                hasPrevPage:
+ *                  type: boolean
+ *                hasNextPage:
+ *                  type: boolean
+ *                prevPage:
+ *                  type: number
+ *                  nullable: true
+ *                nextPage:
+ *                  type: number
+ *                  nullable: true
  *      406:
  *        description: 데이터가 올바르지 않음
  *        content:
@@ -88,12 +110,13 @@ router.get(
       });
 
     try {
-      const { code, data } = await RssFeedRepository.pagenateFeed(
+      const { code, data, message } = await RssFeedRepository.pagenateFeed(
         parseInt(page as string)
       );
+      const { docs, ...extra } = data as PaginateResult<ArticleModel>;
       return response
         .status(code)
-        .json({ message: '정상적으로 처리되었습니다.', data: [...data.docs] });
+        .json({ message: message || '', data: docs, ...extra });
     } catch (e) {
       console.log(e);
       return response.status(500).json({ message: '에러가 발생했습니다.' });
