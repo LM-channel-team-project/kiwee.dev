@@ -42,8 +42,9 @@ export const CardContentWrap = styled.div`
   flex-direction: column;
   padding: 1.6rem;
   div.sub-info {
+    display: block;
+    margin-bottom: 0.8rem;
     font-size: 1.2rem;
-    line-height: 1.5;
     color: ${({ theme }) => theme['font-inactive']};
 
     span.seperator {
@@ -58,7 +59,6 @@ export const CardContent = styled.a`
   text-decoration: none;
   h3 {
     font-size: 2.4rem;
-    margin: 0px 0px 2.4rem;
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.2;
