@@ -1,14 +1,17 @@
 import IconButton from '@/components/Common/Button/Icon';
-import { useAxios } from '@/hooks/useAxios';
 import { CardContainer, CardContent, CardContentWrap, CardImage, CardInfoWrap } from './styles';
+import { IArticle } from '@/types/article';
+import dayjs from 'dayjs';
+import { memo } from 'react';
 
-function PostCard() {
-  const articles = useAxios(`http://localhost:8080/article?page=9`);
-  console.log(articles);
+interface PropTypes {
+  data: IArticle;
+}
 
+function PostCard({ data }: PropTypes) {
   return (
     <CardContainer>
-      <CardImage href="https://www.naver.com">
+      <CardImage href={data.articleUrl}>
         <div className="card-image">
           <img
             src="https://media.vlpt.us/images/jjunyjjuny/post/e7f0d557-1fab-4a61-ae8e-b5cb1a911b09/ek7ji4zrimozpp2yzk0a.png?w=640"
@@ -17,22 +20,15 @@ function PostCard() {
         </div>
       </CardImage>
       <CardContentWrap>
-        <div className="sub-info">May 5, 2021</div>
-        <CardContent href="#">
-          <h3>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos, ipsum dolorem!
-            Vel consectetur maxime sunt quibusdam quos. Maiores, natus aspernatur!
-          </h3>
+        <div className="sub-info">{dayjs(data.insertDate).format('MMM DD, YYYY')}</div>
+        <CardContent href={data.articleUrl}>
+          <h3>{data.title}</h3>
         </CardContent>
       </CardContentWrap>
       <CardInfoWrap>
         <div className="card-info-left">
-          <img
-            className="post-info-image"
-            src="https://media.vlpt.us/images/jjunyjjuny/post/e7f0d557-1fab-4a61-ae8e-b5cb1a911b09/ek7ji4zrimozpp2yzk0a.png?w=640"
-            alt=""
-          />
-          우아한 형제들
+          <img className="post-info-image" src={data.providerAvatar} alt={data.providerName} />
+          {data.providerName}
         </div>
         <div className="card-info-right">
           <ul className="buttons">
@@ -49,4 +45,4 @@ function PostCard() {
   );
 }
 
-export default PostCard;
+export default memo(PostCard);
