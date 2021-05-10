@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { ThemeProvider as StyledProvider } from 'styled-components';
 import { theme } from '@/lib/styles';
 
@@ -11,12 +11,15 @@ interface ChildrenType {
 export const ThemeContext = createContext<ContextType>({} as ContextType);
 
 function ThemeProvider({ children }: ChildrenType) {
-  let initialState: ModeType = 'light';
-  if (typeof window !== 'undefined') {
-    initialState = (window?.localStorage?.getItem('MODE') as ModeType) || 'light';
-  }
+  const [mode, setMode] = useState<ModeType>('light');
 
-  const [mode, setMode] = useState<ModeType>(initialState);
+  useEffect(() => {
+    if (window !== undefined) {
+      const initialMode = window?.localStorage?.getItem('MODE') as ModeType | null;
+      setMode(initialMode || 'light');
+    }
+  }, []);
+
   const toggleMode = () => {
     const changedMode = mode === 'light' ? 'dark' : 'light';
     window.localStorage.setItem('MODE', changedMode);
