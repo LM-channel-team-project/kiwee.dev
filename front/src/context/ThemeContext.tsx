@@ -1,8 +1,7 @@
 import React, { useState, createContext, useEffect, useContext } from 'react';
 import { ThemeProvider as StyledProvider } from 'styled-components';
 import { theme } from '@/lib/styles';
-import NewTabProvider, { NewTabContext } from './NewTabContext';
-import { useNewTabContext } from '@/hooks/useNewTabContext';
+import { NewTabContext } from './NewTabContext';
 
 type ModeType = 'light' | 'dark';
 type ContextType = [ModeType, () => void];
@@ -15,7 +14,6 @@ export const ThemeContext = createContext<ContextType>({} as ContextType);
 function ThemeProvider({ children }: ChildrenType) {
   const [mode, setMode] = useState<ModeType>('light');
   const [isNewTab, toggleNewTab] = useContext(NewTabContext);
-  console.log(isNewTab);
 
   useEffect(() => {
     if (window !== undefined) {
