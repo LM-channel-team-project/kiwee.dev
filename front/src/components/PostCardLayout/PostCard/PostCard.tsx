@@ -3,15 +3,23 @@ import { CardContainer, CardContent, CardContentWrap, CardImage, CardInfoWrap } 
 import { IArticle } from '@/types/article';
 import dayjs from 'dayjs';
 import { memo } from 'react';
+import { useNewTabContext } from '@/hooks/useNewTabContext';
 
 interface PropTypes {
   data: IArticle;
 }
 
 function PostCard({ data }: PropTypes) {
+  const [isNewTab] = useNewTabContext();
+  console.log(isNewTab);
+
   return (
     <CardContainer>
-      <CardImage href={data.articleUrl}>
+      <CardImage
+        href={data.articleUrl}
+        target={isNewTab ? '_blank' : '_self'}
+        rel={isNewTab ? 'noopener noreferrer' : 'prev'}
+      >
         <div className="card-image">
           <img
             src="https://media.vlpt.us/images/jjunyjjuny/post/e7f0d557-1fab-4a61-ae8e-b5cb1a911b09/ek7ji4zrimozpp2yzk0a.png?w=640"
