@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 type ContextType = [boolean, () => void];
+type InitialStateType = 'true' | 'false' | boolean | null;
 interface ChildrenType {
   children: React.ReactNode;
 }
@@ -11,7 +12,11 @@ function NewTabProvider({ children }: ChildrenType) {
   const [isNewTab, setIsNewTab] = useState(false);
 
   useEffect(() => {
-    const initialState = window?.localStorage?.getItem('NEWTAB') as boolean | null;
+    // LocalStorage에는 boolean이 string형태로 저장되므로 getItem을 할 시에 boolean으로 바꿔준다.
+    let initialState = window?.localStorage?.getItem('NEWTAB') as InitialStateType;
+    if (initialState === 'false') initialState = false;
+    else initialState = true;
+
     setIsNewTab(initialState || false);
   }, []);
 
