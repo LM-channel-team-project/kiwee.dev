@@ -78,7 +78,6 @@ export const CardInfoWrap = styled.div`
   padding: 1.6rem;
   border-top: 1px solid rgb(248, 249, 250);
   font-size: 1.4rem;
-  color: ${({ theme }) => theme['font-inactive']};
   .card-info-left {
     display: flex;
     align-items: center;
