@@ -19,3 +19,15 @@ export const Division = styled.div`
 export const Title = styled.div`
   font-size: 3.2rem;
 `;
+
+export const Switches = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  div {
+    margin-bottom: 1.2rem;
+  }
+  div:last-child {
+    margin-bottom: 0;
+  }
+`;
