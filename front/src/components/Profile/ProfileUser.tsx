@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -6,6 +7,7 @@ import useGetMe from '@/hooks/useGetMe';
 import TextButton from '@/components/Common/Button/Text';
 
 function profileUser() {
+  console.log('user rerender');
   const router = useRouter();
   const { loading, user } = useGetMe();
 
@@ -38,7 +40,6 @@ function profileUser() {
         styleType="primary"
         size="large"
         fullWidth
-        onClick={() => console.log('계정 설정')}
         className="profile-auth-btn"
       />
     </ProfileUserBlock>
@@ -94,4 +95,4 @@ function imageLoader({ src }: { src: string }) {
   return src;
 }
 
-export default profileUser;
+export default React.memo(profileUser);
