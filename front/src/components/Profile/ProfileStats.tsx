@@ -1,13 +1,16 @@
-import ProfileStatsItem from './ProfileStatsItem';
-import styled from 'styled-components';
 import React from 'react';
+import { User } from 'next-auth';
+import styled from 'styled-components';
+
+import ProfileStatsItem from './ProfileStatsItem';
 
 interface ProfileStatsProps {
+  user: User;
   selected: 'visit' | 'like';
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function ProfileStats({ selected, onClick }: ProfileStatsProps) {
+function ProfileStats({ user, selected, onClick }: ProfileStatsProps) {
   return (
     <ProfileStatsBlock>
       <h2>Stats</h2>
