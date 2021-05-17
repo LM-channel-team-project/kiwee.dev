@@ -1,51 +1,12 @@
 import { CardsWrap, Container } from './styles';
 import PostCard from './PostCard/PostCard';
-import { useAxios } from '@/hooks/useAxios';
-import { useEffect, useState } from 'react';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { IArticle } from '@/types/article';
 
-function PostCardLayout() {
-  const INITIAL_PAGE_NUMBER = 1;
-  const handleObserver: IntersectionObserverCallback = ([entry]) => {
-    if (entry.isIntersecting) {
-      console.log(entry);
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
-  const [currentPage, setCurrentPage] = useState(INITIAL_PAGE_NUMBER);
-  const [
-    onInfiniteScrollInit,
-    onInfiniteScrollUpdate,
-    onInfiniteScrollDisconnect,
-  ] = useInfiniteScroll(handleObserver);
+interface PropTypes {
+  articles: IArticle[];
+}
 
-  /**
-   * articles: 게시글 정보가 담겨있는 배열
-   * pages: 페이지 수 (마지막 페이지)
-   * isLoading: 로딩여부
-   */
-  const { articles, pages, isLoading } = useAxios(
-    `http://localhost:8080/article?page=${currentPage}`,
-  );
-
-  useEffect(() => {
-    onInfiniteScrollInit(document.querySelector('footer'));
-  }, []);
-
-  useEffect(() => {
-    // setCurrentPage(INITIAL_PAGE_NUMBER);
-    if (currentPage < pages) {
-      onInfiniteScrollUpdate(document.querySelector('footer'));
-      console.log('맨밑', currentPage, articles);
-    }
-  }, [articles, currentPage]);
-
-  useEffect(() => {
-    if (currentPage === pages) {
-      onInfiniteScrollDisconnect(document.querySelector('footer'));
-    }
-  }, [currentPage]);
-
+function PostCardLayout({ articles }: PropTypes) {
   return (
     <Container>
       <CardsWrap>
