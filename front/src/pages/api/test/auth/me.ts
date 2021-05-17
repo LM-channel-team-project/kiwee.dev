@@ -1,11 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { User } from 'next-auth';
 
-// type DataType = {
-//   providerId: string;
-//   providerEmail: string;
-//   providerName: string;
-//   providerAvatar: string;
-// };
 type ErrorType = {
   error: string;
 };
@@ -15,10 +10,9 @@ export default (req: NextApiRequest, res: NextApiResponse<User | ErrorType>) => 
   console.log(accessToken);
   if (accessToken) {
     res.status(200).json({
-      providerId: '123123',
-      providerEmail: 'zmn5119@gmail.com',
+      name: 'zmn5119@gmail.com',
       providerName: 'Euntaek Kim',
-      providerAvatar:
+      image:
         'https://lh3.googleusercontent.com/ogw/ADGmqu8Dvbr05-UQUb4JNAgLSUIyoHI2ggW0WSuX6WOEtw=s192-c-mo',
     });
     return;
