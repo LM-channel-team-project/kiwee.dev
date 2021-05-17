@@ -1,4 +1,5 @@
 import { AppProps } from 'next/app';
+import { Provider } from 'next-auth/client';
 
 import { GlobalStyle } from '@/lib/styles';
 import AppLayout from '@/components/AppLayout';
@@ -9,7 +10,7 @@ import NewTabProvider from '@/context/NewTabContext';
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider session={pageProps.session}>
       <ThemeProvider>
         <NewTabProvider>
           <ModalProvider>
@@ -20,7 +21,7 @@ function App({ Component, pageProps }: AppProps) {
           </ModalProvider>
         </NewTabProvider>
       </ThemeProvider>
-    </>
+    </Provider>
   );
 }
 
