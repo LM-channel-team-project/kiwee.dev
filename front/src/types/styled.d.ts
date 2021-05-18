@@ -12,6 +12,7 @@ declare module 'styled-components' {
     'btn-active-font': string;
     'btn-hover-bg': string;
     'btn-hover-bg-1': string;
+    'btn-hover-bg-2': string;
     'btn-hover-font': string;
     'settings-bg': string;
     'article-bg': string;
