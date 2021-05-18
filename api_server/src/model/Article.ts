@@ -1,4 +1,4 @@
-import { Document, Schema, model, PaginateModel } from 'mongoose';
+import { Document, Schema, model, PaginateModel, connection } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 import ArticleType from '../type/ArticleType';
@@ -14,16 +14,18 @@ const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
-  providerId: {
-    type: String,
-    required: true,
-  },
-  providerName: {
-    type: String,
-    required: true,
-  },
-  providerAvatar: {
-    type: String,
+  provider: {
+    providerId: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    avatar: {
+      type: String,
+    },
   },
   title: {
     type: String,
@@ -32,7 +34,17 @@ const ArticleSchema = new Schema({
   thumbnail: {
     type: String,
   },
-  insertDate: { type: Date, default: new Date() },
+  numOfLikes: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  numOfComments: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  insertDate: { type: Date, default: new Date(), required: true },
   keywords: {
     type: Array,
     default: new Array<string>(),

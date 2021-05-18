@@ -1,7 +1,6 @@
-import express from 'express';
-import RssFeedRepository from '../repository/ArticleRepository';
-import { PaginateResult } from 'mongoose';
-import Article, { ArticleModel } from '../model/Article';
+import express, { Request, Response } from 'express';
+
+import articleService from '../service/articleService';
 
 const router = express.Router();
 /**
@@ -100,28 +99,22 @@ const router = express.Router();
  *           schema:
  *            $ref: '#/ResponseMessage'
  */
-router.get(
-  '/',
-  async (request: express.Request, response: express.Response) => {
-    const page = request.query.page;
-    if (!page)
-      return response.status(406).json({
-        message: 'page를 전달해주세요.',
-      });
-
-    try {
-      const { code, data, message } = await RssFeedRepository.pagenateFeed(
-        parseInt(page as string)
-      );
-      const { docs, ...extra } = data as PaginateResult<ArticleModel>;
-      return response
-        .status(code)
-        .json({ message: message || '', data: docs, ...extra });
-    } catch (e) {
-      console.log(e);
-      return response.status(500).json({ message: '에러가 발생했습니다.' });
-    }
+router.get('/', async (req: Request, res: Response) => {
+  const page = req.query.page;
+  if (!page)
+    return res.status(406).json({
+      message: 'page를 전달해주세요.',
+    });
+  try {
+    const { docs, ...extra } = await articleService.findArticlesByPage(
+      parseInt(page as string)
+    );
+    return res
+      .status(200)
+      .json({ message: '정상적으로 처리되었습니다.', data: docs, ...extra });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: '에러가 발생했습니다.' });
   }
-);
-
+});
 export default router;
