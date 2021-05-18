@@ -25,6 +25,10 @@ const light = {
   'modal-bg': 'rgba(0, 0, 0, 0.3)',
   'modal-border': ' 1px solid rgba(82, 88 ,102 ,0.4)',
   'modal-shadow': '0 0.375rem 0.375rem -0.125rem rgba(168, 179, 207 ,0.4)',
+  'login-btn-bg': '#0e1217',
+  'login-btn-font': '#ffffff',
+  'login-btn-hover-bg': '#2d313a',
+  'login-btn-active-bg': '#525866',
 };
 
 const dark = {
@@ -54,6 +58,10 @@ const dark = {
   'modal-bg': 'rgba(255, 255, 255, 0.3)',
   'modal-border': '1px solid rgba(168, 179, 207, 0.4);',
   'modal-shadow': '0 0.375rem 0.375rem -0.125rem rgba(0, 0, 0 ,0.4)',
+  'login-btn-bg': '#fff',
+  'login-btn-font': '#0E1217',
+  'login-btn-hover-bg': '#a8b3cf',
+  'login-btn-active-bg': '#a8b3cf',
 };
 
 export const theme = { light, dark };

@@ -43,6 +43,7 @@ const ModalBlock = styled.div`
   padding: 2rem;
   background: ${({ theme }) => theme[`background`]};
   border: ${({ theme }) => theme[`modal-border`]};
+  box-shadow: ${({ theme }) => theme[`modal-shadow`]};
   border-radius: 10px;
 `;
 

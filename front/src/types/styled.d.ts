@@ -28,5 +28,9 @@ declare module 'styled-components' {
     'modal-bg': string;
     'modal-border': string;
     'modal-shadow': string;
+    'login-btn-bg': string;
+    'login-btn-font': string;
+    'login-btn-hover-bg': string;
+    'login-btn-active-bg': string;
   }
 }
