@@ -6,10 +6,13 @@ import swaggerUi from 'swagger-ui-express';
 // router
 import providerRouter from './router/providerRouter';
 import articleRouter from './router/articleRouter';
+import likesRouter from './router/likesRouter';
 
 dotenv.config({
   path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env',
 });
+
+const PORT = Number(process.env.PORT);
 
 const swaggerOption = {
   definition: {
@@ -38,8 +41,8 @@ const swaggerOption = {
 
 const Server = class {
   public app: Express;
-  private port: string;
-  constructor(port: string, corsOptions: CorsOptions) {
+  private port: number;
+  constructor(port: number, corsOptions: CorsOptions) {
     this.port = port;
     this.app = express();
     // add middleware
@@ -53,15 +56,16 @@ const Server = class {
     // add router
     this.app.use('/provider', providerRouter);
     this.app.use('/article', articleRouter);
+    this.app.use('/likes', likesRouter);
   }
   listen() {
-    this.app.listen(this.port, () =>
+    this.app.listen(this.port, '127.0.0.1', () =>
       console.log(`Listening on port ${this.port}`)
     );
   }
 };
-export default new Server(process.env.port || '8080', {
+export default new Server(PORT || 8080, {
   origin: 'http://localhost:3000',
-  allowedHeaders: "*",
-  methods: "*"
+  allowedHeaders: '*',
+  methods: '*',
 });
