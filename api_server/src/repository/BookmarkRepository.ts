@@ -33,6 +33,13 @@ class BookmarksRepository {
       { new: true }
     ).exec();
   }
+  async findBookmarksByProviderId(providerId: string) {
+    return await this.Bookmarks.findOne(
+      { providerId },
+      { _id: 0, bookmarks: 1 },
+      { new: true }
+    ).exec();
+  }
 }
 
 export default new BookmarksRepository(Bookmarks);
