@@ -11,7 +11,6 @@ interface PropTypes {
 
 function PostCard({ data }: PropTypes) {
   const [isNewTab] = useNewTabContext();
-  console.log(isNewTab);
 
   return (
     <CardContainer>

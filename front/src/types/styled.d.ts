@@ -25,5 +25,8 @@ declare module 'styled-components' {
     'keyword-btn-active-bg': string;
     'keyword-btn-font': string;
     'keyword-btn-active-font': string;
+    'modal-bg': string;
+    'modal-border': string;
+    'modal-shadow': string;
   }
 }

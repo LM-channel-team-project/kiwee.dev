@@ -1,6 +1,8 @@
-import { useModal } from '@/hooks/useModalContext';
 import React from 'react';
+import { useModal } from '@/hooks/useModalContext';
 import styled from 'styled-components';
+
+import IconButton from '../Common/Button/Icon';
 
 interface ModalProps {
   children: React.ReactNode | string;
@@ -14,9 +16,7 @@ function Modal({ children }: ModalProps) {
   return (
     <ModalBackground>
       <ModalBlock>
-        <button className="close-btn" onClick={toggleModal}>
-          Close
-        </button>
+        <CloseButton iconName="close" size="medium" styleType="default" onClick={toggleModal} />
         {children}
       </ModalBlock>
     </ModalBackground>
@@ -33,21 +33,22 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: rgba(0, 0, 0, 0.3);
+  background: ${({ theme }) => theme['modal-bg']};
 `;
 
 const ModalBlock = styled.div`
   position: relative;
-  width: 350px;
-  height: 400px;
-  padding: 1.5rem;
-  background: white;
+  width: 400px;
+  height: 360px;
+  padding: 2rem;
+  background: ${({ theme }) => theme[`background`]};
+  border: ${({ theme }) => theme[`modal-border`]};
   border-radius: 10px;
+`;
 
-  .close-btn {
-    position: absolute;
-    right: 1.5rem;
-  }
+const CloseButton = styled(IconButton)`
+  position: absolute;
+  right: 1.5rem;
 `;
 
 export default Modal;

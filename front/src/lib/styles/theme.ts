@@ -22,6 +22,9 @@ const light = {
   'keyword-btn-active-bg': 'edf2ff',
   'keyword-btn-font': '#9698a9',
   'keyword-btn-active-font': '#364fc7',
+  'modal-bg': 'rgba(0, 0, 0, 0.3)',
+  'modal-border': ' 1px solid rgba(82, 88 ,102 ,0.4)',
+  'modal-shadow': '0 0.375rem 0.375rem -0.125rem rgba(168, 179, 207 ,0.4)',
 };
 
 const dark = {
@@ -48,6 +51,9 @@ const dark = {
   'keyword-btn-active-bg': '#edf2ff',
   'keyword-btn-font': '#f4f4f4',
   'keyword-btn-active-font': '#3b5bdb',
+  'modal-bg': 'rgba(255, 255, 255, 0.3)',
+  'modal-border': '1px solid rgba(168, 179, 207, 0.4);',
+  'modal-shadow': '0 0.375rem 0.375rem -0.125rem rgba(0, 0, 0 ,0.4)',
 };
 
 export const theme = { light, dark };
