@@ -4,6 +4,8 @@ export default interface ArticleType {
   providerId: string;
   providerName: string;
   providerAvatar: string;
+  numOfLikes: number;
+  numOfComments: number;
   title: string;
   thumbnail: string;
   insertDate: Date;
