@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 
 import providerService from '../service/providerService';
+import axios from 'axios';
 
 dotenv.config({
   path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env',
@@ -9,6 +10,7 @@ dotenv.config({
 
 const router = express.Router();
 const RESET_KEY = process.env.RESET_KEY;
+const RSS_CRAWLER_URL = process.env.RSS_CRAWLER_URL;
 /**
  * @swagger
  *  components:
@@ -125,10 +127,9 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 // 2. 회원 정보 요청
-router.get('/:providerId', async (req: Request, res: Response) => {
-  const providerId = req.params.providerId;
-  if (!providerId)
-    res.status(406).json({ message: '데이터가 올바르지 않습니다.' });
+router.get('/me', async (req: Request, res: Response) => {
+  const providerId = req.query.providerId as string;
+  if (!providerId) res.status(406).json({ message: 'providerId가 필요합니다' });
 
   try {
     const result = await providerService.findProviderById(providerId);
@@ -143,7 +144,28 @@ router.get('/:providerId', async (req: Request, res: Response) => {
     return res.status(500).json({ message: '서버 오류.' });
   }
 });
+router.post('/rss', async (req: Request, res: Response) => {
+  const { providerId, rssUrl } = req.body;
+  if (!providerId || rssUrl)
+    return res
+      .status(401)
+      .json({ message: 'providerId, RssUrl이 필요합니다.' });
 
+  try {
+    const result = await providerService.saveRssUrl(providerId, rssUrl);
+    console.log(result);
+
+    // RSS crawling 요청
+    axios
+      .get(`${RSS_CRAWLER_URL}?providerId=${providerId}&rssUrl=${rssUrl}`)
+      .then(res => console.log(res.data));
+
+    return res.status(200).json({ message: '성공적으로 등록되었습니다.' });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: e.message });
+  }
+});
 router.post('/reset', async (req: Request, res: Response) => {
   const _RESET_KEY = req.headers.reset_key;
   if (!_RESET_KEY || RESET_KEY !== _RESET_KEY)

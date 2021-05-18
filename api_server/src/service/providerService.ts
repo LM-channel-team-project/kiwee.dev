@@ -39,6 +39,9 @@ class ProviderService {
   async resetLastModifiedTime() {
     return await this.providerRepository.resetLastModifiedTimes();
   }
+  async saveRssUrl(providerId: string, RssUrl: string) {
+    return await this.providerRepository.saveRssUrl(providerId, RssUrl);
+  }
 }
 
 export default new ProviderService();

@@ -8,5 +8,6 @@ declare namespace NodeJS {
     ATLAS_PASSWORD: string;
     JWT_SECRET: string;
     RESET_KEY: string;
+    RSS_CRAWLER_URL: string;
   }
 }

@@ -51,6 +51,13 @@ class providerRepository {
       { new: true }
     ).exec();
   }
+  async saveRssUrl(providerId: string, RssLink: string) {
+    return await this.Provider.updateOne(
+      { providerId },
+      { $set: { RssLink } },
+      { new: true }
+    ).exec();
+  }
 }
 
 export default new providerRepository();
