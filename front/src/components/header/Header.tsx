@@ -7,6 +7,7 @@ import HeaderUserProfile from './HeaderUserProfile';
 import Settings from '../Settings';
 import IconButton from '@/components/Common/Button/Icon';
 import TextButton from '@/components/Common/Button/Text';
+import { logo as Logo } from 'components/Common/Icon/svg';
 
 function header() {
   /**
