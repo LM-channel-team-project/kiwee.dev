@@ -5,7 +5,9 @@ export interface IArticle {
   keywords: string[];
   providerAvatar: string;
   providerId: string;
-  providerName: string;
+  provider: {
+    [key: string]: string;
+  };
   thumbnail: string;
   title: string;
   id: string;
