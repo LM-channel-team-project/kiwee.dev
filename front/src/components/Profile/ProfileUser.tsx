@@ -1,28 +1,17 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { User } from 'next-auth';
 import styled from 'styled-components';
 
-import useGetMe from '@/hooks/useGetMe';
 import TextButton from '@/components/Common/Button/Text';
 
-function profileUser() {
-  console.log('user rerender');
-  const router = useRouter();
-  const { loading, user } = useGetMe();
-
-  if (loading) return <p>...loading</p>;
-  if (!user) {
-    router.push('/');
-    return null;
-  }
-
+function profileUser({ user }: { user: User }) {
   return (
     <ProfileUserBlock>
       <div className="profile-wrapper">
         <Image
           loader={imageLoader}
-          src={user.providerAvatar}
+          src={user?.image || 'null'}
           width="122"
           height="122"
           alt="profile image"
@@ -30,8 +19,8 @@ function profileUser() {
           className="profile-image"
         />
         <section className="profile-contents">
-          <h1 className="profile-name">{user?.providerName}</h1>
-          <span className="profile-email">{user?.providerEmail}</span>
+          <h1 className="profile-name">{user?.name}</h1>
+          <span className="profile-email">{user?.email}</span>
         </section>
       </div>
 
