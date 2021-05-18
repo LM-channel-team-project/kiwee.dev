@@ -19,8 +19,8 @@ function AppLayout({ children }: AppLayoutProps) {
 const MainBlock = styled.main`
   display: flex;
   width: 100%;
+  min-height: calc(100vh - 120px);
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
