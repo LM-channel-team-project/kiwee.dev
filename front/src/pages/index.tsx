@@ -20,15 +20,16 @@ export default function Home() {
   const INITIAL_PAGE_NUMBER = 1;
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE_NUMBER);
 
+  /**
+   * articles: 게시글 정보가 담겨있는 배열
+   * pages: 페이지 수 (마지막 페이지)
+   * isLoading: 로딩여부
+   */
   const { articles, pages, keywords, isLoading } = useAxios(
-    /**
-     * articles: 게시글 정보가 담겨있는 배열
-     * pages: 페이지 수 (마지막 페이지)
-     * isLoading: 로딩여부
-     */
     `http://localhost:8080/article?page=${currentPage}`,
   );
 
+  // 무한 스크롤
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting) {
       // console.log(entry);
@@ -59,10 +60,17 @@ export default function Home() {
     }
   }, [currentPage]);
 
+  // 필터링
+  const [filter, setFilter] = useState<string>('All');
+  const handleFiltering = (key: string) => {
+    setFilter(key);
+    console.log(filter);
+  };
+
   return (
     <>
-      <Keywords keywords={keywords} />
-      <PostCardLayout articles={articles} />
+      <Keywords keywords={keywords} handleFiltering={handleFiltering} />
+      <PostCardLayout articles={articles} filter={filter} />
       <Modal>
         <form action={`${HOST_URL}/api/auth/signin/google`} method="POST">
           <input type="hidden" name="csrfToken" value={csrfToken}></input>
