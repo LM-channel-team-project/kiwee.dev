@@ -1,11 +1,10 @@
 import { useCallback, useState } from 'react';
-import { GetServerSideProps } from 'next';
 import { Session } from 'next-auth';
 
 import ProfileStats from '@/components/Profile/ProfileStats';
 import ProfileUser from '@/components/Profile/ProfileUser';
 import ProfileStatsPostCardList from '@/components/Profile/ProfileStatsPostCardList';
-import { getSession } from 'next-auth/client';
+import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 
 type SelectedType = 'visit' | 'like';
 
@@ -28,21 +27,6 @@ function profile({ session }: { session: Session }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-  if (!session?.user) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
-  return {
-    props: {
-      session,
-    },
-  };
-};
+export const getServerSideProps = nextAuthWrapper({ redirectToHome: true });
 
 export default profile;
