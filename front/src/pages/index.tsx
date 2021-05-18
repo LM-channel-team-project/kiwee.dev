@@ -1,4 +1,5 @@
 import Modal from '@/components/Common/Modal';
+import Keywords from '@/components/Keywords';
 import PostCardLayout from '@/components/PostCardLayout';
 import { useAxios } from '@/hooks/useAxios';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
@@ -19,7 +20,7 @@ export default function Home() {
   const INITIAL_PAGE_NUMBER = 1;
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE_NUMBER);
 
-  const { articles, pages, isLoading } = useAxios(
+  const { articles, pages, keywords, isLoading } = useAxios(
     /**
      * articles: 게시글 정보가 담겨있는 배열
      * pages: 페이지 수 (마지막 페이지)
@@ -30,7 +31,7 @@ export default function Home() {
 
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting) {
-      console.log(entry);
+      // console.log(entry);
       setCurrentPage((prev) => prev + 1);
     }
   };
@@ -60,6 +61,7 @@ export default function Home() {
 
   return (
     <>
+      <Keywords keywords={keywords} />
       <PostCardLayout articles={articles} />
       <Modal>
         <form action={`${HOST_URL}/api/auth/signin/google`} method="POST">
