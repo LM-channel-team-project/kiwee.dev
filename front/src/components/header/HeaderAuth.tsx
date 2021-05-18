@@ -11,7 +11,6 @@ function HeaderAuth() {
   // next-auth
   const [session, isLoading] = useSession();
   const [modal, toggleModal] = useModal();
-  console.log(session);
 
   return (
     <HeaderAuthBlock>

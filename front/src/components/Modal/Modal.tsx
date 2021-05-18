@@ -3,13 +3,13 @@ import { useModal } from '@/hooks/useModalContext';
 import styled from 'styled-components';
 
 import IconButton from '../Common/Button/Icon';
+import { useSession } from 'next-auth/client';
+import Login from '../Login';
+import ProfileDetails from '../Profile/ProfileDetails';
 
-interface ModalProps {
-  children: React.ReactNode | string;
-}
-
-function Modal({ children }: ModalProps) {
+function Modal() {
   const [modal, toggleModal] = useModal();
+  const [session, loading] = useSession();
 
   if (!modal) return null;
 
@@ -17,7 +17,7 @@ function Modal({ children }: ModalProps) {
     <ModalBackground>
       <ModalBlock>
         <CloseButton iconName="close" size="medium" styleType="default" onClick={toggleModal} />
-        {children}
+        {!session ? <Login /> : <ProfileDetails />}
       </ModalBlock>
     </ModalBackground>
   );
