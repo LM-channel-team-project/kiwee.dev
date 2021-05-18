@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 
-import LikeType from '../type/LikeType';
+import LikeType from '../type/LikesType';
 
 export interface LikeModel extends LikeType, Document {}
 const LikesSchema = new Schema(
