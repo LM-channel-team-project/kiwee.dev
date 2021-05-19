@@ -3,6 +3,7 @@ import { Provider } from 'next-auth/client';
 
 import { GlobalStyle } from '@/lib/styles';
 import AppLayout from '@/components/AppLayout';
+import Modal from '@/components/Modal';
 
 import ModalProvider from '@/context/ModalContext';
 import ThemeProvider from '@/context/ThemeContext';
@@ -17,6 +18,7 @@ function App({ Component, pageProps }: AppProps) {
             <GlobalStyle />
             <AppLayout>
               <Component {...pageProps} />
+              <Modal />
             </AppLayout>
           </ModalProvider>
         </NewTabProvider>

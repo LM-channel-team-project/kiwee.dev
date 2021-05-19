@@ -4,8 +4,11 @@ import { User } from 'next-auth';
 import styled from 'styled-components';
 
 import TextButton from '@/components/Common/Button/Text';
+import { useModal } from '@/hooks/useModalContext';
 
 function profileUser({ user }: { user: User }) {
+  const [modal, toggleModal] = useModal();
+
   return (
     <ProfileUserBlock>
       <div className="profile-wrapper">
@@ -30,6 +33,7 @@ function profileUser({ user }: { user: User }) {
         size="large"
         fullWidth
         className="profile-auth-btn"
+        onClick={toggleModal}
       />
     </ProfileUserBlock>
   );

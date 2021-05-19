@@ -9,11 +9,6 @@ import IconButton from '@/components/Common/Button/Icon';
 import TextButton from '@/components/Common/Button/Text';
 
 function header() {
-  /**
-   * TODO: 로그인, 모달, 설정 추가되면 밑에 있는 기능들 구현
-   * - 로그인에 따라 로그인 버튼, 유저 프로필 보여주기
-   * - 프로필 ui 작업
-   */
   const [isLogged, setIsLogged] = useState(false);
   const [isSettingView, setIsSettingView] = useState(false);
 

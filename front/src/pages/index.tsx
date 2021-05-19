@@ -1,25 +1,12 @@
-import Modal from '@/components/Common/Modal';
 import Keywords from '@/components/Keywords';
 import PostCardLayout from '@/components/PostCardLayout';
 import { useAxios } from '@/hooks/useAxios';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { IArticle } from '@/types/article';
-import { getCsrfToken } from 'next-auth/client';
 import React, { useEffect, useMemo, useState } from 'react';
 
 const filterArticles = (articles: IArticle[], keyword: string) =>
   keyword === 'All' ? articles : articles.filter((article) => article.keywords.includes(keyword));
-
-// HOST URL
-const HOST_URL = 'http://localhost:3000';
-
-export default function Home() {
-  const [csrfToken, setCsrfToken] = useState<string>('');
-  useEffect(() => {
-    (async () => {
-      setCsrfToken((await getCsrfToken()) || '');
-    })();
-  }, []);
 
   const INITIAL_PAGE_NUMBER = 1;
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE_NUMBER);
@@ -77,18 +64,6 @@ export default function Home() {
     <>
       <Keywords keywords={keywords} handleFiltering={handleFiltering} />
       <PostCardLayout articles={filteredArticles} />
-      <Modal>
-        <form action={`${HOST_URL}/api/auth/signin/google`} method="POST">
-          <input type="hidden" name="csrfToken" value={csrfToken}></input>
-          <input type="hidden" name="callbackUrl" value={HOST_URL}></input>
-          <button type="submit">구글 로그인</button>
-        </form>
-        <form action={`${HOST_URL}/api/auth/signin/github`} method="POST">
-          <input type="hidden" name="csrfToken" value={csrfToken}></input>
-          <input type="hidden" name="callbackUrl" value={HOST_URL}></input>
-          <button type="submit">깃헙 로그인</button>
-        </form>
-      </Modal>
     </>
   );
 }
