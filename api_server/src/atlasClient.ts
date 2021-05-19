@@ -21,8 +21,8 @@ const AtlasClient = class {
       console.log('atlas db connected.');
     });
   }
-  connect() {
-    this.mongoose.connect(ATLAS_URI, {
+  async connect() {
+    await this.mongoose.connect(ATLAS_URI, {
       user: ATLAS_USERNAME,
       pass: ATLAS_PASSWORD,
       dbName: ATLAS_DATABASE,

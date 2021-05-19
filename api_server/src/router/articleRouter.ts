@@ -1,7 +1,8 @@
-import express from 'express';
-import RssFeedRepository from '../repository/ArticleRepository';
-import { PaginateResult } from 'mongoose';
-import Article, { ArticleModel } from '../model/Article';
+import express, { Request, Response } from 'express';
+import { CommentsModel } from '../model/Comments';
+
+import articleService from '../service/articleService';
+import commentService from '../service/commentService';
 
 const router = express.Router();
 /**
@@ -100,28 +101,43 @@ const router = express.Router();
  *           schema:
  *            $ref: '#/ResponseMessage'
  */
-router.get(
-  '/',
-  async (request: express.Request, response: express.Response) => {
-    const page = request.query.page;
-    if (!page)
-      return response.status(406).json({
-        message: 'page를 전달해주세요.',
-      });
-
-    try {
-      const { code, data, message } = await RssFeedRepository.pagenateFeed(
-        parseInt(page as string)
-      );
-      const { docs, ...extra } = data as PaginateResult<ArticleModel>;
-      return response
-        .status(code)
-        .json({ message: message || '', data: docs, ...extra });
-    } catch (e) {
-      console.log(e);
-      return response.status(500).json({ message: '에러가 발생했습니다.' });
-    }
+router.get('/', async (req: Request, res: Response) => {
+  const page = req.query.page;
+  if (!page)
+    return res.status(400).json({
+      message: 'page가 필요합니다',
+    });
+  try {
+    const { docs, ...extra } = await articleService.findArticlesByPage(
+      parseInt(page as string)
+    );
+    return res
+      .status(200)
+      .json({ message: '정상적으로 처리되었습니다.', data: docs, ...extra });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: '에러가 발생했습니다.' });
   }
-);
+});
 
+router.get('/comments', async (req: Request, res: Response) => {
+  const articleId = req.query.articleId as string;
+  if (!articleId)
+    return res.status(400).json({ message: 'articleId가 필요합니다.' });
+
+  try {
+    const { comments } = await commentService.findCommentsByArticleId(
+      articleId
+    ) as CommentsModel;
+    console.log(comments);
+    if (!comments)
+      return res.status(404).json({ message: '존재하지 않는 article입니다.' });
+    return res
+      .status(200)
+      .json({ message: '정상적으로 처리되었습니다.', comments });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: '에러가 발생했습니다.' });
+  }
+});
 export default router;

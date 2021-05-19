@@ -7,5 +7,6 @@ declare namespace NodeJS {
     GOOGLE_SECRET: string;
     DB_URL: string;
     JWT_SECRET: string;
+    API_SERVER_URL: string;
   }
 }

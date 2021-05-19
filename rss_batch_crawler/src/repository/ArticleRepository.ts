@@ -6,33 +6,46 @@ export interface SaveArticleProps {
   title: string;
   insertDate: Date;
   thumbnail: string;
-  providerName: string;
-  providerAvatar: string;
+  name: string;
+  avatar: string;
   articleUrl: string;
   keywords: string[];
 }
 
-const RssFeedRepository = class {
-  private rssFeedModel;
-  constructor(rssFeedModel: typeof ArticleModel) {
-    this.rssFeedModel = rssFeedModel;
+const ArticleRepository = class {
+  private Article;
+  constructor(Article: typeof ArticleModel) {
+    this.Article = Article;
   }
-  async saveRssFeed(saveRssFeedProps: SaveArticleProps) {
-    try {
-      const articleId = uuidV4();
-      const rssFeed = new this.rssFeedModel({
-        ...saveRssFeedProps,
-        articleId,
-      });
-      return this.rssFeedModel.create(rssFeed);
-    } catch (e) {
-      console.log(e);
-      return {
-        code: 503,
-        message: '에러가 발생했습니다.',
-      };
-    }
+  async saveArticle({
+    articleUrl,
+    avatar,
+    insertDate,
+    keywords,
+    name,
+    providerId,
+    thumbnail,
+    title,
+  }: SaveArticleProps) {
+    const articleId = uuidV4();
+    const numOfLikes = 0;
+    const numOfComments = 0;
+    return await this.Article.create({
+      articleId,
+      provider: {
+        providerId,
+        name,
+        avatar,
+      },
+      title,
+      articleUrl,
+      keywords,
+      thumbnail,
+      numOfLikes,
+      numOfComments,
+      insertDate,
+    });
   }
 };
 
-export default new RssFeedRepository(ArticleModel);
+export default new ArticleRepository(ArticleModel);
