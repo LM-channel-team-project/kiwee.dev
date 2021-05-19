@@ -7,6 +7,8 @@ class BookmarksRepository {
     this.Bookmarks = Bookmarks;
   }
   async createBookmarks(providerId: string) {
+    const isExist = await this.Bookmarks.exists({ providerId });
+    if (isExist) return;
     return await this.Bookmarks.create({
       providerId,
       bookmarks: [],

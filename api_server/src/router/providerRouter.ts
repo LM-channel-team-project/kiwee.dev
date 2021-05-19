@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import providerService from '../service/providerService';
 import axios from 'axios';
 import bookmarkService from '../service/bookmarkService';
+import { BookmarksModel } from '../model/Bookmarks';
 
 dotenv.config({
   path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env',
@@ -120,6 +121,7 @@ router.post('/', async (req: Request, res: Response) => {
       email,
       name,
     });
+    console.log(result);
     return res.status(201).json({ message: '정상적으로 처리되었습니다.' });
   } catch (e) {
     console.log(e);
@@ -147,7 +149,7 @@ router.get('/me', async (req: Request, res: Response) => {
 });
 router.post('/rss', async (req: Request, res: Response) => {
   const { providerId, rssUrl } = req.body;
-  if (!providerId || rssUrl)
+  if (!providerId || !rssUrl)
     return res
       .status(401)
       .json({ message: 'providerId, RssUrl이 필요합니다.' });
@@ -173,9 +175,9 @@ router.get('/bookmark', async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'providerId가 필요합니다.' });
 
   try {
-    const bookmarks = await bookmarkService.findBookmarkByProviderId(
+    const { bookmarks } = (await bookmarkService.findBookmarkByProviderId(
       providerId
-    );
+    )) as BookmarksModel;
     console.log(bookmarks);
     if (!bookmarks)
       return res.status(404).json({ message: '존재하지 않는 회원입니다.' });

@@ -10,13 +10,16 @@ class ProviderService {
     const isExist = await this.providerRepository.isExist(providerId);
     let ret;
     if (isExist) {
-      ret = await this.providerRepository.updateProvider({
-        providerId,
-        email,
-        avatar,
-        name,
-      });
-      console.log('user data exist', ret);
+      const [res1, res2] = await Promise.all([
+        this.bookmarkRepository.createBookmarks(providerId),
+        this.providerRepository.updateProvider({
+          providerId,
+          email,
+          avatar,
+          name,
+        }),
+      ]);
+      console.log('user data exist', res1, res2);
     } else {
       const [res1, res2] = await Promise.all([
         this.bookmarkRepository.createBookmarks(providerId),
