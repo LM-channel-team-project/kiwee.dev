@@ -1,5 +1,7 @@
 import { Request, Response, Router } from 'express';
 
+import { LikeModel } from '../model/Likes';
+
 import articleService from '../service/articleService';
 
 const router = Router();
@@ -11,13 +13,13 @@ router.get('/', async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'must send articleId' });
 
   try {
-    const result = await articleService.findLikesByArticleId(
+    const { likes } = (await articleService.findLikesByArticleId(
       articleId as string
-    );
-    console.log(result);
+    )) as LikeModel;
+    console.log(likes);
     return res
       .status(200)
-      .json({ message: '정상적으로 처리되었습니다.', likes: result });
+      .json({ message: '정상적으로 처리되었습니다.', likes });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({ message: '서버 에러' });
