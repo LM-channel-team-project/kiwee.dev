@@ -8,6 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 const filterArticles = (articles: IArticle[], keyword: string) =>
   keyword === 'All' ? articles : articles.filter((article) => article.keywords.includes(keyword));
 
+function Home() {
   const INITIAL_PAGE_NUMBER = 1;
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE_NUMBER);
 
@@ -67,3 +68,5 @@ const filterArticles = (articles: IArticle[], keyword: string) =>
     </>
   );
 }
+
+export default Home;
