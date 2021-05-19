@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { CommentsModel } from '../model/Comments';
 
 import articleService from '../service/articleService';
 import commentService from '../service/commentService';
@@ -125,7 +126,9 @@ router.get('/comments', async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'articleId가 필요합니다.' });
 
   try {
-    const comments = await commentService.findCommentsByArticleId(articleId);
+    const { comments } = await commentService.findCommentsByArticleId(
+      articleId
+    ) as CommentsModel;
     console.log(comments);
     if (!comments)
       return res.status(404).json({ message: '존재하지 않는 article입니다.' });
@@ -134,7 +137,7 @@ router.get('/comments', async (req: Request, res: Response) => {
       .json({ message: '정상적으로 처리되었습니다.', comments });
   } catch (e) {
     console.log(e.message);
-    return res.status(500).json({message: '에러가 발생했습니다.'})
+    return res.status(500).json({ message: '에러가 발생했습니다.' });
   }
 });
 export default router;
