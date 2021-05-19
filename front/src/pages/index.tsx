@@ -3,8 +3,12 @@ import Keywords from '@/components/Keywords';
 import PostCardLayout from '@/components/PostCardLayout';
 import { useAxios } from '@/hooks/useAxios';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { IArticle } from '@/types/article';
 import { getCsrfToken } from 'next-auth/client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+const filterArticles = (articles: IArticle[], keyword: string) =>
+  keyword === 'All' ? articles : articles.filter((article) => article.keywords.includes(keyword));
 
 // HOST URL
 const HOST_URL = 'http://localhost:3000';
@@ -67,10 +71,12 @@ export default function Home() {
     console.log(filter);
   };
 
+  const filteredArticles = useMemo(() => filterArticles(articles, filter), [articles, filter]);
+
   return (
     <>
       <Keywords keywords={keywords} handleFiltering={handleFiltering} />
-      <PostCardLayout articles={articles} filter={filter} />
+      <PostCardLayout articles={filteredArticles} />
       <Modal>
         <form action={`${HOST_URL}/api/auth/signin/google`} method="POST">
           <input type="hidden" name="csrfToken" value={csrfToken}></input>
