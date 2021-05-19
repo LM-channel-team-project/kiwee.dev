@@ -34,8 +34,8 @@ function PostCard({ data }: PropTypes) {
       </CardContentWrap>
       <CardInfoWrap>
         <div className="card-info-left">
-          <img className="post-info-image" src={data.providerAvatar} alt={data.providerName} />
-          {data.providerName}
+          <img className="post-info-image" src={data.provider.avatar} alt={data.provider.name} />
+          {data.provider.name}
         </div>
         <div className="card-info-right">
           <ul className="buttons">
