@@ -6,7 +6,7 @@ class CommentRepository {
   async findCommentsByArticleId(articleId: string) {
     return await this.Comments.findOne(
       { articleId },
-      { _id: 0, articleId: 0, comments: 1 }
+      { _id: 0, articleId: 0 }
     ).exec();
   }
 }
