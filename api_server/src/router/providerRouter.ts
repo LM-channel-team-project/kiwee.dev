@@ -129,7 +129,6 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-// 2. 회원 정보 요청
 router.get('/me', async (req: Request, res: Response) => {
   const providerId = req.query.providerId as string;
   if (!providerId) res.status(406).json({ message: 'providerId가 필요합니다' });

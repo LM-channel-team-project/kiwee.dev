@@ -119,16 +119,15 @@ router.get('/', async (req: Request, res: Response) => {
     return res.status(500).json({ message: '에러가 발생했습니다.' });
   }
 });
-
 router.get('/comments', async (req: Request, res: Response) => {
   const articleId = req.query.articleId as string;
   if (!articleId)
     return res.status(400).json({ message: 'articleId가 필요합니다.' });
 
   try {
-    const { comments } = await commentService.findCommentsByArticleId(
+    const { comments } = (await commentService.findCommentsByArticleId(
       articleId
-    ) as CommentsModel;
+    )) as CommentsModel;
     console.log(comments);
     if (!comments)
       return res.status(404).json({ message: '존재하지 않는 article입니다.' });
