@@ -1,19 +1,8 @@
 import axios from 'axios';
-
-const TEST_ACCESS_TOKEN = 'test_token';
+import { API_URL } from '@/config/constants';
 
 export const client = axios.create({
   withCredentials: true,
-  headers: {
-    // Authorization: `Bearer ${token}`,
-  },
 });
 
-export const test = axios.create({
-  headers: {
-    Authorization: `Bearer ${TEST_ACCESS_TOKEN}`,
-  },
-});
-
-client.defaults.baseURL = process.env.API_ENDPOINT;
-test.defaults.baseURL = 'api/test';
+client.defaults.baseURL = API_URL;

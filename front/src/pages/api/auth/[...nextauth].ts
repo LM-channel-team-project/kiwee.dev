@@ -4,7 +4,7 @@ import { Awaitable, NextApiRequest, NextApiResponse } from 'next-auth/internals/
 import { JWT } from 'next-auth/jwt';
 import Providers from 'next-auth/providers';
 
-import { isDev } from '@/config/constants';
+import { IS_PROD } from '@/config/constants';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const GITHUB_EMAIL_API = 'https://api.github.com/user/emails';
@@ -24,7 +24,7 @@ const options: NextAuthOptions = {
   ],
   jwt: {
     secret: JWT_SECRET,
-    encryption: !isDev,
+    encryption: IS_PROD,
   },
   session: { jwt: true },
   callbacks: {
