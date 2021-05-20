@@ -5,7 +5,7 @@ import { client } from '@/lib/api/client';
 const getData = async (url: string) => {
   const res = await client.get(url);
   const data = await res.data;
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
@@ -46,9 +46,9 @@ export const useGetData = (url: string) => {
         } else keywordMap.set(word, 1);
       }
 
-      console.log(keywordMap);
+      // console.log(keywordMap);
       setKeywords(keywordMap);
-      console.log(keywords);
+      // console.log(keywords);
     };
     getKeywords();
   }, [url]);
