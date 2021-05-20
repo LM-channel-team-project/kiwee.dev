@@ -3,12 +3,19 @@ export interface IArticle {
   articleUrl: string;
   insertDate: string;
   keywords: string[];
-  providerAvatar: string;
-  providerId: string;
+  likes: {
+    [insertDate: string]: string;
+    [providerId: string]: string;
+    [_id: string]: string;
+  }[];
+  numOfComments: number;
+  numOfLikes: number;
   provider: {
-    [key: string]: string;
+    [avatar: string]: string;
+    [name: string]: string;
+    [providerId: string]: string;
   };
   thumbnail: string;
   title: string;
-  id: string;
+  _id: string;
 }
