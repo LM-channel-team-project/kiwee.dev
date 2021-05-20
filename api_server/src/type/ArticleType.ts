@@ -1,3 +1,5 @@
+import LikeType from './LikeType';
+
 export default interface ArticleType {
   articleId: string;
   provider: {
@@ -12,4 +14,5 @@ export default interface ArticleType {
   thumbnail: string;
   insertDate: Date;
   keywords: string[];
+  likes?: string[];
 }
