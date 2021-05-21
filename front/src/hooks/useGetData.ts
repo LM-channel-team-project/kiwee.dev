@@ -1,15 +1,15 @@
-import axios from 'axios';
 import { IArticle } from '@/types/article';
 import { useState, useEffect } from 'react';
+import { client } from '@/lib/api/client';
 
-const axiosData = async (url: string) => {
-  const res = await axios.get(url);
+const getData = async (url: string) => {
+  const res = await client.get(url);
   const data = await res.data;
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
-export const useAxios = (url: string) => {
+export const useGetData = (url: string) => {
   const [articles, setArticles] = useState<IArticle[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pages, setPages] = useState(0);
@@ -19,7 +19,7 @@ export const useAxios = (url: string) => {
   useEffect(() => {
     const getArticles = async () => {
       await setIsLoading(true);
-      const data = await axiosData(url);
+      const data = await getData(url);
       setArticles((prev) => [...prev, ...data.data]);
       setPages(data.totalPages);
       setCur(data.page);
@@ -31,7 +31,7 @@ export const useAxios = (url: string) => {
   useEffect(() => {
     // 키워드 가져오기
     const getKeywords = async () => {
-      const data = await axiosData(url);
+      const data = await getData(url);
       const keywordArr = [];
       const keywordMap = new Map<string, number>();
       // 키워드를 keywordArr이라는 배열에 저장
@@ -46,9 +46,9 @@ export const useAxios = (url: string) => {
         } else keywordMap.set(word, 1);
       }
 
-      console.log(keywordMap);
+      // console.log(keywordMap);
       setKeywords(keywordMap);
-      console.log(keywords);
+      // console.log(keywords);
     };
     getKeywords();
   }, [url]);

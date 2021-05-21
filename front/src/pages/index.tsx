@@ -1,10 +1,11 @@
 import Keywords from '@/components/Keywords';
 import PostCardLayout from '@/components/PostCardLayout';
-import { useAxios } from '@/hooks/useAxios';
+import { useGetData } from '@/hooks/useGetData';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { IArticle } from '@/types/article';
 import React, { useEffect, useMemo, useState } from 'react';
 
+// 키워드 api 바뀌면 요청 새로 보내기
 const filterArticles = (articles: IArticle[], keyword: string) =>
   keyword === 'All' ? articles : articles.filter((article) => article.keywords.includes(keyword));
 
@@ -17,14 +18,11 @@ function Home() {
    * pages: 페이지 수 (마지막 페이지)
    * isLoading: 로딩여부
    */
-  const { articles, pages, keywords, isLoading } = useAxios(
-    `http://localhost:8080/article?page=${currentPage}`,
-  );
+  const { articles, pages, keywords, isLoading } = useGetData(`/api/article?page=${currentPage}`);
 
   // 무한 스크롤
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting) {
-      // console.log(entry);
       setCurrentPage((prev) => prev + 1);
     }
   };
@@ -42,7 +40,7 @@ function Home() {
     // setCurrentPage(INITIAL_PAGE_NUMBER);
     if (currentPage < pages) {
       onInfiniteScrollUpdate(document.querySelector('footer'));
-      console.log('맨밑', currentPage, articles);
+      // console.log('맨밑', currentPage, articles);
     }
   }, [articles, currentPage]);
 
