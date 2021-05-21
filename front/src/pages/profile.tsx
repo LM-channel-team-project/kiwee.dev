@@ -20,7 +20,7 @@ function profile({ session }: { session: Session }) {
 
   return (
     <>
-      <ProfileUser user={user} />
+      <ProfileUser />
       <ProfileStats user={user} selected={selected} onClick={onClick} />
       <ProfileStatsPostCardList user={user} selected={selected} />
     </>
