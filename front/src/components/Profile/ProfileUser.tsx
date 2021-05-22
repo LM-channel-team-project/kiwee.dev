@@ -25,9 +25,7 @@ function profileUser() {
             className="profile-image"
           />
         </div>
-        <section className="profile-contents">
-          <h1 className="profile-name">{data?.provider.name}</h1>
-        </section>
+        <h1 className="profile-name">{data?.provider.name}</h1>
       </div>
 
       <TextButton
@@ -51,6 +49,7 @@ const ProfileUserBlock = styled.section`
   .profile-wrapper {
     display: flex;
     width: 100%;
+    min-width: 320px;
     max-width: 360px;
     justify-content: space-between;
     align-items: center;
@@ -58,22 +57,14 @@ const ProfileUserBlock = styled.section`
     .profile-image {
       border-radius: 0.8rem;
     }
-    .profile-contents {
+    .profile-name {
       display: flex;
       flex-basis: 100%;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      .profile-name {
-        font-size: 2.8rem;
-        font-weight: 600;
-      }
-      .profile-email {
-        display: block;
-        margin-top: 1.2rem;
-        font-size: 1.6rem;
-        color: ${({ theme }) => theme['font-inactive']};
-      }
+      font-size: 2.8rem;
+      font-weight: 600;
     }
   }
   .profile-auth-btn {
