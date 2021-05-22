@@ -1,30 +1,31 @@
 import React from 'react';
 import Image from 'next/image';
-import { User } from 'next-auth';
 import styled from 'styled-components';
 
 import TextButton from '@/components/Common/Button/Text';
-import { useModal } from '@/hooks/useModalContext';
 
-function profileUser({ user }: { user: User }) {
+import { useModal } from '@/hooks/useModalContext';
+import { useGetMe } from '@/hooks/swr/useGetMe';
+
+function profileUser() {
   const [modal, toggleModal] = useModal();
+  const { data } = useGetMe({ suspense: true });
 
   return (
     <ProfileUserBlock>
       <div className="profile-wrapper">
-        <Image
-          loader={imageLoader}
-          src={user?.image || 'null'}
-          width="122"
-          height="122"
-          alt="profile image"
-          layout="intrinsic"
-          className="profile-image"
-        />
-        <section className="profile-contents">
-          <h1 className="profile-name">{user?.name}</h1>
-          <span className="profile-email">{user?.email}</span>
-        </section>
+        <div className="profile-image-wrapper">
+          <Image
+            loader={imageLoader}
+            src={data?.provider.avatar || 'null'}
+            width="122"
+            height="122"
+            alt="profile image"
+            layout="fixed"
+            className="profile-image"
+          />
+        </div>
+        <h1 className="profile-name">{data?.provider.name}</h1>
       </div>
 
       <TextButton
@@ -48,6 +49,7 @@ const ProfileUserBlock = styled.section`
   .profile-wrapper {
     display: flex;
     width: 100%;
+    min-width: 320px;
     max-width: 360px;
     justify-content: space-between;
     align-items: center;
@@ -55,17 +57,14 @@ const ProfileUserBlock = styled.section`
     .profile-image {
       border-radius: 0.8rem;
     }
-    .profile-contents {
-      .profile-name {
-        font-size: 2.8rem;
-        font-weight: 600;
-      }
-      .profile-email {
-        display: block;
-        margin-top: 1.2rem;
-        font-size: 1.6rem;
-        color: ${({ theme }) => theme['font-inactive']};
-      }
+    .profile-name {
+      display: flex;
+      flex-basis: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 2.8rem;
+      font-weight: 600;
     }
   }
   .profile-auth-btn {
