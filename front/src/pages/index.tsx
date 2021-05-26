@@ -26,23 +26,14 @@ function Home() {
       setCurrentPage((prev) => prev + 1);
     }
   };
-  const [
-    onInfiniteScrollInit,
-    onInfiniteScrollUpdate,
-    onInfiniteScrollDisconnect,
-  ] = useInfiniteScroll(handleObserver);
+
+  const [onInfiniteScrollUpdate, onInfiniteScrollDisconnect] = useInfiniteScroll(handleObserver);
 
   useEffect(() => {
-    onInfiniteScrollInit(document.querySelector('footer'));
-  }, []);
-
-  useEffect(() => {
-    // setCurrentPage(INITIAL_PAGE_NUMBER);
-    if (currentPage < pages) {
+    if (0 < articles.length && articles.length < 21) {
       onInfiniteScrollUpdate(document.querySelector('footer'));
-      // console.log('맨밑', currentPage, articles);
     }
-  }, [articles, currentPage]);
+  }, [articles]);
 
   useEffect(() => {
     if (currentPage === pages) {

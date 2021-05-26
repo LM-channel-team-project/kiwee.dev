@@ -26,22 +26,16 @@ function useInfiniteScroll(callbackFn: PropTypes) {
     };
   }, [target]);
 
-  const onInfiniteScrollInit = (target: HTMLElement | null) => {
+  const onInfiniteScrollUpdate = (target: HTMLElement | null) => {
     if (target) {
       setTarget(target);
     }
   };
 
-  const onInfiniteScrollUpdate = () => {
-    // console.log("update");
-    return io.current && io.current.observe(target as HTMLElement);
-  };
-
   const onInfiniteScrollDisconnect = () => {
-    // console.log("disconnect");
     return io.current && io.current.disconnect();
   };
-  return [onInfiniteScrollInit, onInfiniteScrollUpdate, onInfiniteScrollDisconnect];
+  return [onInfiniteScrollUpdate, onInfiniteScrollDisconnect];
 }
 
 export default useInfiniteScroll;
