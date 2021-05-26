@@ -3,17 +3,20 @@ import articleRepository from '../repository/ArticleRepository';
 import likesRepository from '../repository/LikesRepository';
 import providerRepository from '../repository/providerRepository';
 import bookmarkRepository from '../repository/BookmarkRepository';
+import historyRepository from '../repository/HistoryRepository';
 
 // type, interface
 import { ArticleModel } from '../model/Article';
 import ArticleType from '../type/ArticleType';
 import { BookmarksModel } from '../model/Bookmarks';
+import { HistoryModel } from '../model/History';
 
 class ArticleService {
   private articleRepository = articleRepository;
   private likesRepository = likesRepository;
   private providerRepository = providerRepository;
   private bookmarkRepository = bookmarkRepository;
+  private historyRepository = historyRepository;
   constructor() {}
   findArticleById(articleId: string) {
     return this.articleRepository.findArticleById(articleId);
@@ -40,13 +43,24 @@ class ArticleService {
         (await this.bookmarkRepository.findBookmarksByProviderId(
           providerId
         )) as BookmarksModel;
-      console.log(bookmarks);
+      const { histories } =
+        (await this.historyRepository.findHistoryByProviderId(
+          providerId
+        )) as HistoryModel;
+
       if (bookmarks !== null) {
         const bookmarkList = bookmarks.map(b => b.articleId);
-        console.log(bookmarkList);
         ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
           const isBookmarked = bookmarkList.includes(doc.articleId);
           return Object.assign({ isBookmarked }, doc._doc);
+        });
+      }
+
+      if (histories !== null) {
+        const historyList = histories.map(h => h.articleId);
+        ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
+          const isVisited = historyList.includes(doc.articleId);
+          return Object.assign({ isVisited }, doc);
         });
       }
     }

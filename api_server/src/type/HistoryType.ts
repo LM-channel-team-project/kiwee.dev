@@ -1,7 +1,7 @@
 export default interface HistoryType {
   providerId: string;
-  historys: {
+  histories: {
     articleId: string;
     insertDate: string;
-  }
+  }[];
 }

@@ -11,15 +11,15 @@ router.get('/', async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'providerId가 필요합니다.' });
 
   try {
-    const { historys } = (await historyService.findHistoryByProviderId(
+    const { histories } = (await historyService.findHistoryByProviderId(
       providerId
     )) as HistoryType;
 
-    if (!historys)
+    if (!histories)
       return res.status(404).json({ message: '존재하지 않는 회원입니다.' });
     return res
       .status(200)
-      .json({ message: '정상적으로 처리되었습니다.', historys });
+      .json({ message: '정상적으로 처리되었습니다.', histories });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: e.message });
@@ -36,16 +36,16 @@ router.patch('/', async (req: Request, res: Response) => {
       .json({ message: 'providerId, articleId가 필요합니다.' });
 
   try {
-    const { historys } = (await historyService.pushHistory(
+    const { histories } = (await historyService.pushHistory(
       providerId,
       articleId
     )) as HistoryType;
 
-    if (!historys)
+    if (!histories)
       return res.status(404).json({ message: '존재하지 않는 회원입니다.' });
     return res
       .status(200)
-      .json({ message: '정상적으로 처리되었습니다.', historys });
+      .json({ message: '정상적으로 처리되었습니다.', histories });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: e.message });
