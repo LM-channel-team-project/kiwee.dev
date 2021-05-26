@@ -12,6 +12,7 @@ type RenderFallbackType = <ErrorType extends Error>(
 interface ErrorBoundaryProps {
   renderFallback: RenderFallbackType;
   resetKeys?: unknown[];
+  onReset?: (...args: Array<unknown>) => void;
   children: React.ReactNode;
 }
 
@@ -26,8 +27,9 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     super(props);
     this.state = initialState;
   }
-  resetErrorBoundary = () => {
+  resetErrorBoundary = (...args: Array<unknown>) => {
     this.setState(initialState);
+    this.props.onReset?.(...args);
   };
 
   static getDerivedStateFromError(error: Error) {
