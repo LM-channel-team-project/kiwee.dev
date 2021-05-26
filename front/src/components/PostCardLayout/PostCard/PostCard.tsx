@@ -6,6 +6,7 @@ import { memo, useEffect, useState } from 'react';
 import { useNewTabContext } from '@/hooks/useNewTabContext';
 import { client } from '@/lib/api/client';
 import { useSession } from 'next-auth/client';
+import { DefaultTheme } from 'styled-components';
 
 interface PropTypes {
   data: IArticle;
@@ -36,7 +37,7 @@ function PostCard({ data }: PropTypes) {
   // 좋아요 요청
   const requestLikes = async (bool: boolean) => {
     try {
-      const response = await client.post('/api/likes', {
+      const response = await client.post('/likes', {
         articleId: data.articleId,
         isLike: bool,
       });
@@ -99,8 +100,22 @@ function PostCard({ data }: PropTypes) {
               <IconButton
                 iconName="like"
                 size="small"
-                styleType={canLike ? 'default' : 'primary'}
+                styleType={'default'}
                 onClick={toggleLike}
+                css={`
+                  &:hover {
+                    svg {
+                      color: ${canLike
+                        ? ({ theme }: { theme: DefaultTheme }) => theme['like-icon-hover']
+                        : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active-hover']};
+                    }
+                  }
+                  svg {
+                    color: ${canLike
+                      ? ''
+                      : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active']};
+                  }
+                `}
               />
             </li>
             <li>

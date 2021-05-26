@@ -32,5 +32,8 @@ declare module 'styled-components' {
     'login-btn-font': string;
     'login-btn-hover-bg': string;
     'login-btn-active-bg': string;
+    'like-icon-hover': string;
+    'like-icon-active': string;
+    'like-icon-active-hover': string;
   }
 }
