@@ -5,16 +5,16 @@ import { NextApiRequest, NextApiResponse } from 'next-auth/internals/utils';
 import { JWT } from 'next-auth/jwt';
 
 /**
- * 특정 article에 좋아요를 누른 사용자 목록 요청
+ * 특정 사용자의 bookmark 목록 조회
  * GET /bookmark
  */
 
 /**
- * 특정 게시물에 대해 좋아요 활성화/비활성화
+ * 특정 게시물에 대해 bookmark 활성화/비활성화
  * POST /bookmarks
  * body {
  *  articleId: string,
- *  isLike: boolean // 좋아요 누를 경우 true, 취소할 경우 false
+ *  isSave: boolean // bookmark 등록시 true, 취소시 false
  * }
  *  */
 export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, token: JWT) => {

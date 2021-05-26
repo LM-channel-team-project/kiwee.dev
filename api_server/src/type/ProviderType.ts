@@ -3,6 +3,7 @@ export interface ProviderType {
   name: string;
   email: string;
   avatar: string;
-  rssLink?: String;
+  rssLink?: string;
+  likes?: string[];
   lastModifiedTime?: Date;
 }

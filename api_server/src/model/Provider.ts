@@ -12,6 +12,10 @@ const ProviderSchema = new Schema(
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     avatar: { type: String },
+    likes: {
+      type: Array,
+      default: []
+    },
     rssLink: {
       type: String,
       required: true,
