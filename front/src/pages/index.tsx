@@ -27,23 +27,13 @@ function Home() {
     }
   };
 
-  const [
-    onInfiniteScrollInit,
-    onInfiniteScrollUpdate,
-    onInfiniteScrollDisconnect,
-  ] = useInfiniteScroll(handleObserver);
+  const [onInfiniteScrollUpdate, onInfiniteScrollDisconnect] = useInfiniteScroll(handleObserver);
 
   useEffect(() => {
     if (0 < articles.length && articles.length < 21) {
-      onInfiniteScrollInit(document.querySelector('footer'));
-    }
-  }, [articles]);
-
-  useEffect(() => {
-    if (currentPage < pages) {
       onInfiniteScrollUpdate(document.querySelector('footer'));
     }
-  }, [articles, currentPage]);
+  }, [articles]);
 
   useEffect(() => {
     if (currentPage === pages) {
