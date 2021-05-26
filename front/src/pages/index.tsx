@@ -26,6 +26,7 @@ function Home() {
       setCurrentPage((prev) => prev + 1);
     }
   };
+
   const [
     onInfiniteScrollInit,
     onInfiniteScrollUpdate,
@@ -33,14 +34,14 @@ function Home() {
   ] = useInfiniteScroll(handleObserver);
 
   useEffect(() => {
-    onInfiniteScrollInit(document.querySelector('footer'));
-  }, []);
+    if (0 < articles.length && articles.length < 21) {
+      onInfiniteScrollInit(document.querySelector('footer'));
+    }
+  }, [articles]);
 
   useEffect(() => {
-    // setCurrentPage(INITIAL_PAGE_NUMBER);
     if (currentPage < pages) {
       onInfiniteScrollUpdate(document.querySelector('footer'));
-      // console.log('맨밑', currentPage, articles);
     }
   }, [articles, currentPage]);
 
