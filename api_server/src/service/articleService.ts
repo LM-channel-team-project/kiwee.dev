@@ -9,6 +9,7 @@ import historyRepository from '../repository/HistoryRepository';
 import { ArticleModel } from '../model/Article';
 import { BookmarksModel } from '../model/Bookmarks';
 import { HistoryModel } from '../model/History';
+import { resourceLimits } from 'node:worker_threads';
 
 class ArticleService {
   private articleRepository = articleRepository;
@@ -25,18 +26,16 @@ class ArticleService {
     providerId: string | undefined
   ): Promise<{ [key: string]: any }> {
     const result = await this.articleRepository.findArticlesByPage(page);
-    let ret: { [key: string]: any } = { ...result };
-    const articles = result.docs as ArticleModel[];
+    const { docs, ...pagenateData } = result;
+    const ret: { [key: string]: any } = { ...pagenateData };
     ret.docs = await Promise.all(
-      articles.map(article =>
+      result.docs.map(article =>
         likesRepository.findLikesByArticleId(article.articleId).then(likes => {
-          const ret: { [key: string]: any } = article;
-          ret._doc.likes = likes?.likes;
-          return ret;
+          const { __v, _id, insertDate, ...data } = article.toObject();
+          return Object.assign({ likes: likes?.likes }, data);
         })
       )
     );
-
     if (providerId) {
       const [{ bookmarks }, { histories }] = (await Promise.all([
         this.bookmarkRepository.findBookmarksByProviderId(providerId),
@@ -46,17 +45,10 @@ class ArticleService {
         const bookmarkList = bookmarks.map(b => b.articleId);
         const historyList = histories.map(h => h.articleId);
         ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
-          const isBookmarked = bookmarkList.includes(doc.articleId);
-          const isVisited = historyList.includes(doc.articleId);
-          return Object.assign({ isBookmarked, isVisited }, doc._doc);
-        });
-      }
-
-      if (histories !== null) {
-        const historyList = histories.map(h => h.articleId);
-        ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
-          const isVisited = historyList.includes(doc.articleId);
-          return Object.assign({ isVisited }, doc);
+          const articleId = doc.articleId;
+          const isBookmarked = bookmarkList.includes(articleId);
+          const isVisited = historyList.includes(articleId);
+          return Object.assign({ isBookmarked, isVisited }, doc);
         });
       }
     }
