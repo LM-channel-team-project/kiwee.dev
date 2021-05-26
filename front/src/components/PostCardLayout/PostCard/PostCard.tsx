@@ -36,7 +36,7 @@ function PostCard({ data }: PropTypes) {
   // 좋아요 요청
   const requestLikes = async (bool: boolean) => {
     try {
-      const response = await client.post('/api/likes', {
+      const response = await client.post('/likes', {
         articleId: data.articleId,
         isLike: bool,
       });
@@ -99,8 +99,18 @@ function PostCard({ data }: PropTypes) {
               <IconButton
                 iconName="like"
                 size="small"
-                styleType={canLike ? 'default' : 'primary'}
+                styleType={'default'}
                 onClick={toggleLike}
+                css={`
+                  &:hover {
+                    svg {
+                      color: ${canLike ? '#ff8787' : '#fa5252'};
+                    }
+                  }
+                  svg {
+                    ${canLike ? '' : 'color:#fa5252'}
+                  }
+                `}
               />
             </li>
             <li>
