@@ -26,14 +26,16 @@ router.get('/', async (req: Request, res: Response) => {
     }
   }
 
-  const page = req.query.page;
+  const { page, providerId } = req.query;
   if (!page)
     return res.status(400).json({
       message: 'page가 필요합니다',
     });
   try {
+    console.log(req.query);
     const { docs, ...extra } = await articleService.findArticlesByPage(
-      parseInt(page as string)
+      parseInt(page as string),
+      providerId as string
     );
     return res
       .status(200)

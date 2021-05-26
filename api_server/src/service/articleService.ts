@@ -2,19 +2,26 @@
 import articleRepository from '../repository/ArticleRepository';
 import likesRepository from '../repository/LikesRepository';
 import providerRepository from '../repository/providerRepository';
+import bookmarkRepository from '../repository/BookmarkRepository';
 
 // type, interface
 import { ArticleModel } from '../model/Article';
+import ArticleType from '../type/ArticleType';
+import { BookmarksModel } from '../model/Bookmarks';
 
 class ArticleService {
   private articleRepository = articleRepository;
   private likesRepository = likesRepository;
   private providerRepository = providerRepository;
+  private bookmarkRepository = bookmarkRepository;
   constructor() {}
   findArticleById(articleId: string) {
     return this.articleRepository.findArticleById(articleId);
   }
-  async findArticlesByPage(page: number): Promise<{ [key: string]: any }> {
+  async findArticlesByPage(
+    page: number,
+    providerId: string | undefined
+  ): Promise<{ [key: string]: any }> {
     const result = await this.articleRepository.findArticlesByPage(page);
     let ret: { [key: string]: any } = { ...result };
     const articles = result.docs as ArticleModel[];
@@ -27,6 +34,23 @@ class ArticleService {
         })
       )
     );
+
+    if (providerId) {
+      const { bookmarks } =
+        (await this.bookmarkRepository.findBookmarksByProviderId(
+          providerId
+        )) as BookmarksModel;
+      console.log(bookmarks);
+      if (bookmarks !== null) {
+        const bookmarkList = bookmarks.map(b => b.articleId);
+        console.log(bookmarkList);
+        ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
+          const isBookmarked = bookmarkList.includes(doc.articleId);
+          return Object.assign({ isBookmarked }, doc._doc);
+        });
+      }
+    }
+
     return ret;
   }
   async findLikesByArticleId(articleId: string) {
