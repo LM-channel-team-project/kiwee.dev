@@ -9,7 +9,7 @@ const HisotorySchema = new Schema({
     type: String,
     required: true,
   },
-  historys: [
+  histories: [
     {
       articleId: {
         type: String,

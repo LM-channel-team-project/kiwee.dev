@@ -3,17 +3,19 @@ import articleRepository from '../repository/ArticleRepository';
 import likesRepository from '../repository/LikesRepository';
 import providerRepository from '../repository/providerRepository';
 import bookmarkRepository from '../repository/BookmarkRepository';
+import historyRepository from '../repository/HistoryRepository';
 
 // type, interface
 import { ArticleModel } from '../model/Article';
-import ArticleType from '../type/ArticleType';
 import { BookmarksModel } from '../model/Bookmarks';
+import { HistoryModel } from '../model/History';
 
 class ArticleService {
   private articleRepository = articleRepository;
   private likesRepository = likesRepository;
   private providerRepository = providerRepository;
   private bookmarkRepository = bookmarkRepository;
+  private historyRepository = historyRepository;
   constructor() {}
   findArticleById(articleId: string) {
     return this.articleRepository.findArticleById(articleId);
@@ -36,17 +38,17 @@ class ArticleService {
     );
 
     if (providerId) {
-      const { bookmarks } =
-        (await this.bookmarkRepository.findBookmarksByProviderId(
-          providerId
-        )) as BookmarksModel;
-      console.log(bookmarks);
-      if (bookmarks !== null) {
+      const [{ bookmarks }, { histories }] = (await Promise.all([
+        this.bookmarkRepository.findBookmarksByProviderId(providerId),
+        this.historyRepository.findHistoryByProviderId(providerId),
+      ])) as [BookmarksModel, HistoryModel];
+      if (bookmarks !== null && histories !== null) {
         const bookmarkList = bookmarks.map(b => b.articleId);
-        console.log(bookmarkList);
+        const historyList = histories.map(h => h.articleId);
         ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
           const isBookmarked = bookmarkList.includes(doc.articleId);
-          return Object.assign({ isBookmarked }, doc._doc);
+          const isVisited = historyList.includes(doc.articleId);
+          return Object.assign({ isBookmarked, isVisited }, doc._doc);
         });
       }
     }
@@ -62,16 +64,14 @@ class ArticleService {
       providerId,
       isLike
     );
-    const articleResponse = await this.articleRepository.increaseNumOfLikes(
-      articleId,
-      isLike
-    );
-    const providerResponse = await this.providerRepository.pushLikeRepositoryId(
-      providerId,
-      articleId,
-      isLike
-    );
-    console.log(providerResponse);
+    const [articleResponse, providerResponse] = await Promise.all([
+      this.articleRepository.increaseNumOfLikes(articleId, isLike),
+      this.providerRepository.pushLikeRepositoryId(
+        providerId,
+        articleId,
+        isLike
+      ),
+    ]);
     return [likesResponse, articleResponse, providerResponse];
   }
 }
