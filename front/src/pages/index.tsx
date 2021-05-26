@@ -18,7 +18,7 @@ function Home() {
    * pages: 페이지 수 (마지막 페이지)
    * isLoading: 로딩여부
    */
-  const { articles, pages, keywords, isLoading } = useGetData(`/api/article?page=${currentPage}`);
+  const { articles, pages, keywords, isLoading } = useGetData(`/article?page=${currentPage}`);
 
   // 무한 스크롤
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
