@@ -8,10 +8,14 @@ import { API_SERVER_URL } from '@/config/constants';
  * GET /article?page={page}
  */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const articleId = req.query.articleId as string;
   const page = req.query.page as string;
-  if (req.method !== 'GET' || !page) return res.status(400).json({ message: 'not valid' });
+  if (req.method !== 'GET' || (page === undefined && articleId === undefined))
+    return res.status(400).json({ message: 'not valid' });
   try {
-    const requestUrl = `${API_SERVER_URL}/article?page=${page}`;
+    const requestUrl = articleId
+      ? `${API_SERVER_URL}/article?articleId=${articleId}`
+      : `${API_SERVER_URL}/article?page=${page}`;
     const { data, status } = await axios.get(requestUrl);
     console.log(data);
     return res.status(status).json(data);

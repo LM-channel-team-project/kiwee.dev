@@ -1,16 +1,19 @@
-import { PaginateResult } from 'mongoose';
-
 // repository
 import articleRepository from '../repository/ArticleRepository';
 import likesRepository from '../repository/LikesRepository';
+import providerRepository from '../repository/providerRepository';
 
 // type, interface
 import { ArticleModel } from '../model/Article';
 
 class ArticleService {
-  articleRepository = articleRepository;
-  likesRepository = likesRepository;
+  private articleRepository = articleRepository;
+  private likesRepository = likesRepository;
+  private providerRepository = providerRepository;
   constructor() {}
+  findArticleById(articleId: string) {
+    return this.articleRepository.findArticleById(articleId);
+  }
   async findArticlesByPage(page: number): Promise<{ [key: string]: any }> {
     const result = await this.articleRepository.findArticlesByPage(page);
     let ret: { [key: string]: any } = { ...result };
@@ -24,7 +27,6 @@ class ArticleService {
         })
       )
     );
-    console.log(ret);
     return ret;
   }
   async findLikesByArticleId(articleId: string) {
@@ -40,7 +42,13 @@ class ArticleService {
       articleId,
       isLike
     );
-    return [likesResponse, articleResponse];
+    const providerResponse = await this.providerRepository.pushLikeRepositoryId(
+      providerId,
+      articleId,
+      isLike
+    );
+    console.log(providerResponse);
+    return [likesResponse, articleResponse, providerResponse];
   }
 }
 

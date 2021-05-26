@@ -10,19 +10,23 @@ const ArticleRepository = class {
     },
   };
   constructor() {}
-  async findArticlesByPage(
-    page: number
-  ): Promise<PaginateResult<ArticleModel>> {
-    return await this.Article.paginate({}, { ...this.paginateOptions, page });
+  findArticleById(articleId: string) {
+    return this.Article.findOne({ articleId }).exec();
   }
-  async increaseNumOfLikes(articleId: string, isLike: boolean) {
-    return await this.Article.updateOne(
+  findArticlesByPage(page: number): Promise<PaginateResult<ArticleModel>> {
+    return this.Article.paginate({}, { ...this.paginateOptions, page });
+  }
+  increaseNumOfLikes(articleId: string, isLike: boolean) {
+    return this.Article.updateOne(
       { articleId },
       { $inc: { numOfLikes: isLike ? 1 : -1 } },
       {
         new: true,
       }
     ).exec();
+  }
+  isExist(articleId: string) {
+    return this.Article.exists({ articleId });
   }
 };
 
