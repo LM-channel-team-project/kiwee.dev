@@ -51,6 +51,14 @@ class ArticleService {
           return Object.assign({ isBookmarked, isVisited }, doc._doc);
         });
       }
+
+      if (histories !== null) {
+        const historyList = histories.map(h => h.articleId);
+        ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
+          const isVisited = historyList.includes(doc.articleId);
+          return Object.assign({ isVisited }, doc);
+        });
+      }
     }
 
     return ret;
