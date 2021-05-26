@@ -6,6 +6,7 @@ import { memo, useEffect, useState } from 'react';
 import { useNewTabContext } from '@/hooks/useNewTabContext';
 import { client } from '@/lib/api/client';
 import { useSession } from 'next-auth/client';
+import { DefaultTheme } from 'styled-components';
 
 interface PropTypes {
   data: IArticle;
@@ -104,11 +105,15 @@ function PostCard({ data }: PropTypes) {
                 css={`
                   &:hover {
                     svg {
-                      color: ${canLike ? '#ff8787' : '#fa5252'};
+                      color: ${canLike
+                        ? ({ theme }: { theme: DefaultTheme }) => theme['like-icon-hover']
+                        : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active-hover']};
                     }
                   }
                   svg {
-                    ${canLike ? '' : 'color:#fa5252'}
+                    color: ${canLike
+                      ? ''
+                      : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active']};
                   }
                 `}
               />

@@ -29,6 +29,9 @@ const light = {
   'login-btn-font': '#ffffff',
   'login-btn-hover-bg': '#2d313a',
   'login-btn-active-bg': '#525866',
+  'like-icon-hover': '#fa8787',
+  'like-icon-active': '#fa5252',
+  'like-icon-active-hover': '#fa5252',
 };
 
 const dark = {
@@ -62,6 +65,9 @@ const dark = {
   'login-btn-font': '#0E1217',
   'login-btn-hover-bg': '#a8b3cf',
   'login-btn-active-bg': '#a8b3cf',
+  'like-icon-hover': '#fa8787',
+  'like-icon-active': '#fa5252',
+  'like-icon-active-hover': '#fa5252',
 };
 
 export const theme = { light, dark };
