@@ -32,7 +32,6 @@ router.get('/', async (req: Request, res: Response) => {
       message: 'page가 필요합니다',
     });
   try {
-    console.log(req.query);
     const { docs, ...extra } = await articleService.findArticlesByPage(
       parseInt(page as string),
       providerId as string
