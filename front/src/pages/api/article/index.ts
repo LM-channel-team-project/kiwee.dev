@@ -9,7 +9,8 @@ import { API_SERVER_URL, JWT_SECRET } from '@/config/constants';
  * GET /article?page={page}
  */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { sub: providerId } = (await getToken({ req, secret: JWT_SECRET })) as JWT;
+  const token = await getToken({ req, secret: JWT_SECRET });
+  const providerId = token !== null && token.sub;
   const articleId = req.query.articleId as string;
   const page = req.query.page as string;
   if (req.method !== 'GET' || (page === undefined && articleId === undefined))

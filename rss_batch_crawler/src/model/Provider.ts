@@ -9,9 +9,13 @@ const ProviderSchema = new Schema(
       required: true,
       unique: true,
     },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     name: { type: String, required: true },
     avatar: { type: String },
+    likes: {
+      type: Array,
+      default: [],
+    },
     rssLink: {
       type: String,
       required: true,
