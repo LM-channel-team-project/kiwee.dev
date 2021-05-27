@@ -5,18 +5,12 @@ import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 import ProfileStats from '@/components/Profile/ProfileStats';
 import ProfileUser from '@/components/Profile/ProfileUser';
 import ProfileStatsPostCardList from '@/components/Profile/ProfileStatsPostCardList';
-import SkeletonProfileUser from '@/components/Skeleton/Profile/SkeletonProfileUser';
 import AsyncBoundary from '@/components/AsyncBoundary';
+import SkeletonProfileUser from '@/components/Skeleton/Profile/SkeletonProfileUser';
+import ProfileUserFallback from '@/components/ErrorFallback/Profile/ProfileUserFallback';
 
-function ErrorFallback({ error, reset }: { error: { message: string }; reset: () => void }) {
-  return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error?.message}</pre>
-      <button onClick={reset}>Try again</button>
-    </div>
-  );
-}
+import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
+import { useDeleteErrorCache } from '@/hooks/swr/useDeleteErrorCache';
 
 type SelectedType = 'visit' | 'like';
 
@@ -33,8 +27,11 @@ function profile({ session }: { session: Session }) {
   return (
     <>
       <AsyncBoundary
-        rejectedFallback={({ error, reset }) => <ErrorFallback error={error} reset={reset} />}
+        rejectedFallback={({ error, reset }) => <ProfileUserFallback error={error} reset={reset} />}
         pendingFallback={<SkeletonProfileUser />}
+        onReset={() => {
+          useDeleteErrorCache(GET_ME_KEY);
+        }}
       >
         <ProfileUser />
       </AsyncBoundary>
