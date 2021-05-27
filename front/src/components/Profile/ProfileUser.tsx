@@ -7,7 +7,7 @@ import TextButton from '@/components/Common/Button/Text';
 import { useModal } from '@/hooks/useModalContext';
 import { useGetMe } from '@/hooks/swr/useGetMe';
 
-function profileUser() {
+function ProfileUser() {
   const [modal, toggleModal] = useModal();
   const { data } = useGetMe({ suspense: true });
 
@@ -87,4 +87,4 @@ function imageLoader({ src }: { src: string }) {
   return src;
 }
 
-export default React.memo(profileUser);
+export default React.memo(ProfileUser);
