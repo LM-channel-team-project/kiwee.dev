@@ -1,40 +1,26 @@
-import ProviderRepository, {
+import providerRepository, {
   SaveProviderProps,
 } from '../repository/providerRepository';
-import BookmarkRepository from '../repository/BookmarkRepository';
+import bookmarkRepository from '../repository/BookmarkRepository';
+import HistoryRepository from '../repository/HistoryRepository';
 class ProviderService {
-  providerRepository = ProviderRepository;
-  bookmarkRepository = BookmarkRepository;
+  private providerRepository = providerRepository;
+  private bookmarkRepository = bookmarkRepository;
+  private historyRepository = HistoryRepository;
+
   constructor() {}
   async saveProvider({ providerId, email, avatar, name }: SaveProviderProps) {
-    const isExist = await this.providerRepository.isExist(providerId);
-    let ret;
-    if (isExist) {
-      const [res1, res2] = await Promise.all([
-        this.bookmarkRepository.createBookmarks(providerId),
-        this.providerRepository.updateProvider({
-          providerId,
-          email,
-          avatar,
-          name,
-        }),
-      ]);
-      console.log('user data exist', res1, res2);
-    } else {
-      const [res1, res2] = await Promise.all([
-        this.bookmarkRepository.createBookmarks(providerId),
-        this.providerRepository.createProvider({
-          providerId,
-          email,
-          avatar,
-          name,
-        }),
-      ]);
-      console.log('create bookmark', res1);
-      console.log('create new user', res2);
-      ret = res2;
-    }
-    return ret;
+    const results = await Promise.all([
+      this.bookmarkRepository.createBookmarks(providerId),
+      this.historyRepository.createHistory(providerId),
+      this.providerRepository.createProvider({
+        providerId,
+        email,
+        avatar,
+        name,
+      }),
+    ]);
+    return results;
   }
   async findProviderById(providerId: string) {
     return await this.providerRepository.findProviderById(providerId);

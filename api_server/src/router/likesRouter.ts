@@ -35,13 +35,11 @@ router.post('/', async (req: Request, res: Response) => {
       .json({ message: 'articleId, providerId, isLike가 필요합니다.' });
 
   try {
-    const [updatedLikes, updatedArticle] = await articleService.saveLike(
-      articleId,
-      providerId,
-      isLike
-    );
+    const [updatedLikes, updatedArticle, updateProvider] =
+      await articleService.saveLike(articleId, providerId, isLike);
     console.log('updatedLikes', updatedLikes);
     console.log('updatedArticle', updatedArticle);
+    console.log('updateProvider', updateProvider);
     return res.status(201).json({ message: '정상적으로 처리되었습니다.' });
   } catch (e) {
     console.log(e.message);

@@ -7,6 +7,8 @@ import swaggerUi from 'swagger-ui-express';
 import providerRouter from './router/providerRouter';
 import articleRouter from './router/articleRouter';
 import likesRouter from './router/likesRouter';
+import bookmarksRouter from './router/bookmarkRouter';
+import historyRouter from './router/historyRouter';
 
 dotenv.config({
   path: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.env',
@@ -57,6 +59,8 @@ const Server = class {
     this.app.use('/provider', providerRouter);
     this.app.use('/article', articleRouter);
     this.app.use('/likes', likesRouter);
+    this.app.use('/bookmarks', bookmarksRouter);
+    this.app.use('/history', historyRouter);
   }
   listen() {
     this.app.listen(this.port, '127.0.0.1', () =>
