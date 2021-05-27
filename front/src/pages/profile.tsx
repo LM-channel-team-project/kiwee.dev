@@ -27,7 +27,7 @@ function profile({ session }: { session: Session }) {
   return (
     <>
       <AsyncBoundary
-        rejectedFallback={({ error, reset }) => <ProfileUserFallback error={error} reset={reset} />}
+        rejectedFallback={ProfileUserFallback}
         pendingFallback={<SkeletonProfileUser />}
         onReset={() => {
           useDeleteErrorCache(GET_ME_KEY);
