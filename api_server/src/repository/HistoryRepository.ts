@@ -10,7 +10,7 @@ class HistoryRepository {
   pushHistory(providerId: string, articleId: string) {
     return this.History.findOneAndUpdate(
       { providerId },
-      { $push: { historys: { articleId, insertedDate: new Date() } } },
+      { $push: { histories: { articleId, insertedDate: new Date() } } },
       { new: true }
     ).exec();
   }
