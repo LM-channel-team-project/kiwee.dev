@@ -69,12 +69,27 @@ function PostCard({ data }: PropTypes) {
     }
   };
 
+  // console.log(data);
+
+  // 방문한 게시글 등록
+  const onClickPost = async () => {
+    if (!data.isVisited) {
+      try {
+        const response = await client.patch(`/history?articleId=${data.articleId}`);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <CardContainer>
       <CardImage
         href={data.articleUrl}
         target={isNewTab ? '_blank' : '_self'}
         rel={isNewTab ? 'noopener noreferrer' : 'prev'}
+        onClick={onClickPost}
       >
         <div className="card-image">
           <img
@@ -85,7 +100,7 @@ function PostCard({ data }: PropTypes) {
       </CardImage>
       <CardContentWrap>
         <div className="sub-info">{dayjs(data.insertDate).format('MMM DD, YYYY')}</div>
-        <CardContent href={data.articleUrl}>
+        <CardContent href={data.articleUrl} onClick={onClickPost}>
           <h3>{data.title}</h3>
         </CardContent>
       </CardContentWrap>
