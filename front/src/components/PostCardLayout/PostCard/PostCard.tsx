@@ -32,7 +32,7 @@ function PostCard({ data }: PropTypes) {
         }
       }
     }
-  }, []);
+  }, [providerId]);
 
   // 좋아요 요청
   const requestLikes = async (bool: boolean) => {
@@ -69,8 +69,6 @@ function PostCard({ data }: PropTypes) {
     }
   };
 
-  // console.log(data);
-
   // 방문한 게시글 등록
   const onClickPost = async () => {
     if (!data.isVisited) {
@@ -83,14 +81,16 @@ function PostCard({ data }: PropTypes) {
     }
   };
 
+  const cardProps = {
+    href: data.articleUrl,
+    target: isNewTab ? '_blank' : '_self',
+    rel: isNewTab ? 'noopener noreferrer' : '',
+    onClick: onClickPost,
+  };
+
   return (
     <CardContainer>
-      <CardImage
-        href={data.articleUrl}
-        target={isNewTab ? '_blank' : '_self'}
-        rel={isNewTab ? 'noopener noreferrer' : 'prev'}
-        onClick={onClickPost}
-      >
+      <CardImage {...cardProps}>
         <div className="card-image">
           <img
             src="https://media.vlpt.us/images/jjunyjjuny/post/e7f0d557-1fab-4a61-ae8e-b5cb1a911b09/ek7ji4zrimozpp2yzk0a.png?w=640"
@@ -100,7 +100,7 @@ function PostCard({ data }: PropTypes) {
       </CardImage>
       <CardContentWrap>
         <div className="sub-info">{dayjs(data.insertDate).format('MMM DD, YYYY')}</div>
-        <CardContent href={data.articleUrl} onClick={onClickPost}>
+        <CardContent {...cardProps}>
           <h3>{data.title}</h3>
         </CardContent>
       </CardContentWrap>
