@@ -71,9 +71,9 @@ const dark = {
   'like-icon-hover': '#fa8787',
   'like-icon-active': '#fa5252',
   'like-icon-active-hover': '#fa5252',
-  'bookmark-icon-hover': '#495057',
-  'bookmark-icon-active': '#212529',
-  'bookmark-icon-active-hover': '#212529',
+  'bookmark-icon-hover': '#dee2e6',
+  'bookmark-icon-active': '#f8f9fa',
+  'bookmark-icon-active-hover': '#f8f9fa',
 };
 
 export const theme = { light, dark };
