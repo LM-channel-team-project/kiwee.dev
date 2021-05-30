@@ -1,3 +1,5 @@
+import { IArticle } from './article';
+
 export interface ProviderMeResponse {
   message: string;
   provider: {
@@ -7,6 +9,21 @@ export interface ProviderMeResponse {
     rssLink: string;
   };
 }
+
+export interface ArticleResponse {
+  data: IArticle[];
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  limit: number;
+  message: string;
+  nextPage: number;
+  page: number;
+  pagingCounter: number;
+  prevPage: number | null;
+  totalDocs: number;
+  totalPages: number;
+}
+
 type Bookmark = {
   articleId: string;
   insertedDate: Date;
