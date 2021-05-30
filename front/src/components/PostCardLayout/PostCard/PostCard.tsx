@@ -108,8 +108,6 @@ function PostCard({ data }: PropTypes) {
     onClick: onClickPost,
   };
 
-  console.log(data);
-
   return (
     <CardContainer>
       <CardImage {...cardProps}>
