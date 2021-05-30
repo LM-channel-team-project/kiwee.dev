@@ -16,6 +16,7 @@ function PostCard({ data }: PropTypes) {
   const [isNewTab] = useNewTabContext();
   const [session] = useSession();
   const [canLike, setCanLike] = useState<boolean>(true);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(data.isBookmarked);
   const providerId: string | unknown = session?.sub;
 
   // 처음 렌더링될 때 현재 접속자가 article에 좋아요를 눌렀는지 확인
@@ -69,6 +70,25 @@ function PostCard({ data }: PropTypes) {
     }
   };
 
+  // 북마크 요청
+  const requestBookmark = async (bool: boolean) => {
+    try {
+      const response = await client.post('/bookmarks', {
+        articleId: data.articleId,
+        isSave: bool,
+      });
+      console.log('북마크 성공', response);
+    } catch (err) {
+      console.log('북마크 실패', err);
+    }
+  };
+
+  // 북마크 버튼 클릭 시 호출
+  const toggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    requestBookmark(!isBookmarked);
+  };
+
   // 방문한 게시글 등록
   const onClickPost = async () => {
     if (!data.isVisited) {
@@ -87,6 +107,8 @@ function PostCard({ data }: PropTypes) {
     rel: isNewTab ? 'noopener noreferrer' : '',
     onClick: onClickPost,
   };
+
+  console.log(data);
 
   return (
     <CardContainer>
@@ -134,7 +156,27 @@ function PostCard({ data }: PropTypes) {
               />
             </li>
             <li>
-              <IconButton iconName="bookmark" size="small" styleType="default" />
+              <IconButton
+                iconName="bookmark"
+                size="small"
+                styleType="default"
+                onClick={toggleBookmark}
+                css={`
+                  &:hover {
+                    svg {
+                      color: ${!isBookmarked
+                        ? ({ theme }: { theme: DefaultTheme }) => theme['bookmark-icon-hover']
+                        : ({ theme }: { theme: DefaultTheme }) =>
+                            theme['bookmark-icon-active-hover']};
+                    }
+                  }
+                  svg {
+                    color: ${!isBookmarked
+                      ? ''
+                      : ({ theme }: { theme: DefaultTheme }) => theme['bookmark-icon-active']};
+                  }
+                `}
+              />
             </li>
           </ul>
         </div>
