@@ -57,3 +57,14 @@ export interface ArticleCommentsResponse {
   message: string;
   comments: Comment[];
 }
+
+export type History = {
+  _id: string;
+  articleId: string;
+  insertDate: Date;
+};
+
+export interface HistoriesResponse {
+  message: string;
+  histories: History[];
+}
