@@ -1,6 +1,8 @@
 export interface IArticle {
   articleId: string;
   articleUrl: string;
+  isBookmarked: boolean;
+  isVisited: boolean;
   insertDate: string;
   keywords: string[];
   likes: {
