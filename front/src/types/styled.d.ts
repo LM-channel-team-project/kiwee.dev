@@ -35,5 +35,8 @@ declare module 'styled-components' {
     'like-icon-hover': string;
     'like-icon-active': string;
     'like-icon-active-hover': string;
+    'bookmark-icon-hover': string;
+    'bookmark-icon-active': string;
+    'bookmark-icon-active-hover': string;
   }
 }

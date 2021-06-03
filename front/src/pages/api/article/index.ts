@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken, JWT } from 'next-auth/jwt';
+import { getToken } from 'next-auth/jwt';
 import { NextApiRequest, NextApiResponse } from 'next-auth/internals/utils';
 
 import { API_SERVER_URL, JWT_SECRET } from '@/config/constants';
