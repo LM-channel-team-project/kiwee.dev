@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.article`
-  width: 320px;
+  width: 32rem;
   border-radius: 0.8rem;
   background: ${({ theme }) => theme['article-bg']};
   margin: 1.6rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
 
   @media (max-width: 1056px) {
     width: calc(50% - 3.2rem);
@@ -13,6 +14,11 @@ export const CardContainer = styled.article`
 
   @media (max-width: 767px) {
     width: 100%;
+  }
+
+  :hover {
+    transform: translateY(-0.8rem);
+    box-shadow: 0px 6px 6px 2px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -76,7 +82,7 @@ export const CardInfoWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1.6rem;
-  border-top: 1px solid rgb(248, 249, 250);
+  border-top: 1px solid ${({ theme }) => theme['article-division']};
   font-size: 1.4rem;
   .card-info-left {
     display: flex;
