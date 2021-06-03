@@ -9,10 +9,13 @@ const router = express.Router();
 // articleId가 query string에 존재하면 특정 아티클 정보만 가져옴, page 무시됨.
 // articleId가 없는 경우 페이징 결과를 반환.
 router.get('/', async (req: Request, res: Response) => {
-  const articleId = req.query.articleId as string;
+  const { articleId, page, providerId } = req.query;
   if (articleId) {
     try {
-      const article = await articleService.findArticleById(articleId);
+      const article = await articleService.findArticleById(
+        articleId as string,
+        providerId as string
+      );
       if (!article)
         return res
           .status(404)
@@ -26,7 +29,6 @@ router.get('/', async (req: Request, res: Response) => {
     }
   }
 
-  const { page, providerId } = req.query;
   if (!page)
     return res.status(400).json({
       message: 'page가 필요합니다',

@@ -6,10 +6,8 @@ import bookmarkRepository from '../repository/BookmarkRepository';
 import historyRepository from '../repository/HistoryRepository';
 
 // type, interface
-import { ArticleModel } from '../model/Article';
 import { BookmarksModel } from '../model/Bookmarks';
 import { HistoryModel } from '../model/History';
-import { resourceLimits } from 'node:worker_threads';
 
 class ArticleService {
   private articleRepository = articleRepository;
@@ -18,8 +16,42 @@ class ArticleService {
   private bookmarkRepository = bookmarkRepository;
   private historyRepository = historyRepository;
   constructor() {}
-  findArticleById(articleId: string) {
-    return this.articleRepository.findArticleById(articleId);
+  async checkIsVisited(articleId: string, providerId: string | undefined) {
+    if (!providerId) return false;
+
+    const { histories } = (await this.historyRepository.findHistoryByProviderId(
+      providerId
+    )) as HistoryModel;
+    if (!histories) return false;
+    const historyList = histories.map(h => h.articleId);
+    return historyList.includes(articleId);
+  }
+  async checkIsBookmarked(articleId: string, providerId: string | undefined) {
+    if (!providerId) return false;
+
+    const { bookmarks } =
+      (await this.bookmarkRepository.findBookmarksByProviderId(
+        providerId
+      )) as BookmarksModel;
+    if (!bookmarks) return false;
+    const bookmarkList = bookmarks.map(b => b.articleId);
+    return bookmarkList.includes(articleId);
+  }
+  async findArticleById(articleId: string, providerId: string | undefined) {
+    const result = await this.articleRepository.findArticleById(articleId);
+    if (!result) throw new Error('article is not found');
+
+    const [isBookmarked, isVisited, likes] = await Promise.all([
+      this.checkIsBookmarked(articleId, providerId),
+      this.checkIsVisited(articleId, providerId),
+      this.likesRepository.findLikesByArticleId(articleId),
+    ]);
+
+    const { __v, _id, ...data } = result.toObject();
+    return Object.assign(
+      { isBookmarked, isVisited, likes: likes?.likes },
+      data
+    );
   }
   async findArticlesByPage(
     page: number,
@@ -31,7 +63,7 @@ class ArticleService {
     ret.docs = await Promise.all(
       result.docs.map(article =>
         likesRepository.findLikesByArticleId(article.articleId).then(likes => {
-          const { __v, _id, insertDate, ...data } = article.toObject();
+          const { __v, _id, ...data } = article.toObject();
           return Object.assign({ likes: likes?.likes }, data);
         })
       )
