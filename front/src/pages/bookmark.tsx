@@ -3,16 +3,20 @@ import { client } from '@/lib/api/client';
 import PostCardLayout from "@/components/PostCardLayout";
 import { IArticle } from "@/types/article";
 
+interface Bookmark {
+  articleId: string,
+  _id: string
+}
+
 function bookmark() {
   const [articles, setArticles] = useState<IArticle[]>([]);
   
   // 1. 북마크된 articleId를 배열의 요소로 변형
-  const getBookmarkedArticles = async () => {
+  const getBookmarkedArticles = async (): Promise<string[] | undefined> => {
     try {
       const res = await client.get("/bookmarks")
       const bookmarks = res.data.bookmarks;
-      console.log(bookmarks);
-      const articles = bookmarks.map(bookmark => bookmark.articleId);
+      const articles = bookmarks.map((bookmark: Bookmark) => bookmark.articleId);
       return articles;
     } catch (err) {
       console.log(err);
@@ -23,12 +27,11 @@ function bookmark() {
   useEffect(() => {
     getBookmarkedArticles()
     .then(async data => {
-      const promises = data.map(async (id: string) => {
+      const promises = data.map(async (id: string): Promise<IArticle> => {
          const article = await client.get(`/article?articleId=${id}`);
          return article.data.article;
       });
       const articles = await Promise.all(promises);
-      console.log(articles);
       setArticles(articles);
     }) 
 }, [])

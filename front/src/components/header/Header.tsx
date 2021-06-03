@@ -10,8 +10,8 @@ import IconButton from '@/components/Common/Button/Icon';
 import TextButton from '@/components/Common/Button/Text';
 
 function header() {
-  const [session, isLoading] = useSession();
-  const [modal, toggleModal] = useModal()
+  const [session] = useSession();
+  const [, toggleModal] = useModal()
   const [isSettingView, setIsSettingView] = useState(false);
 
   const onClickSetting = () => {
