@@ -10,7 +10,7 @@ export interface ProviderMeResponse {
   };
 }
 
-export interface ArticleResponse {
+export interface ArticlesResponse {
   data: IArticle[];
   hasNextPage: boolean;
   hasPrevPage: boolean;
@@ -67,4 +67,9 @@ export type History = {
 export interface HistoriesResponse {
   message: string;
   histories: History[];
+}
+
+export interface ArticleResponse {
+  message: string;
+  article: IArticle;
 }
