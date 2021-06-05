@@ -16,13 +16,19 @@ const ArticleRepository = class {
   findArticlesByPage(page: number): Promise<PaginateResult<ArticleModel>> {
     return this.Article.paginate({}, { ...this.paginateOptions, page });
   }
-  increaseNumOfLikes(articleId: string, isLike: boolean) {
+  findArticleByIds(articleIds: string[], page: number) {
+    return this.Article.paginate(
+      { articleId: { $in: articleIds } },
+      { ...this.paginateOptions, page },
+    );
+  }
+  updateNumOfLikes(articleId: string, isLike: boolean) {
     return this.Article.updateOne(
       { articleId },
       { $inc: { numOfLikes: isLike ? 1 : -1 } },
       {
         new: true,
-      }
+      },
     ).exec();
   }
   isExist(articleId: string) {
