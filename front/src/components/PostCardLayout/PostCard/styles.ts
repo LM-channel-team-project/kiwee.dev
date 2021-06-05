@@ -25,22 +25,14 @@ export const CardContainer = styled.article`
 export const CardImage = styled.a`
   display: block;
   color: inherit;
+  width: 100%;
+  position: relative;
+  padding-top: 50%;
   text-decoration: none;
-  div.card-image {
-    width: 100%;
-    position: relative;
-    padding-top: 50%;
-    img {
-      border-radius: 8px 8px 0 0;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-  }
+  background: url('/img/${(props) => props.thumbnail}.jpeg') no-repeat center;
+  background-size: contain;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid ${({ theme }) => theme['article-division']};
 `;
 
 export const CardContentWrap = styled.div`

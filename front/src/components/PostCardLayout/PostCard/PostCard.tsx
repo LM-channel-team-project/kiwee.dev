@@ -20,20 +20,22 @@ function PostCard({ data }: PropTypes) {
   const providerId: string | unknown = session?.sub;
 
   // 처음 렌더링될 때 현재 접속자가 article에 좋아요를 눌렀는지 확인
-  useEffect(() => {
-    const likeUsers = data.likes;
-    if (likeUsers.length === 0) {
-      setCanLike(true);
-    } else {
-      for (const id of likeUsers) {
-        if (id.providerId === providerId) {
-          setCanLike(false);
-        } else {
-          setCanLike(true);
-        }
-      }
-    }
-  }, [providerId]);
+  // useEffect(() => {
+  //   const likeUsers = data.likes;
+  //   if (likeUsers.length === 0) {
+  //     setCanLike(true);
+  //   } else {
+  //     for (const id of likeUsers) {
+  //       if (id.providerId === providerId) {
+  //         setCanLike(false);
+  //       } else {
+  //         setCanLike(true);
+  //       }
+  //     }
+  //   }
+  // }, [providerId]);
+
+  console.log(data);
 
   // 좋아요 요청
   const requestLikes = async (bool: boolean) => {
@@ -106,17 +108,15 @@ function PostCard({ data }: PropTypes) {
     target: isNewTab ? '_blank' : '_self',
     rel: isNewTab ? 'noopener noreferrer' : '',
     onClick: onClickPost,
+    thumbnail: data.provider.name,
   };
+
+  // console.log(data);
 
   return (
     <CardContainer>
       <CardImage {...cardProps}>
-        <div className="card-image">
-          <img
-            src="https://media.vlpt.us/images/jjunyjjuny/post/e7f0d557-1fab-4a61-ae8e-b5cb1a911b09/ek7ji4zrimozpp2yzk0a.png?w=640"
-            alt=""
-          />
-        </div>
+        <div className="card-image"></div>
       </CardImage>
       <CardContentWrap>
         <div className="sub-info">{dayjs(data.insertDate).format('MMM DD, YYYY')}</div>
