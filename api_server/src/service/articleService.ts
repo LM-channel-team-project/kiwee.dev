@@ -1,7 +1,7 @@
 // repository
 import articleRepository from '../repository/ArticleRepository';
-import likesRepository from '../repository/LikesRepository';
-import providerRepository from '../repository/providerRepository';
+import likesRepository from '../repository/LikesRepository.deprecated';
+import providerRepository from '../repository/providerRepository.deprecated';
 import bookmarkRepository from '../repository/BookmarkRepository';
 import historyRepository from '../repository/HistoryRepository';
 
@@ -20,21 +20,20 @@ class ArticleService {
     if (!providerId) return false;
 
     const { histories } = (await this.historyRepository.findHistoryByProviderId(
-      providerId
+      providerId,
     )) as HistoryModel;
     if (!histories) return false;
-    const historyList = histories.map(h => h.articleId);
+    const historyList = histories.map((h) => h.articleId);
     return historyList.includes(articleId);
   }
   async checkIsBookmarked(articleId: string, providerId: string | undefined) {
     if (!providerId) return false;
 
-    const { bookmarks } =
-      (await this.bookmarkRepository.findBookmarksByProviderId(
-        providerId
-      )) as BookmarksModel;
+    const { bookmarks } = (await this.bookmarkRepository.findBookmarksByProviderId(
+      providerId,
+    )) as BookmarksModel;
     if (!bookmarks) return false;
-    const bookmarkList = bookmarks.map(b => b.articleId);
+    const bookmarkList = bookmarks.map((b) => b.articleId);
     return bookmarkList.includes(articleId);
   }
   async findArticleById(articleId: string, providerId: string | undefined) {
@@ -48,25 +47,22 @@ class ArticleService {
     ]);
 
     const { __v, _id, ...data } = result.toObject();
-    return Object.assign(
-      { isBookmarked, isVisited, likes: likes?.likes },
-      data
-    );
+    return Object.assign({ isBookmarked, isVisited, likes: likes?.likes }, data);
   }
   async findArticlesByPage(
     page: number,
-    providerId: string | undefined
+    providerId: string | undefined,
   ): Promise<{ [key: string]: any }> {
     const result = await this.articleRepository.findArticlesByPage(page);
     const { docs, ...pagenateData } = result;
     const ret: { [key: string]: any } = { ...pagenateData };
     ret.docs = await Promise.all(
-      result.docs.map(article =>
-        likesRepository.findLikesByArticleId(article.articleId).then(likes => {
+      result.docs.map((article) =>
+        likesRepository.findLikesByArticleId(article.articleId).then((likes) => {
           const { __v, _id, ...data } = article.toObject();
           return Object.assign({ likes: likes?.likes }, data);
-        })
-      )
+        }),
+      ),
     );
     if (providerId) {
       const [{ bookmarks }, { histories }] = (await Promise.all([
@@ -74,8 +70,8 @@ class ArticleService {
         this.historyRepository.findHistoryByProviderId(providerId),
       ])) as [BookmarksModel, HistoryModel];
       if (bookmarks !== null && histories !== null) {
-        const bookmarkList = bookmarks.map(b => b.articleId);
-        const historyList = histories.map(h => h.articleId);
+        const bookmarkList = bookmarks.map((b) => b.articleId);
+        const historyList = histories.map((h) => h.articleId);
         ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
           const articleId = doc.articleId;
           const isBookmarked = bookmarkList.includes(articleId);
@@ -91,18 +87,10 @@ class ArticleService {
     return await this.likesRepository.findLikesByArticleId(articleId);
   }
   async saveLike(articleId: string, providerId: string, isLike: boolean) {
-    const likesResponse = await this.likesRepository.saveLike(
-      articleId,
-      providerId,
-      isLike
-    );
+    const likesResponse = await this.likesRepository.saveLike(articleId, providerId, isLike);
     const [articleResponse, providerResponse] = await Promise.all([
-      this.articleRepository.increaseNumOfLikes(articleId, isLike),
-      this.providerRepository.pushLikeRepositoryId(
-        providerId,
-        articleId,
-        isLike
-      ),
+      this.articleRepository.updateNumOfLikes(articleId, isLike),
+      this.providerRepository.pushLikeRepositoryId(providerId, articleId, isLike),
     ]);
     return [likesResponse, articleResponse, providerResponse];
   }
