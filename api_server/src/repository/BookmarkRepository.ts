@@ -25,22 +25,18 @@ class BookmarksRepository {
           },
         },
       },
-      { new: true }
+      { new: true },
     ).exec();
   }
   async removeBookmark(providerId: string, articleId: string) {
     return await this.Bookmarks.updateOne(
       { providerId },
       { $pull: { bookmarks: { articleId } } },
-      { new: true }
+      { new: true },
     ).exec();
   }
   async findBookmarksByProviderId(providerId: string) {
-    return await this.Bookmarks.findOne(
-      { providerId },
-      { _id: 0, bookmarks: 1 },
-      { new: true }
-    ).exec();
+    return await this.Bookmarks.findOne({ providerId }).exec();
   }
 }
 
