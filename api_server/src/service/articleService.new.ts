@@ -26,19 +26,22 @@ class ArticleService {
       ...exclude,
     };
     const target = {
-      isLiked: this.likeRepository.findLikesByProviderId(providerId).then((like) => ({
-        isLiked: like?.isLiked(articleId) || false,
-      })),
-      isBookmarked: this.bookmarkRepository
-        .findBookmarksByProviderId(providerId)
-        .then((bookmark) => ({ isBookmarked: bookmark?.isBookmarked(articleId) || false })),
-      isVisited: this.historyRepository
-        .findHistoryByProviderId(providerId)
-        .then((history) => ({ isVisited: history?.isVisited(articleId) || false })),
+      isLiked: () =>
+        this.likeRepository.findLikesByProviderId(providerId).then((like) => ({
+          isLiked: like?.isLiked(articleId) || false,
+        })),
+      isBookmarked: () =>
+        this.bookmarkRepository
+          .findBookmarksByProviderId(providerId)
+          .then((bookmark) => ({ isBookmarked: bookmark?.isBookmarked(articleId) || false })),
+      isVisited: () =>
+        this.historyRepository
+          .findHistoryByProviderId(providerId)
+          .then((history) => ({ isVisited: history?.isVisited(articleId) || false })),
     };
     const entries = Object.entries(option) as Array<[keyof ArticleInfoType, boolean]>;
     const promises: Promise<ArticleInfoType>[] = entries.map(([key, bool]) => {
-      return (bool ? Promise.resolve({ [key]: true }) : target[key]) as Promise<ArticleInfoType>;
+      return (bool ? Promise.resolve({ [key]: true }) : target[key]()) as Promise<ArticleInfoType>;
     });
     const articleInfo = await Promise.all(promises);
     return articleInfo.reduce((acc, cur) => {
