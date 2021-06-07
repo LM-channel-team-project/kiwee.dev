@@ -24,22 +24,33 @@ export interface ArticlesResponse {
   totalPages: number;
 }
 
-type Bookmark = {
+export type ProviderArticleInfo = {
   articleId: string;
   insertedDate: Date;
 };
-export interface ProviderBookmarkResponse {
+
+export type ProviderArticleInfos = {
   message: string;
-  bookmarks: Bookmark[];
-}
+  infos: ProviderArticleInfo[];
+};
 
 export interface ProviderRssResponse {
   message: string;
 }
 
-export interface LikeListResponse {
+export interface LikesResponse {
   message: string;
-  likes: string[]; // providerId[]
+  likes: ProviderArticleInfo[];
+}
+
+export interface BookmarksResponse {
+  message: string;
+  bookmarks: ProviderArticleInfo[];
+}
+
+export interface HistoriesResponse {
+  message: string;
+  histories: ProviderArticleInfo[];
 }
 
 export interface LikeClickResponse {
@@ -57,18 +68,6 @@ export interface ArticleCommentsResponse {
   message: string;
   comments: Comment[];
 }
-
-export type History = {
-  _id: string;
-  articleId: string;
-  insertDate: Date;
-};
-
-export interface HistoriesResponse {
-  message: string;
-  histories: History[];
-}
-
 export interface ArticleResponse {
   message: string;
   article: IArticle;
