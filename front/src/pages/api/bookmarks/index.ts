@@ -25,10 +25,10 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
     try {
       const requestUrl = `${API_SERVER_URL}/bookmarks?providerId=${providerId}`;
       const { data, status } = await axios.get(requestUrl);
-      console.log(data);
+      // console.log(data);
       return res.status(status).json(data);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       return res.status(500).json({ message: e.message });
     }
   } else if (req.method === 'POST') {
@@ -44,10 +44,10 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
         providerId,
         isSave,
       });
-      console.log(data);
+      // console.log(data);
       return res.status(status).json(data);
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return res.status(500).json({ message: e.message });
     }
   }
