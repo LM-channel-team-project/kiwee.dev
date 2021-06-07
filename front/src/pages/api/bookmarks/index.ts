@@ -1,8 +1,10 @@
-import { API_SERVER_URL } from '@/config/constants';
-import withCheckJwt from '@/wrapper/withCheckJwt';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next-auth/internals/utils';
 import { JWT } from 'next-auth/jwt';
+
+import withCheckJwt from '@/wrapper/withCheckJwt';
+import { BookmarksResponse } from '@/types/response';
+import { API_SERVER_URL } from '@/config/constants';
 
 /**
  * 특정 사용자의 bookmark 목록 조회
@@ -16,39 +18,36 @@ import { JWT } from 'next-auth/jwt';
  *  articleId: string,
  *  isSave: boolean // bookmark 등록시 true, 취소시 false
  * }
- *  */
+ **/
+
 export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, token: JWT) => {
-  if (req.method === 'GET') {
+  try {
     const { sub: providerId } = token;
     if (!providerId) return res.status(400).json({ message: 'not valid' });
 
-    try {
+    // 프로바이더 북마크 목록 요청
+    if (req.method === 'GET') {
       const requestUrl = `${API_SERVER_URL}/bookmarks?providerId=${providerId}`;
-      const { data, status } = await axios.get(requestUrl);
-      // console.log(data);
-      return res.status(status).json(data);
-    } catch (e) {
-      // console.log(e);
-      return res.status(500).json({ message: e.message });
+      const { data, status } = await axios.get<BookmarksResponse>(requestUrl);
+      return res.status(status).json({ infos: data.bookmarks });
     }
-  } else if (req.method === 'POST') {
-    const { articleId, isSave } = req.body;
-    const { sub: providerId } = token;
-    if (!articleId || !providerId || isSave === undefined)
-      return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
-
-    try {
+    // 프로바이더 북마크 업데이트 요청
+    if (req.method === 'POST') {
+      const { articleId, isSave } = req.body;
+      const { sub: providerId } = token;
+      if (!articleId || typeof isSave !== 'boolean') {
+        return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
+      }
       const requestUrl = `${API_SERVER_URL}/bookmarks`;
       const { data, status } = await axios.post(requestUrl, {
         articleId,
         providerId,
         isSave,
       });
-      // console.log(data);
       return res.status(status).json(data);
-    } catch (e) {
-      // console.log(e.message);
-      return res.status(500).json({ message: e.message });
     }
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
   }
+  return res.status(405).end();
 });
