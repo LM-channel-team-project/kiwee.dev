@@ -28,12 +28,12 @@ router.get('/', async (req: Request, res: Response) => {
 // isSave가 false인 경우 취소
 router.post('/', async (req: Request, res: Response) => {
   const { articleId, providerId, isSave } = req.body;
-  if (!articleId || !providerId || isSave === undefined)
+  if (!articleId || !providerId || typeof isSave !== 'boolean')
     return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
 
   try {
-    const response = await bookmarkService.updateBookmark(providerId, articleId, isSave);
-    // console.log('bookmarks', response);
+    const updateResult = await bookmarkService.updateBookmark(providerId, articleId, isSave);
+    if (!updateResult.ok) throw new Error('아티클 업데이트 실패');
     return res.status(201).json({ message: '정상적으로 처리되었습니다' });
   } catch (e) {
     console.log(e.message);

@@ -17,10 +17,10 @@ class HistorykService {
 
     const isExist = histories.isVisited(articleId);
     if (isSave) {
-      if (isExist) throw new Error('이미 등록된 article입니다.');
+      if (isExist) return false;
       return await this.historyRepository.insertHistory(providerId, articleId);
     }
-    if (!isExist) throw new Error('등록되지 않은 article입니다.');
+    if (!isExist) return false;
     return await this.historyRepository.removeHistory(providerId, articleId);
   }
 

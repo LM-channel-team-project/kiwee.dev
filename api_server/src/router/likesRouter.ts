@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import likeService from '../service/likeService';
-import articleService from '../service/articleService.new';
+import articleService from '../service/articleService';
 import LikeType from '../type/LikeType';
 
 const router = Router();
@@ -24,11 +24,13 @@ router.get('/', async (req: Request, res: Response) => {
 // isSave가 false인 경우 취소
 router.post('/', async (req: Request, res: Response) => {
   const { articleId, providerId, isSave } = req.body;
-  if (!articleId || !providerId || isSave === undefined)
+  if (!articleId || !providerId || typeof isSave !== 'boolean') {
     return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
+  }
   try {
-    const updateLikeResult = await articleService.updateOneByLike(providerId, articleId, isSave);
-    if (!updateLikeResult) throw new Error('아티클 라이크 업데이트 실패');
+    console.log(articleId, providerId, isSave);
+    await likeService.updateLike(providerId, articleId, isSave);
+    await articleService.updateOneByLike(providerId, articleId, isSave);
     return res.status(201).json({ message: '정상적으로 처리되었습니다' });
   } catch (e) {
     return res.status(500).json({ message: e.message });
