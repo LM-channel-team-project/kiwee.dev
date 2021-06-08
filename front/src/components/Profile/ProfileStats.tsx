@@ -13,14 +13,15 @@ interface ProfileStatsProps {
 }
 
 function ProfileStats({ selected, onClick }: ProfileStatsProps) {
-  const { infos: histories, mutate: historeisMutate } = useGetArticlesInfos('histories');
-  const { infos: likes, mutate: likesMutate } = useGetArticlesInfos('likes');
+  const { infos: histories, refresh: historeisRefresh } = useGetArticlesInfos('histories');
+  const { infos: likes, refresh: likesRefresh } = useGetArticlesInfos('likes');
+
   const target = useMutationObserverTarget();
   const setTarget = useMutationObserverSetTarget();
 
   useEffect(() => {
-    if (target?.filter === 'likes') likesMutate();
-    if (target?.filter === 'histories') historeisMutate();
+    if (target?.filter === 'likes') likesRefresh();
+    if (target?.filter === 'histories') historeisRefresh();
     setTarget(null);
   }, [target]);
 
