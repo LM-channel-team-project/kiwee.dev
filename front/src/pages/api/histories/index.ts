@@ -8,12 +8,12 @@ import { API_SERVER_URL } from '@/config/constants';
 
 /**
  * 특정 사용자의 history 목록 조회
- * GET /history
+ * GET /histories
  */
 
 /**
- * 특정 게시물에 대해 history 추가
- * PATCH /history?articleId={articleId}
+ * 특정 게시물에 대해 histories 추가
+ * PATCH /histories?articleId={articleId}
  *  */
 
 export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, token: JWT) => {
@@ -23,7 +23,7 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
 
     // 프로바이더 히스토리 목록 요청
     if (req.method === 'GET') {
-      const requestUrl = `${API_SERVER_URL}/history?providerId=${providerId}`;
+      const requestUrl = `${API_SERVER_URL}/histories?providerId=${providerId}`;
       const { data, status } = await axios.get<HistoriesResponse>(requestUrl);
       return res.status(status).json({ infos: data.histories });
     }
@@ -31,7 +31,7 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
     if (req.method === 'PATCH') {
       const articleId = req.query.articleId as string;
       if (!articleId) return res.status(401).json({ message: 'articleId가 필요합니다.' });
-      const requestUrl = `${API_SERVER_URL}/history?providerId=${providerId}&articleId=${articleId}`;
+      const requestUrl = `${API_SERVER_URL}/histories?providerId=${providerId}&articleId=${articleId}`;
       const { data, status } = await axios.patch(requestUrl);
       return res.status(status).json(data);
     }
