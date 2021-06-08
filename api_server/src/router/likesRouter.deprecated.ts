@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import { LikeModel } from '../model/Likes.deprecated';
-import articleService from '../service/articleService';
+import articleService from '../service/articleService.deprecated';
 
 const router = Router();
 
