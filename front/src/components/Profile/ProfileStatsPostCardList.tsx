@@ -39,7 +39,6 @@ function ProfileStatsPostCardList({ selected }: ProfileStatsPostCardListProps) {
 
   return (
     <section>
-      <button onClick={onNextPage}>get!</button>
       <PostCardLayout articles={articles} isLoading={isValidating} />
     </section>
   );
