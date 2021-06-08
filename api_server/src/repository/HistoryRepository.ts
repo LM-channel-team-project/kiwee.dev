@@ -9,7 +9,7 @@ class HistoryRepository {
     return await this.History.create({ providerId, history: [] });
   }
   async insertHistory(providerId: string, articleId: string) {
-    return await this.History.findOneAndUpdate(
+    return await this.History.updateOne(
       { providerId },
       { $push: { histories: { articleId, insertedDate: new Date() } } },
       { new: true },
@@ -23,14 +23,11 @@ class HistoryRepository {
     ).exec();
   }
   async removeAllById(providerId: string) {
-    return await this.History.findOneAndUpdate(
-      { providerId },
-      { histories: [] },
-      { new: true },
-    ).exec();
+    return await this.History.updateOne({ providerId }, { histories: [] }, { new: true }).exec();
   }
   async findHistoryByProviderId(providerId: string) {
-    return await this.History.findOne({ providerId }).exec();
+    // console.log(object);
+    return await this.History.findOne({ providerId }, { histories: { _id: 0 } }).exec();
   }
 }
 

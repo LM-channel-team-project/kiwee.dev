@@ -17,14 +17,7 @@ class BookmarksRepository {
   async insertBookmark(providerId: string, articleId: string) {
     return await this.Bookmarks.updateOne(
       { providerId },
-      {
-        $push: {
-          bookmarks: {
-            articleId,
-            insertDate: new Date(),
-          },
-        },
-      },
+      { $push: { bookmarks: { articleId, insertDate: new Date() } } },
       { new: true },
     ).exec();
   }
@@ -36,7 +29,7 @@ class BookmarksRepository {
     ).exec();
   }
   async findBookmarksByProviderId(providerId: string) {
-    return await this.Bookmarks.findOne({ providerId }).exec();
+    return await this.Bookmarks.findOne({ providerId }, { Bookmarks: { _id: 0 } }).exec();
   }
 }
 

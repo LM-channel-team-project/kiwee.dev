@@ -14,30 +14,23 @@ class LikesRepository {
       likes: [],
     });
   }
-  async insertLike(providerId: string, articleId: string) {
-    return await this.Likes.updateOne(
+  insertLike(providerId: string, articleId: string) {
+    return this.Likes.updateOne(
       { providerId },
-      {
-        $push: {
-          likes: {
-            articleId,
-            insertDate: new Date(),
-          },
-        },
-      },
+      { $push: { likes: { articleId, insertDate: new Date() } } },
       { new: true },
     ).exec();
   }
-  async removeLike(providerId: string, articleId: string) {
-    return await this.Likes.updateOne(
+  removeLike(providerId: string, articleId: string) {
+    return this.Likes.updateOne(
       { providerId },
-      { $pull: { Likes: { articleId } } },
+      { $pull: { likes: { articleId } } },
       { new: true },
     ).exec();
   }
+
   async findLikesByProviderId(providerId: string) {
-    console.log(providerId);
-    return await this.Likes.findOne({ providerId }).exec();
+    return await this.Likes.findOne({ providerId }, { Likes: { _id: 0 } }).exec();
   }
 }
 
