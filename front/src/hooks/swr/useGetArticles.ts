@@ -7,7 +7,7 @@ import { FilterType } from '@/types/apiType';
 
 type Config<Error> = SWRInfiniteConfiguration<ArticlesResponse, AxiosError<Error>>;
 
-function getKey(filter?: FilterType) {
+function getKey(filter: FilterType | '') {
   return (index: number, prevData: ArticlesResponse | null) => {
     if (prevData && (!prevData.hasNextPage || index > prevData.totalPages)) return null;
     return `/articles?filter=${filter}&page=${index + 1}`;
@@ -19,9 +19,12 @@ async function getArticles(url: string) {
   return response.data;
 }
 
-export function useGetArticles<Error = unknown>(filter?: FilterType, config?: Config<Error>) {
+export function useGetArticles<Error = unknown>(
+  filter?: FilterType | Config<Error>,
+  config?: Config<Error>,
+) {
   const { data, mutate, isValidating, setSize } = useSWRInfinite(
-    getKey(filter),
+    getKey(typeof filter === 'string' ? filter : ''),
     getArticles,
     config,
   );
