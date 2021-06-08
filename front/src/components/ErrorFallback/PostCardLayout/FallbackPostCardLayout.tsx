@@ -2,9 +2,20 @@ import styled from 'styled-components';
 import SkeletonBlock from '../SkeletonBlock';
 import TextButton from '@/components/Common/Button/Text';
 
-function ProfileUserFallback({ error, reset }: { error: { message: string }; reset: () => void }) {
+function FallbackPostCardLayout({
+  error,
+  reset,
+}: {
+  error: { message: string };
+  reset: () => void;
+}) {
   return (
-    <SkeletonBlock width={360} height={314}>
+    <SkeletonBlock
+      width={1760}
+      height={361}
+      uniqueKey="post-card-layout-fallback"
+      style={{ margin: 32 }}
+    >
       <Block role="alert">
         <p className="error-message">오류가 발생했어요 :(</p>
         <TextButton
@@ -32,4 +43,4 @@ const Block = styled.div`
   }
 `;
 
-export default ProfileUserFallback;
+export default FallbackPostCardLayout;
