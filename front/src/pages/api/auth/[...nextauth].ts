@@ -30,9 +30,9 @@ const options: NextAuthOptions = {
   callbacks: {
     async signIn(user: User, account: Account, profile: Profile): Promise<string | boolean> {
       // TODO API 서버에 사용자 정보 저장 or 업데이트 요청
-      console.log(`user: ${jsonify(user)}`);
-      console.log(`account: ${jsonify(account)}`);
-      console.log(`profile: ${jsonify(profile)}`);
+      // // console.log(`user: ${jsonify(user)}`);
+      // // console.log(`account: ${jsonify(account)}`);
+      // // console.log(`profile: ${jsonify(profile)}`);
 
       // Oauth Login 이후 반환된 회원 정보 추가 및 업데이트 요청 (Upsert)
       try {
@@ -59,9 +59,9 @@ const options: NextAuthOptions = {
           avatar,
           name,
         });
-        console.log(`${API_SERVER_URL}/provider`, response.data);
+        // // console.log(`${API_SERVER_URL}/provider`, response.data);
       } catch (e) {
-        console.log(`${API_SERVER_URL}/provider`, e.message);
+        // console.log(`${API_SERVER_URL}/provider`, e.message);
       }
 
       return true;

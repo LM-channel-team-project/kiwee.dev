@@ -9,7 +9,7 @@ export default (
     const token = await jwt.getToken({ req, secret: JWT_SECRET });
     if (token) {
       // Signed in
-      console.log('JSON Web Token', JSON.stringify(token, null, 2));
+      // // console.log('JSON Web Token', JSON.stringify(token, null, 2));
       return await handler(req, res, token);
     } else {
       // Not Signed in

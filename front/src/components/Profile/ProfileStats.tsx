@@ -1,31 +1,47 @@
-import React from 'react';
-import { User } from 'next-auth';
 import styled from 'styled-components';
-
 import ProfileStatsItem from './ProfileStatsItem';
+import { useGetArticlesInfos } from '@/hooks/swr/useGetArticleInfos';
+import {
+  useMutationObserverSetTarget,
+  useMutationObserverTarget,
+} from '@/context/MutationObserverContext';
+import { useEffect } from 'react';
 
 interface ProfileStatsProps {
-  user: User;
-  selected: 'visit' | 'like';
+  selected: 'histories' | 'likes';
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function ProfileStats({ user, selected, onClick }: ProfileStatsProps) {
+function ProfileStats({ selected, onClick }: ProfileStatsProps) {
+  const { infos: histories, refresh: historeisRefresh } = useGetArticlesInfos('histories');
+  const { infos: likes, refresh: likesRefresh } = useGetArticlesInfos('likes');
+
+  const target = useMutationObserverTarget();
+  const setTarget = useMutationObserverSetTarget();
+
+  useEffect(() => {
+    if (target?.filter === 'likes') likesRefresh();
+    if (target?.filter === 'histories') historeisRefresh();
+    setTarget(null);
+  }, [target]);
+
   return (
     <ProfileStatsBlock>
       <h2>Stats</h2>
       <div className="profile-stats-items">
         <ProfileStatsItem
           label="읽은 글"
-          name="visit"
+          name="histories"
           onClick={onClick}
-          selected={selected === 'visit'}
+          selected={selected === 'histories'}
+          count={histories?.length}
         />
         <ProfileStatsItem
           label="좋아요한 글"
-          name="like"
+          name="likes"
           onClick={onClick}
-          selected={selected === 'like'}
+          selected={selected === 'likes'}
+          count={likes?.length}
         />
       </div>
     </ProfileStatsBlock>

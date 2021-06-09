@@ -1,3 +1,5 @@
+import { IArticle } from './article';
+
 export interface ProviderMeResponse {
   message: string;
   provider: {
@@ -7,22 +9,48 @@ export interface ProviderMeResponse {
     rssLink: string;
   };
 }
-type Bookmark = {
+
+export interface ArticlesResponse {
+  data: IArticle[];
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  limit: number;
+  message: string;
+  nextPage: number;
+  page: number;
+  pagingCounter: number;
+  prevPage: number | null;
+  totalDocs: number;
+  totalPages: number;
+}
+
+export type ProviderArticleInfo = {
   articleId: string;
   insertedDate: Date;
 };
-export interface ProviderBookmarkResponse {
+
+export type ProviderArticleInfos = {
   message: string;
-  bookmarks: Bookmark[];
-}
+  infos: ProviderArticleInfo[];
+};
 
 export interface ProviderRssResponse {
   message: string;
 }
 
-export interface LikeListResponse {
+export interface LikesResponse {
   message: string;
-  likes: string[]; // providerId[]
+  likes: ProviderArticleInfo[];
+}
+
+export interface BookmarksResponse {
+  message: string;
+  bookmarks: ProviderArticleInfo[];
+}
+
+export interface HistoriesResponse {
+  message: string;
+  histories: ProviderArticleInfo[];
 }
 
 export interface LikeClickResponse {
@@ -39,4 +67,8 @@ export type Comment = {
 export interface ArticleCommentsResponse {
   message: string;
   comments: Comment[];
+}
+export interface ArticleResponse {
+  message: string;
+  article: IArticle;
 }

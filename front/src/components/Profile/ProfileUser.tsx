@@ -9,15 +9,15 @@ import { useGetMe } from '@/hooks/swr/useGetMe';
 
 function ProfileUser() {
   const [modal, toggleModal] = useModal();
-  const { data } = useGetMe({ suspense: true });
-
+  const { provider } = useGetMe({ suspense: true });
+  if (!provider) return null;
   return (
     <ProfileUserBlock>
       <div className="profile-wrapper">
         <div className="profile-image-wrapper">
           <Image
             loader={imageLoader}
-            src={data?.provider.avatar || 'null'}
+            src={provider.avatar || 'null'}
             width="122"
             height="122"
             alt="profile image"
@@ -25,7 +25,7 @@ function ProfileUser() {
             className="profile-image"
           />
         </div>
-        <h1 className="profile-name">{data?.provider.name}</h1>
+        <h1 className="profile-name">{provider.name}</h1>
       </div>
 
       <TextButton

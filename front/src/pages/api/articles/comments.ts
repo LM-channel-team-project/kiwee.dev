@@ -8,15 +8,17 @@ import { API_SERVER_URL } from '@/config/constants';
  * GET /article/comments?articleId={articleId}
  */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const articleId = req.query.articleId as string;
-  if (req.method !== 'GET' || !articleId) return res.status(400).json({ message: 'not valid' });
   try {
-    const requestUrl = `${API_SERVER_URL}/article/comments?articleId=${articleId}`;
-    const { data, status } = await axios.get(requestUrl);
-    console.log(data);
-    return res.status(status).json(data);
+    if (req.method !== 'GET') {
+      const { articleId } = req.query as { articleId: string };
+      if (!articleId) return res.status(400).json({ message: 'not valid' });
+
+      const requestUrl = `${API_SERVER_URL}/articles/comments?articleId=${articleId}`;
+      const { data, status } = await axios.get(requestUrl);
+      return res.status(status).json(data);
+    }
   } catch (e) {
-    console.log(e);
     return res.status(500).json({ message: e.message });
   }
+  return res.status(405).end();
 };

@@ -18,7 +18,7 @@ function Home() {
    * pages: 페이지 수 (마지막 페이지)
    * isLoading: 로딩여부
    */
-  const { articles, pages, keywords, isLoading } = useGetData(`/article?page=${currentPage}`);
+  const { articles, pages, keywords, isLoading } = useGetData(`/articles?page=${currentPage}`);
 
   // 무한 스크롤
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
@@ -45,7 +45,7 @@ function Home() {
   const [filter, setFilter] = useState<string>('All');
   const handleFiltering = (key: string) => {
     setFilter(key);
-    console.log(filter);
+    // console.log(filter);
   };
 
   const filteredArticles = useMemo(() => filterArticles(articles, filter), [articles, filter]);

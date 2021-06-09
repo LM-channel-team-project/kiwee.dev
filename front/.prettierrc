@@ -5,6 +5,5 @@
   "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
-  "trailingComma": "all",
-  "parser": "typescript"
+  "trailingComma": "all"
 }
