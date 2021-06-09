@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { Session } from 'next-auth';
 import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 
 import ProfileStats from '@/components/Profile/ProfileStats';
@@ -7,36 +6,39 @@ import ProfileUser from '@/components/Profile/ProfileUser';
 import ProfileStatsPostCardList from '@/components/Profile/ProfileStatsPostCardList';
 import AsyncBoundary from '@/components/AsyncBoundary';
 import SkeletonProfileUser from '@/components/Skeleton/Profile/SkeletonProfileUser';
-import ProfileUserFallback from '@/components/ErrorFallback/Profile/ProfileUserFallback';
+import SKeletonPostCardLayout from '@/components/Skeleton/PostCardLayout';
+import FallbackProfileUser from '@/components/ErrorFallback/Profile/FallbackProfileUser';
+import FallbackPostCardLayout from '@/components/ErrorFallback/PostCardLayout/FallbackPostCardLayout';
 
 import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
 import { useDeleteErrorCache } from '@/hooks/swr/useDeleteErrorCache';
 
-type SelectedType = 'visit' | 'like';
+type SelectedType = 'histories' | 'likes';
 
-function profile({ session }: { session: Session }) {
-  if (!session.user) return null;
+function profile() {
+  const [selected, setSelected] = useState<SelectedType>('histories');
 
-  const { user } = session;
-  const [selected, setSelected] = useState<SelectedType>('visit');
-
-  const onClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSetSelected = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setSelected(e.currentTarget.name as SelectedType);
   }, []);
 
   return (
     <>
       <AsyncBoundary
-        rejectedFallback={ProfileUserFallback}
+        rejectedFallback={FallbackProfileUser}
         pendingFallback={<SkeletonProfileUser />}
-        onReset={() => {
-          useDeleteErrorCache(GET_ME_KEY);
-        }}
+        onReset={() => useDeleteErrorCache(GET_ME_KEY)}
       >
         <ProfileUser />
       </AsyncBoundary>
-      <ProfileStats user={user} selected={selected} onClick={onClick} />
-      <ProfileStatsPostCardList user={user} selected={selected} />
+      <ProfileStats selected={selected} onClick={onSetSelected} />
+      <AsyncBoundary
+        rejectedFallback={FallbackPostCardLayout}
+        pendingFallback={<SKeletonPostCardLayout />}
+        onReset={() => useDeleteErrorCache()}
+      >
+        <ProfileStatsPostCardList selected={selected} />
+      </AsyncBoundary>
     </>
   );
 }

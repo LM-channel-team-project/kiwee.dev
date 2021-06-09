@@ -1,15 +1,11 @@
 export interface IArticle {
   articleId: string;
   articleUrl: string;
+  isLiked: boolean;
   isBookmarked: boolean;
   isVisited: boolean;
   insertDate: string;
   keywords: string[];
-  likes: {
-    [insertDate: string]: string;
-    [providerId: string]: string;
-    [_id: string]: string;
-  }[];
   numOfComments: number;
   numOfLikes: number;
   provider: {

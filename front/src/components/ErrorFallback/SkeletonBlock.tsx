@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import ContentLoader from 'react-content-loader';
 import styled, { useTheme } from 'styled-components';
 
@@ -5,9 +6,11 @@ interface SkeletonBlock {
   children: React.ReactNode;
   width: number;
   height: number;
+  style?: CSSProperties;
+  uniqueKey: string;
 }
 
-function SkeletonBlock({ children, width, height }: SkeletonBlock) {
+function SkeletonBlock({ children, width, height, style, uniqueKey }: SkeletonBlock) {
   const theme = useTheme();
 
   return (
@@ -20,7 +23,8 @@ function SkeletonBlock({ children, width, height }: SkeletonBlock) {
         viewBox={`0 0 ${width} ${height}`}
         backgroundColor={theme['btn-hover-bg-1']}
         foregroundColor={theme['btn-hover-bg-2']}
-        uniqueKey="profile-user-error-fallback"
+        style={style}
+        uniqueKey={uniqueKey}
       >
         <rect x="0" y="0" rx="16" ry="16" width={width} height={height} />
       </ContentLoader>

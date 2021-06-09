@@ -65,6 +65,33 @@ class providerRepository {
       { new: true },
     ).exec();
   }
+
+  async pushLikeRepositoryId(providerId: string, articleId: string, isLike: boolean) {
+    const { likes } = (await this.Provider.findOne({
+      providerId,
+    }).exec()) as ProviderModel;
+
+    console.log('provider likes: ', likes, articleId);
+
+    if (!likes) return;
+
+    const isExist = likes.includes(articleId);
+    if (isLike) {
+      if (isExist) return;
+      return this.Provider.findOneAndUpdate(
+        { providerId },
+        { $push: { likes: articleId } },
+        { new: true },
+      ).exec();
+    }
+    if (!isExist) return;
+    console.log('REMOVE!');
+    return this.Provider.findOneAndUpdate(
+      { providerId },
+      { $pull: { likes: articleId } },
+      { new: true },
+    ).exec();
+  }
 }
 
 export default new providerRepository();

@@ -53,19 +53,17 @@ const Server = class {
     this.app.use(
       '/api-docs',
       swaggerUi.serve,
-      swaggerUi.setup(swaggerJsDoc(swaggerOption), { explorer: true })
+      swaggerUi.setup(swaggerJsDoc(swaggerOption), { explorer: true }),
     );
     // add router
     this.app.use('/provider', providerRouter);
-    this.app.use('/article', articleRouter);
+    this.app.use('/articles', articleRouter);
     this.app.use('/likes', likesRouter);
     this.app.use('/bookmarks', bookmarksRouter);
-    this.app.use('/history', historyRouter);
+    this.app.use('/histories', historyRouter);
   }
   listen() {
-    this.app.listen(this.port, '127.0.0.1', () =>
-      console.log(`Listening on port ${this.port}`)
-    );
+    this.app.listen(this.port, '127.0.0.1', () => console.log(`Listening on port ${this.port}`));
   }
 };
 export default new Server(PORT || 8080, {
