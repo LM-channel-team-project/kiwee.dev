@@ -10,15 +10,12 @@ class BookmarkService {
   }
 
   async updateBookmark(providerId: string, articleId: string, isSave: boolean) {
-    const { bookmarks } =
-      (await this.bookmarkRepository.findBookmarksByProviderId(
-        providerId
-      )) as BookmarksModel;
+    const bookmarks = (await this.bookmarkRepository.findBookmarksByProviderId(
+      providerId,
+    )) as BookmarksModel;
     if (!bookmarks) throw new Error('존재하지 않는 회원입니다.');
 
-    const isExist = bookmarks.some(
-      bookmark => bookmark.articleId === articleId
-    );
+    const isExist = bookmarks.isBookmarked(articleId);
     if (isSave) {
       if (isExist) throw new Error('이미 등록된 article입니다.');
       return this.bookmarkRepository.insertBookmark(providerId, articleId);

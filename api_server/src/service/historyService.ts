@@ -1,19 +1,32 @@
-import historyRepository from '../repository/HistoryRepository';
-import articleRepository from '../repository/ArticleRepository';
+import { throws } from 'node:assert';
+import { HistoryModel } from '../model/History';
+import HistoryRepository from '../repository/HistoryRepository';
 
-class HistoryService {
-  private historyRepository = historyRepository;
-  private articleRepository = articleRepository;
+class HistorykService {
+  private historyRepository = HistoryRepository;
   constructor() {}
-  findHistoryByProviderId(providerId: string) {
-    return this.historyRepository.findHistoryByProviderId(providerId);
+  async findHistoryByProviderId(providerId: string) {
+    return await this.historyRepository.findHistoryByProviderId(providerId);
   }
-  async pushHistory(providerId: string, articleId: string) {
-    const isArticleExist = await this.articleRepository.isExist(articleId);
-    if (!isArticleExist) throw new Error('존재하지 않는 article입니다,');
 
-    return await this.historyRepository.pushHistory(providerId, articleId);
+  async updateHistory(providerId: string, articleId: string, isSave: boolean) {
+    const histories = (await this.historyRepository.findHistoryByProviderId(
+      providerId,
+    )) as HistoryModel;
+    if (!histories) throw new Error('존재하지 않는 회원입니다.');
+
+    const isExist = histories.isVisited(articleId);
+    if (isSave) {
+      if (isExist) return false;
+      return await this.historyRepository.insertHistory(providerId, articleId);
+    }
+    if (!isExist) return false;
+    return await this.historyRepository.removeHistory(providerId, articleId);
+  }
+
+  async removeAllHistory(providerId: string) {
+    return await HistoryRepository.removeAllById(providerId);
   }
 }
 
-export default new HistoryService();
+export default new HistorykService();

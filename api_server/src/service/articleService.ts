@@ -1,111 +1,160 @@
 // repository
 import articleRepository from '../repository/ArticleRepository';
-import likesRepository from '../repository/LikesRepository';
-import providerRepository from '../repository/providerRepository';
+import likeRepository from '../repository/LikeRepository';
 import bookmarkRepository from '../repository/BookmarkRepository';
 import historyRepository from '../repository/HistoryRepository';
 
 // type, interface
-import { BookmarksModel } from '../model/Bookmarks';
-import { HistoryModel } from '../model/History';
+import { ArticleModel } from '../model/Article';
+import { ArticleInfoType } from '../type/ArticleType';
 
 class ArticleService {
   private articleRepository = articleRepository;
-  private likesRepository = likesRepository;
-  private providerRepository = providerRepository;
+  private likeRepository = likeRepository;
   private bookmarkRepository = bookmarkRepository;
   private historyRepository = historyRepository;
   constructor() {}
-  async checkIsVisited(articleId: string, providerId: string | undefined) {
-    if (!providerId) return false;
 
-    const { histories } = (await this.historyRepository.findHistoryByProviderId(
-      providerId
-    )) as HistoryModel;
-    if (!histories) return false;
-    const historyList = histories.map(h => h.articleId);
-    return historyList.includes(articleId);
+  // 아티클에 대한 유저 정보 조회 (좋아요, 북마크, 방문)
+  async getInfo(articleId: string, providerId?: string, exclude: ArticleInfoType = {}) {
+    if (!articleId) throw new Error('articleId가 없습니다.');
+    if (!providerId) return { isLiked: false, isBookmarked: false, isVisited: false };
+    const option: ArticleInfoType = {
+      isLiked: false,
+      isBookmarked: false,
+      isVisited: false,
+      ...exclude,
+    };
+    const target = {
+      isLiked: () =>
+        this.likeRepository.findLikesByProviderId(providerId).then((like) => ({
+          isLiked: like?.isLiked(articleId) || false,
+        })),
+      isBookmarked: () =>
+        this.bookmarkRepository
+          .findBookmarksByProviderId(providerId)
+          .then((bookmark) => ({ isBookmarked: bookmark?.isBookmarked(articleId) || false })),
+      isVisited: () =>
+        this.historyRepository
+          .findHistoryByProviderId(providerId)
+          .then((history) => ({ isVisited: history?.isVisited(articleId) || false })),
+    };
+    const entries = Object.entries(option) as Array<[keyof ArticleInfoType, boolean]>;
+    const promises: Promise<ArticleInfoType>[] = entries.map(([key, bool]) => {
+      return (bool ? Promise.resolve({ [key]: true }) : target[key]()) as Promise<ArticleInfoType>;
+    });
+    const articleInfo = await Promise.all(promises);
+    return articleInfo.reduce((acc, cur) => {
+      return { ...acc, ...cur };
+    });
   }
-  async checkIsBookmarked(articleId: string, providerId: string | undefined) {
-    if (!providerId) return false;
 
-    const { bookmarks } =
-      (await this.bookmarkRepository.findBookmarksByProviderId(
-        providerId
-      )) as BookmarksModel;
-    if (!bookmarks) return false;
-    const bookmarkList = bookmarks.map(b => b.articleId);
-    return bookmarkList.includes(articleId);
+  // 아티클 조회
+  async findOneById(articleId: string, providerId?: string) {
+    const promises: [Promise<ArticleModel | null>, Promise<ArticleInfoType>] = [
+      this.articleRepository.findArticleById(articleId),
+      this.getInfo(articleId, providerId),
+    ];
+    const [article, info] = await Promise.all(promises);
+    if (!article) throw new Error('article is not found');
+    const data = article.serialize();
+    return { ...data, ...info } as Omit<ArticleModel, 'likes'> & ArticleInfoType;
   }
-  async findArticleById(articleId: string, providerId: string | undefined) {
-    const result = await this.articleRepository.findArticleById(articleId);
-    if (!result) throw new Error('article is not found');
 
-    const [isBookmarked, isVisited, likes] = await Promise.all([
-      this.checkIsBookmarked(articleId, providerId),
-      this.checkIsVisited(articleId, providerId),
-      this.likesRepository.findLikesByArticleId(articleId),
-    ]);
+  // 전체 아티클 조회
+  async findAllByPage(page: number, providerId?: string) {
+    const { docs, ...pagenateData } = await this.articleRepository.findArticlesByPage(page);
+    const promises = docs.map((article) => {
+      return this.getInfo(article.articleId, providerId).then((info) => ({
+        ...article.serialize(),
+        ...info,
+      }));
+    });
+    const refinedArticles = await Promise.all(promises);
+    return { docs: refinedArticles, ...pagenateData };
+  }
 
-    const { __v, _id, ...data } = result.toObject();
-    return Object.assign(
-      { isBookmarked, isVisited, likes: likes?.likes },
-      data
+  // 전체 히스토리 아티클 조회
+  async findAllByHistory(page: number, providerId: string) {
+    const histories = await this.historyRepository.findHistoryByProviderId(providerId);
+    if (!histories) throw new Error('유저의 히스토리 정보가 존재하지 않습니다.');
+    const articleIds = histories.getArticleIds();
+    if (!articleIds.length) return DUMY_PAGINATE_RESULT;
+    const { docs, ...pagenateData } = await this.articleRepository.findArticleByIds(
+      articleIds,
+      page,
     );
+    const promises = docs.map((article) => {
+      return this.getInfo(article.articleId, providerId, { isVisited: true }).then((info) => ({
+        ...article.serialize(),
+        ...info,
+      }));
+    });
+    const historyArticles = await Promise.all(promises);
+    return { docs: historyArticles, ...pagenateData };
   }
-  async findArticlesByPage(
-    page: number,
-    providerId: string | undefined
-  ): Promise<{ [key: string]: any }> {
-    const result = await this.articleRepository.findArticlesByPage(page);
-    const { docs, ...pagenateData } = result;
-    const ret: { [key: string]: any } = { ...pagenateData };
-    ret.docs = await Promise.all(
-      result.docs.map(article =>
-        likesRepository.findLikesByArticleId(article.articleId).then(likes => {
-          const { __v, _id, ...data } = article.toObject();
-          return Object.assign({ likes: likes?.likes }, data);
-        })
-      )
-    );
-    if (providerId) {
-      const [{ bookmarks }, { histories }] = (await Promise.all([
-        this.bookmarkRepository.findBookmarksByProviderId(providerId),
-        this.historyRepository.findHistoryByProviderId(providerId),
-      ])) as [BookmarksModel, HistoryModel];
-      if (bookmarks !== null && histories !== null) {
-        const bookmarkList = bookmarks.map(b => b.articleId);
-        const historyList = histories.map(h => h.articleId);
-        ret.docs = ret.docs.map((doc: { [key: string]: any }) => {
-          const articleId = doc.articleId;
-          const isBookmarked = bookmarkList.includes(articleId);
-          const isVisited = historyList.includes(articleId);
-          return Object.assign({ isBookmarked, isVisited }, doc);
-        });
-      }
-    }
 
-    return ret;
-  }
-  async findLikesByArticleId(articleId: string) {
-    return await this.likesRepository.findLikesByArticleId(articleId);
-  }
-  async saveLike(articleId: string, providerId: string, isLike: boolean) {
-    const likesResponse = await this.likesRepository.saveLike(
-      articleId,
-      providerId,
-      isLike
+  // 전체 북마크 아티클 조회
+  async findAllByBookmark(page: number, providerId: string) {
+    const bookmarks = await this.bookmarkRepository.findBookmarksByProviderId(providerId);
+    if (!bookmarks) throw new Error('유저의 북마크 정보가 존재하지 않습니다.');
+    const articleIds = bookmarks.getArticleIds();
+    if (!articleIds.length) return DUMY_PAGINATE_RESULT;
+    const { docs, ...pagenateData } = await this.articleRepository.findArticleByIds(
+      articleIds,
+      page,
     );
-    const [articleResponse, providerResponse] = await Promise.all([
-      this.articleRepository.increaseNumOfLikes(articleId, isLike),
-      this.providerRepository.pushLikeRepositoryId(
-        providerId,
-        articleId,
-        isLike
-      ),
-    ]);
-    return [likesResponse, articleResponse, providerResponse];
+    const promises = docs.map((article) => {
+      return this.getInfo(article.articleId, providerId, { isBookmarked: true }).then((info) => ({
+        ...article.serialize(),
+        ...info,
+      }));
+    });
+    const bookmarkArticles = await Promise.all(promises);
+    return { docs: bookmarkArticles, ...pagenateData };
+  }
+
+  // 전체 좋아요 아티클 조회
+  async findAllByLike(page: number, providerId: string) {
+    const likes = await this.likeRepository.findLikesByProviderId(providerId);
+    if (!likes) throw new Error('유저의 좋아요 정보가 존재하지 않습니다.');
+    const articleIds = likes.getArticleIds();
+    if (!articleIds.length) return DUMY_PAGINATE_RESULT;
+    const { docs, ...pagenateData } = await this.articleRepository.findArticleByIds(
+      articleIds,
+      page,
+    );
+    const promises = docs.map((article) => {
+      return this.getInfo(article.articleId, providerId, { isLiked: true }).then((info) => ({
+        ...article.serialize(),
+        ...info,
+      }));
+    });
+    const likeArticles = await Promise.all(promises);
+    return { docs: likeArticles, ...pagenateData };
+  }
+
+  // 아티클 좋아요 업데이트
+  async updateOneByLike(providerId: string, articleId: string, isSave: boolean) {
+    const result = isSave
+      ? await this.articleRepository.updateNumOfLikes(articleId, true)
+      : await this.articleRepository.updateNumOfLikes(articleId, false);
+    if (!result.ok) throw new Error('아티클 좋아요 카운트 업데이트 실패');
+    return true;
   }
 }
+
+const DUMY_PAGINATE_RESULT = {
+  docs: [],
+  hasNextPage: false,
+  hasPrevPage: false,
+  limit: 20,
+  nextPage: null,
+  page: 1,
+  pagingCounter: 1,
+  prevPage: null,
+  totalDocs: 0,
+  totalPages: 1,
+};
 
 export default new ArticleService();

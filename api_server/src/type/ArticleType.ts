@@ -16,3 +16,9 @@ export default interface ArticleType {
   keywords: string[];
   likes?: string[];
 }
+
+export type ArticleInfoType = {
+  isLiked?: boolean;
+  isBookmarked?: boolean;
+  isVisited?: boolean;
+};
