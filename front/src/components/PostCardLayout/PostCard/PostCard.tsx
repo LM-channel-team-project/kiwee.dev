@@ -18,23 +18,8 @@ function PostCard({ data }: PropTypes) {
   const [canLike, setCanLike] = useState<boolean>(true);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(data.isBookmarked);
   const providerId: string | unknown = session?.sub;
-
-  // 처음 렌더링될 때 현재 접속자가 article에 좋아요를 눌렀는지 확인
-  useEffect(() => {
-    const likeUsers = data.likes;
-    if (likeUsers.length === 0) {
-      setCanLike(true);
-    } else {
-      for (const id of likeUsers) {
-        if (id.providerId === providerId) {
-          setCanLike(false);
-        } else {
-          setCanLike(true);
-        }
-      }
-    }
-  }, [providerId]);
-
+ console.log(data);
+ 
   // 좋아요 요청
   const requestLikes = async (bool: boolean) => {
     try {

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.article`
-  width: 300px;
+  width: 320px;
   border-radius: 0.8rem;
   background: ${({ theme }) => theme['article-bg']};
   margin: 1.6rem;
@@ -58,7 +58,7 @@ export const CardContent = styled.a`
   color: inherit;
   text-decoration: none;
   h3 {
-    font-size: 2rem;
+    font-size: 2.4rem;
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.2;
