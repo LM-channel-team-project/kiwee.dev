@@ -7,9 +7,11 @@ const request: AxiosRequestConfig = { url: '/provider/me' };
 
 export const GET_ME_KEY = JSON.stringify(request);
 
-export const useGetMe = (confing?: Config<ProviderMeResponse>) => {
+const useGetMe = (confing?: Config<ProviderMeResponse>) => {
   const { data: res } = useRequest<ProviderMeResponse>(request, confing);
   return {
     provider: res?.data.provider,
   };
 };
+
+export default useGetMe;

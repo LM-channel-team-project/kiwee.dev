@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import PostCardLayout from '../PostCardLayout';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { useGetArticles } from '@/hooks/swr/useGetArticles';
+import useGetArticles from '@/hooks/swr/useGetArticles';
+import PostCardLayout from '../PostCardLayout';
 
 interface ProfileStatsPostCardListProps {
   selected: 'likes' | 'histories';

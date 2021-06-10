@@ -11,7 +11,7 @@ import FallbackProfileUser from '@/components/ErrorFallback/Profile/FallbackProf
 import FallbackPostCardLayout from '@/components/ErrorFallback/PostCardLayout/FallbackPostCardLayout';
 
 import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
-import { useDeleteErrorCache } from '@/hooks/swr/useDeleteErrorCache';
+import useDeleteErrorCache from '@/hooks/swr/useDeleteErrorCache';
 
 type SelectedType = 'histories' | 'likes';
 

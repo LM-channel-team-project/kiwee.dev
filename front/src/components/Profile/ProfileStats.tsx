@@ -1,11 +1,12 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import ProfileStatsItem from './ProfileStatsItem';
-import { useGetArticlesInfos } from '@/hooks/swr/useGetArticleInfos';
+
 import {
   useMutationObserverSetTarget,
   useMutationObserverTarget,
 } from '@/context/MutationObserverContext';
-import { useEffect } from 'react';
+import useGetArticlesInfos from '@/hooks/swr/useGetArticleInfos';
+import ProfileStatsItem from './ProfileStatsItem';
 
 interface ProfileStatsProps {
   selected: 'histories' | 'likes';

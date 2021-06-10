@@ -9,4 +9,5 @@ function useMounted() {
 
   return mounted;
 }
+
 export default useMounted;
