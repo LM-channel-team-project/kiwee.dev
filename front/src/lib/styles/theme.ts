@@ -15,6 +15,7 @@ const light = {
   'article-bg': '#ffffff',
   'article-shadow': '0px 4px 4px rgba(0, 0, 0, 0.25)',
   'article-read-bg': 'rgba(245, 245, 245, 0.5)',
+  'article-division': '#f8f9fa',
   'keyword-bar-bg': '#ffffff',
   'keyword-bar-shadow': '0px 4px 4px rgba(0, 0, 0, 0.25)',
   'keyword-bar-arrow': '#3b5bdb',
@@ -32,9 +33,9 @@ const light = {
   'like-icon-hover': '#fa8787',
   'like-icon-active': '#fa5252',
   'like-icon-active-hover': '#fa5252',
-  'bookmark-icon-hover': '#495057',
-  'bookmark-icon-active': '#212529',
-  'bookmark-icon-active-hover': '#212529',
+  'bookmark-icon-hover': '#bac8ff',
+  'bookmark-icon-active': '#748ffc',
+  'bookmark-icon-active-hover': '#748ffc',
 };
 
 const dark = {
@@ -54,6 +55,7 @@ const dark = {
   'article-bg': '#343a40',
   'article-shadow': '0px 4px 4px rgba(0, 0, 0, 0.25)',
   'article-read-bg': 'rgba(0, 0, 0, 0.3)',
+  'article-division': '#484848',
   'keyword-bar-bg': '#343a40',
   'keyword-bar-shadow': '0px 4px 4px rgba(0, 0, 0, 0.25)',
   'keyword-bar-arrow': '#4263eb',
@@ -71,9 +73,9 @@ const dark = {
   'like-icon-hover': '#fa8787',
   'like-icon-active': '#fa5252',
   'like-icon-active-hover': '#fa5252',
-  'bookmark-icon-hover': '#dee2e6',
-  'bookmark-icon-active': '#f8f9fa',
-  'bookmark-icon-active-hover': '#f8f9fa',
+  'bookmark-icon-hover': '#bac8ff',
+  'bookmark-icon-active': '#91a7ff',
+  'bookmark-icon-active-hover': '#91a7ff',
 };
 
 export const theme = { light, dark };
