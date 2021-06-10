@@ -21,14 +21,13 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 // 방문한 게시물 등록
-router.patch('/', async (req: Request, res: Response) => {
-  const providerId = req.query.providerId as string;
-  const articleId = req.query.articleId as string;
-  if (!providerId || !articleId)
-    return res.status(401).json({ message: 'providerId, articleId가 필요합니다.' });
-
+router.post('/', async (req: Request, res: Response) => {
+  const { articleId, providerId, isSave } = req.body;
+  if (!articleId || !providerId || typeof isSave !== 'boolean') {
+    return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
+  }
   try {
-    const updateResult = await historyService.updateHistory(providerId, articleId, true);
+    const updateResult = await historyService.updateHistory(providerId, articleId, isSave);
     if (!updateResult) {
       return res.status(200).json({ message: '이미 등록 된 아티클입니다.' });
     }

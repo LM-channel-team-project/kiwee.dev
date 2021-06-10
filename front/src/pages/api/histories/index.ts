@@ -28,11 +28,13 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
       return res.status(status).json({ infos: data.histories });
     }
     // 프로바이더 히스토리 목록 추가 요청
-    if (req.method === 'PATCH') {
-      const articleId = req.query.articleId as string;
-      if (!articleId) return res.status(401).json({ message: 'articleId가 필요합니다.' });
-      const requestUrl = `${API_SERVER_URL}/histories?providerId=${providerId}&articleId=${articleId}`;
-      const { data, status } = await axios.patch(requestUrl);
+    if (req.method === 'POST') {
+      const { articleId, isSave } = req.body;
+      if (!articleId || typeof isSave !== 'boolean') {
+        return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
+      }
+      const requestUrl = `${API_SERVER_URL}/histories`;
+      const { data, status } = await axios.post(requestUrl, { articleId, providerId, isSave });
       return res.status(status).json(data);
     }
   } catch (e) {
