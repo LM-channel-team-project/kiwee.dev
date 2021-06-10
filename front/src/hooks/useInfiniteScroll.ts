@@ -17,25 +17,26 @@ function useInfiniteScroll(callbackFn: PropTypes) {
 
   useEffect(() => {
     if (!target) return;
-
     io.current = new IntersectionObserver(callbackFn, options);
     io.current.observe(target);
-
     return () => {
       io.current && io.current.disconnect();
     };
   }, [target]);
 
-  const onInfiniteScrollUpdate = (target: HTMLElement | null) => {
-    if (target) {
-      setTarget(target);
-    }
+  const onInfiniteScrollInit = (target: HTMLElement | null) => {
+    setTarget(target);
+  };
+  const onInfiniteScrollUpdate = () => {
+    return io.current && io.current.observe(target as HTMLElement);
   };
 
   const onInfiniteScrollDisconnect = () => {
+    console.log('disco');
     return io.current && io.current.disconnect();
   };
-  return [onInfiniteScrollUpdate, onInfiniteScrollDisconnect];
+
+  return [onInfiniteScrollInit, onInfiniteScrollUpdate, onInfiniteScrollDisconnect];
 }
 
 export default useInfiniteScroll;
