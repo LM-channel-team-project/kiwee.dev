@@ -9,7 +9,7 @@ export function useGetArticlesInfos(filter: FilterType, confing?: Config<Provide
     confing,
   );
   const refresh = (info?: ProviderArticleInfo, shouldRevalidate = false) => {
-    if (!res) throw new Error('Cannot find useGetArticlesInfos');
+    if (!res) return {};
     info
       ? mutate(
           { ...res, data: { ...res.data, infos: res.data.infos.concat(info) } },
