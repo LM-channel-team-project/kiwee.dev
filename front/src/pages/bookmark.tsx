@@ -15,7 +15,7 @@ function bookmark() {
   const getBookmarkedArticles = async (): Promise<string[] | undefined> => {
     try {
       const res = await client.get("/bookmarks")
-      const bookmarks = res.data.bookmarks;
+      const bookmarks = res.data.infos;
       const articles = bookmarks.map((bookmark: Bookmark) => bookmark.articleId);
       return articles;
     } catch (err) {
@@ -27,15 +27,14 @@ function bookmark() {
   useEffect(() => {
     getBookmarkedArticles()
     .then(async data => {
-      const promises = data.map(async (id: string): Promise<IArticle> => {
-         const article = await client.get(`/article?articleId=${id}`);
-         return article.data.article;
+      const promises = data.map(async (id: string): Promise<IArticle> => { const article = await client.get(`/article?articleId=${id}`); return article.data.article;
       });
       const articles = await Promise.all(promises);
       setArticles(articles);
     }) 
 }, [])
   
+getBookmarkedArticles();
 
   return (
     <>

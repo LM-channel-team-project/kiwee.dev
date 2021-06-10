@@ -13,7 +13,6 @@ const RESET_KEY = process.env.RESET_KEY;
 const RSS_CRAWLER_URL = process.env.RSS_CRAWLER_URL;
 
 router.post('/', async (req: Request, res: Response) => {
-  console.log(req.body);
   const { providerId, email, name, avatar } = req.body;
   if (!providerId || !email || !name) {
     return res.status(406).json({
@@ -41,13 +40,9 @@ router.get('/me', async (req: Request, res: Response) => {
 
   try {
     const result = await providerService.findProviderById(providerId);
-    console.log(result);
-    if (!result)
-      return res.status(404).json({ message: '존재하지 않는 회원입니다.' });
+    if (!result) return res.status(404).json({ message: '존재하지 않는 회원입니다.' });
 
-    return res
-      .status(200)
-      .json({ message: '정상적으로 처리되었습니다.', provider: result });
+    return res.status(200).json({ message: '정상적으로 처리되었습니다.', provider: result });
   } catch (e) {
     return res.status(500).json({ message: '서버 오류.' });
   }
@@ -55,18 +50,15 @@ router.get('/me', async (req: Request, res: Response) => {
 router.post('/rss', async (req: Request, res: Response) => {
   const { providerId, rssUrl } = req.body;
   if (!providerId || !rssUrl)
-    return res
-      .status(401)
-      .json({ message: 'providerId, RssUrl이 필요합니다.' });
+    return res.status(401).json({ message: 'providerId, RssUrl이 필요합니다.' });
 
   try {
     const result = await providerService.saveRssUrl(providerId, rssUrl);
-    console.log(result);
 
     // RSS crawling 요청
     axios
       .get(`${RSS_CRAWLER_URL}?providerId=${providerId}&rssUrl=${rssUrl}`)
-      .then(res => console.log(res.data));
+      .then((res) => console.log(res.data));
 
     return res.status(200).json({ message: '성공적으로 등록되었습니다.' });
   } catch (e) {
@@ -83,10 +75,7 @@ router.post('/reset', async (req: Request, res: Response) => {
 
   try {
     const result = await providerService.resetLastModifiedTime();
-    console.log(result);
-    return res
-      .status(200)
-      .json({ message: 'LastModifiedTime이 리셋되었습니다.' });
+    return res.status(200).json({ message: 'LastModifiedTime이 리셋되었습니다.' });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: '에러가 발생했습니다.' });

@@ -24,10 +24,10 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
   try {
     const requestUrl = `${API_SERVER_URL}/provider/rss`;
     const { data, status } = await axios.post(requestUrl, { providerId, rssUrl });
-    console.log(data);
+    // // console.log(data);
     return res.status(status).json(data);
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return res.status(500).json({ message: e.message });
   }
 });

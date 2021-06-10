@@ -1,4 +1,4 @@
-import Likes from '../model/Likes';
+import Likes from '../model/Likes.deprecated';
 
 class LikesRepository {
   Likes = Likes;
@@ -18,14 +18,14 @@ class LikesRepository {
       return await Likes.updateOne(
         { articleId },
         { $push: { likes: { providerId, insertDate: new Date() } } },
-        { new: true }
+        { new: true },
       ).exec();
     }
     if (!isExist) throw new Error('좋아요 등록되지 않은 게시글입니다.');
     return await Likes.updateOne(
       { articleId },
       { $pull: { likes: { providerId } } },
-      { new: true }
+      { new: true },
     ).exec();
   }
 }

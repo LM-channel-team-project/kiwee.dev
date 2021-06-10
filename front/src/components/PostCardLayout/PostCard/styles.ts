@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.article`
-  width: 320px;
+  width: 32rem;
   border-radius: 0.8rem;
   background: ${({ theme }) => theme['article-bg']};
   margin: 1.6rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
 
   @media (max-width: 1056px) {
     width: calc(50% - 3.2rem);
@@ -14,27 +15,24 @@ export const CardContainer = styled.article`
   @media (max-width: 767px) {
     width: 100%;
   }
+
+  :hover {
+    transform: translateY(-0.8rem);
+    box-shadow: 0px 6px 6px 2px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const CardImage = styled.a`
   display: block;
   color: inherit;
+  width: 100%;
+  position: relative;
+  padding-top: 50%;
   text-decoration: none;
-  div.card-image {
-    width: 100%;
-    position: relative;
-    padding-top: 50%;
-    img {
-      border-radius: 8px 8px 0 0;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-  }
+  background: url('/img/${(props) => props.thumbnail}.jpeg') no-repeat center;
+  background-size: contain;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid ${({ theme }) => theme['article-division']};
 `;
 
 export const CardContentWrap = styled.div`
@@ -76,7 +74,7 @@ export const CardInfoWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1.6rem;
-  border-top: 1px solid rgb(248, 249, 250);
+  border-top: 1px solid ${({ theme }) => theme['article-division']};
   font-size: 1.4rem;
   .card-info-left {
     display: flex;

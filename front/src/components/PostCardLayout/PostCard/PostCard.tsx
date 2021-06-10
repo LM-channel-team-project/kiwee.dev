@@ -2,11 +2,11 @@ import IconButton from '@/components/Common/Button/Icon';
 import { CardContainer, CardContent, CardContentWrap, CardImage, CardInfoWrap } from './styles';
 import { IArticle } from '@/types/article';
 import dayjs from 'dayjs';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { useNewTabContext } from '@/hooks/useNewTabContext';
-import { client } from '@/lib/api/client';
 import { useSession } from 'next-auth/client';
 import { DefaultTheme } from 'styled-components';
+import useUpdateArticleInfo from '@/hooks/useUpdateArticleInfo';
 
 interface PropTypes {
   data: IArticle;
@@ -15,75 +15,28 @@ interface PropTypes {
 function PostCard({ data }: PropTypes) {
   const [isNewTab] = useNewTabContext();
   const [session] = useSession();
-  const [canLike, setCanLike] = useState<boolean>(true);
+  const [isLiked, setIsLiked] = useState<boolean>(data.isLiked);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(data.isBookmarked);
   const providerId: string | unknown = session?.sub;
- console.log(data);
- 
-  // 좋아요 요청
-  const requestLikes = async (bool: boolean) => {
-    try {
-      const response = await client.post('/likes', {
-        articleId: data.articleId,
-        isLike: bool,
-      });
-      console.log('좋아요 요청 성공', response);
-    } catch (err) {
-      console.log('좋아요 실패', err);
-    }
+  const { onUpdate } = useUpdateArticleInfo();
+
+  const onClickLike = async () => {
+    if (!providerId) alert('로그인이 필요합니다.');
+    const result = await onUpdate('likes', data.articleId, !isLiked);
+    // console.log(result);
+    result && setIsLiked(!isLiked);
   };
 
-  // 좋아요 버튼 클릭 시 호출
-  const toggleLike = () => {
-    const likeUsers = data.likes;
-
-    // 아무도 좋아요를 누르지 않은 게시글인 경우
-    if (likeUsers.length === 0) {
-      requestLikes(canLike);
-      setCanLike(!canLike);
-    } else {
-      for (const id of likeUsers) {
-        // likeUsers에 현재 접속중인 사용자의 id가 있는 경우 (이미 누른 경우)
-        if (id.providerId === providerId) {
-          requestLikes(canLike);
-          setCanLike(!canLike);
-        } else {
-          requestLikes(canLike);
-          setCanLike(!canLike);
-        }
-      }
-    }
-  };
-
-  // 북마크 요청
-  const requestBookmark = async (bool: boolean) => {
-    try {
-      const response = await client.post('/bookmarks', {
-        articleId: data.articleId,
-        isSave: bool,
-      });
-      console.log('북마크 성공', response);
-    } catch (err) {
-      console.log('북마크 실패', err);
-    }
-  };
-
-  // 북마크 버튼 클릭 시 호출
-  const toggleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
-    requestBookmark(!isBookmarked);
-  };
-
-  // 방문한 게시글 등록
   const onClickPost = async () => {
-    if (!data.isVisited) {
-      try {
-        const response = await client.patch(`/history?articleId=${data.articleId}`);
-        console.log(response);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    if (!providerId) return;
+    await onUpdate('histories', data.articleId, true);
+  };
+
+  const onClickBookmark = async () => {
+    if (!providerId) alert('로그인이 필요합니다.');
+    const result = await onUpdate('bookmarks', data.articleId, !isBookmarked);
+    // console.log(result);
+    result && setIsBookmarked(!isBookmarked);
   };
 
   const cardProps = {
@@ -91,18 +44,12 @@ function PostCard({ data }: PropTypes) {
     target: isNewTab ? '_blank' : '_self',
     rel: isNewTab ? 'noopener noreferrer' : '',
     onClick: onClickPost,
+    thumbnail: data.provider.name,
   };
 
   return (
     <CardContainer>
-      <CardImage {...cardProps}>
-        <div className="card-image">
-          <img
-            src="https://media.vlpt.us/images/jjunyjjuny/post/e7f0d557-1fab-4a61-ae8e-b5cb1a911b09/ek7ji4zrimozpp2yzk0a.png?w=640"
-            alt=""
-          />
-        </div>
-      </CardImage>
+      <CardImage {...cardProps} />
       <CardContentWrap>
         <div className="sub-info">{dayjs(data.insertDate).format('MMM DD, YYYY')}</div>
         <CardContent {...cardProps}>
@@ -121,17 +68,17 @@ function PostCard({ data }: PropTypes) {
                 iconName="like"
                 size="small"
                 styleType={'default'}
-                onClick={toggleLike}
+                onClick={onClickLike}
                 css={`
                   &:hover {
                     svg {
-                      color: ${canLike
+                      color: ${!isLiked
                         ? ({ theme }: { theme: DefaultTheme }) => theme['like-icon-hover']
                         : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active-hover']};
                     }
                   }
                   svg {
-                    color: ${canLike
+                    color: ${!isLiked
                       ? ''
                       : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active']};
                   }
@@ -143,7 +90,7 @@ function PostCard({ data }: PropTypes) {
                 iconName="bookmark"
                 size="small"
                 styleType="default"
-                onClick={toggleBookmark}
+                onClick={onClickBookmark}
                 css={`
                   &:hover {
                     svg {

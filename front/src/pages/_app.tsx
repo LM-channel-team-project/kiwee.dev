@@ -8,20 +8,23 @@ import Modal from '@/components/Modal';
 import ModalProvider from '@/context/ModalContext';
 import ThemeProvider from '@/context/ThemeContext';
 import NewTabProvider from '@/context/NewTabContext';
-
+import MutationObserverProvider from '@/context/MutationObserverContext';
+MutationObserverProvider;
 function App({ Component, pageProps }: AppProps) {
   return (
     <Provider session={pageProps.session}>
       <ThemeProvider>
-        <NewTabProvider>
-          <ModalProvider>
-            <GlobalStyle />
-            <AppLayout>
-              <Component {...pageProps} />
-              <Modal />
-            </AppLayout>
-          </ModalProvider>
-        </NewTabProvider>
+        <MutationObserverProvider>
+          <NewTabProvider>
+            <ModalProvider>
+              <GlobalStyle />
+              <AppLayout>
+                <Component {...pageProps} />
+                <Modal />
+              </AppLayout>
+            </ModalProvider>
+          </NewTabProvider>
+        </MutationObserverProvider>
       </ThemeProvider>
     </Provider>
   );
