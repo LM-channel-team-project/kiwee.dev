@@ -1,16 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSession, signIn, signOut } from 'next-auth/client';
 import Image from 'next/image';
 
 import TextButton from '@/components/Common/Button/Text';
-import { useModal } from '@/hooks/useModalContext';
 import Link from 'next/link';
 
-function HeaderAuth() {
-  // next-auth
-  const [session, isLoading] = useSession();
-  const [modal, toggleModal] = useModal();
+function HeaderAuth({ session, toggleModal }) {
 
   return (
     <HeaderAuthBlock>
