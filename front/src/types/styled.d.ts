@@ -18,6 +18,7 @@ declare module 'styled-components' {
     'article-bg': string;
     'article-shadow': string;
     'article-read-bg': string;
+    'article-division': string;
     'keyword-bar-bg': string;
     'keyword-bar-shadow': string;
     'keyword-bar-arrow': string;

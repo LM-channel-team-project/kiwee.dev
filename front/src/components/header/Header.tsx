@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useSession } from 'next-auth/client';
+import { useModal } from '@/hooks/useModalContext';
 
 import HeaderAuth from './HeaderAuth';
-import HeaderUserProfile from './HeaderUserProfile';
 import Settings from '../Settings';
 import IconButton from '@/components/Common/Button/Icon';
 import TextButton from '@/components/Common/Button/Text';
 
 function header() {
-  const [isLogged, setIsLogged] = useState(false);
+  const [session] = useSession();
+  const [, toggleModal] = useModal()
   const [isSettingView, setIsSettingView] = useState(false);
 
   const onClickSetting = () => {
@@ -37,7 +39,11 @@ function header() {
                 />
               </li>
               <li>
-                <IconButton to="/bookmark" iconName="bookmark" size="small" styleType="default" />
+                {!session ? (
+                  <IconButton to="/" iconName="bookmark" size="small" styleType="default" onClick={toggleModal} />
+                ) : (
+                  <IconButton to="/bookmark" iconName="bookmark" size="small" styleType="default" />
+                )}
               </li>
             </ul>
           </nav>
@@ -48,7 +54,7 @@ function header() {
             onClick={onClickSetting}
           />
           <div className="header-auth-block">
-            {isLogged ? <HeaderUserProfile /> : <HeaderAuth />}
+            <HeaderAuth session={session} toggleModal={toggleModal} />
           </div>
         </div>
       </HeaderBlock>
