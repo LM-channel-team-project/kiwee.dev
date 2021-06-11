@@ -38,11 +38,7 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
         return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
       }
       const requestUrl = `${API_SERVER_URL}/likes`;
-      const { data, status } = await axios.post(requestUrl, {
-        articleId,
-        providerId,
-        isSave,
-      });
+      const { data, status } = await axios.post(requestUrl, { articleId, providerId, isSave });
       return res.status(status).json(data);
     }
   } catch (e) {
