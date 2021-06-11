@@ -1,6 +1,5 @@
 import { CardsWrap, Container } from './styles';
 import { IArticle } from '@/types/article';
-
 import PostCard from './PostCard/PostCard';
 import SkeletonPostCard from '@/components/Skeleton/PostCardLayout/PostCard';
 
