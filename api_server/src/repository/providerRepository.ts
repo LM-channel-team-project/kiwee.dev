@@ -1,3 +1,4 @@
+import { FilterQuery } from 'mongoose';
 import Provider, { ProviderModel } from '../model/Provider';
 export interface SaveProviderProps {
   providerId: string;
@@ -44,12 +45,14 @@ class providerRepository {
       },
     );
   }
-
-  async findProviderById(providerId: string) {
+  async findByQuery(query: FilterQuery<ProviderModel>) {
+    return this.Provider.find(query, { _id: 0, providerId: 0, lastModifiedTime: 0 });
+  }
+  async findOneByProviderId(providerId: string) {
     return await this.Provider.findOne(
       { providerId },
-      { _id: 0, email: 1, name: 1, avatar: 1, rssLink: 1, likes: 1 },
-    ).exec();
+      { _id: 0, providerId: 0, lastModifiedTime: 0 },
+    );
   }
   async resetLastModifiedTimes() {
     return await this.Provider.updateMany(
