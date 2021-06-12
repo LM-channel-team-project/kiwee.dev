@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.article`
 	width: 120px;
 	height: 100px;
 `;

@@ -11,7 +11,6 @@ useEffect(() => {
   const getBlogList = async () => {
     const blogList = await client.get('/provider/blogs');
     const { blogs, count } = blogList.data;
-    console.log(blogs);
     setBlogList(blogs);
     setBlogCount(count);
   }
@@ -19,9 +18,9 @@ useEffect(() => {
 }, [])
 
   return (
-    <>
+    <section>
       <BlogCardLayout blogList={blogList} blogCount={blogCount} />
-    </>
+    </section>
   )
 }
 

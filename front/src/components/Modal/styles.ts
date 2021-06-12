@@ -51,7 +51,7 @@ export const ModalBackground = styled.div<Modal>`
   align-items: center;
   background: ${({ theme }) => theme['modal-bg']};
 
-  animation-duration: 0.25s;
+  animation-duration: 0.15s;
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
@@ -73,7 +73,7 @@ export const ModalBlock = styled.div<Modal>`
   box-shadow: ${({ theme }) => theme[`modal-shadow`]};
   border-radius: 10px;
 
-  animation-duration: 0.25s;
+  animation-duration: 0.15s;
   animation-timing-function: ease-out;
   animation-name: ${slideUp};
   animation-fill-mode: forwards;

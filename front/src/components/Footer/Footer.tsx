@@ -13,7 +13,7 @@ function Footer() {
 }
 
 const FooterBlock = styled.footer`
-  margin-bottom: 50px;
+  margin: 40px;
   font-size: 1.4rem;
   ul {
     display: flex;
