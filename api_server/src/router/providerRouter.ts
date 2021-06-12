@@ -39,7 +39,7 @@ router.get('/me', async (req: Request, res: Response) => {
   if (!providerId) res.status(406).json({ message: 'providerId가 필요합니다' });
 
   try {
-    const result = await providerService.findProviderById(providerId);
+    const result = await providerService.findOneByProviderId(providerId);
     if (!result) return res.status(404).json({ message: '존재하지 않는 회원입니다.' });
 
     return res.status(200).json({ message: '정상적으로 처리되었습니다.', provider: result });
@@ -47,6 +47,23 @@ router.get('/me', async (req: Request, res: Response) => {
     return res.status(500).json({ message: '서버 오류.' });
   }
 });
+
+// 블로그 목록 요청
+router.get('/blogs', async (req, res) => {
+  try {
+    const result = await providerService.findAllBlogProviders();
+    return res
+      .status(200)
+      .json({
+        message: '정상적으로 처리되었습니다.',
+        blogs: result || [],
+        count: result.length || 0,
+      });
+  } catch (error) {
+    return res.status(500).json({ message: '서버 오류.' });
+  }
+});
+
 router.post('/rss', async (req: Request, res: Response) => {
   const { providerId, rssUrl } = req.body;
   if (!providerId || !rssUrl)

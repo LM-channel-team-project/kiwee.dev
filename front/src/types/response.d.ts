@@ -1,13 +1,21 @@
 import { IArticle } from './article';
 
+interface Provider {
+  email: string;
+  name: string;
+  avatar: string;
+  rssLink: string;
+}
+
+export interface BlogsResponse {
+  message: string;
+  blogs: Provider[];
+  count: number;
+}
+
 export interface ProviderMeResponse {
   message: string;
-  provider: {
-    email: string;
-    name: string;
-    avatar: string;
-    rssLink: string;
-  };
+  provider: Provider;
 }
 
 export interface ArticlesResponse {
