@@ -1,6 +1,6 @@
 export interface Blog {
-	id: number,
+	email: string,
 	name: string,
-	url: string,
-	image: string
+	avatar: string,
+	rssLink: string
 }

@@ -11,8 +11,8 @@ function BlogCard({ blog }: BlogCardProps) {
 
   return (
     <CardContainer>
-      <CardWrapper href={blog.url} target="_blank" rel="noopener noreferer">
-        <img className="blog-image" src={blog.image} alt={blog.name}/>
+      <CardWrapper href={blog.rssLink} target="_blank" rel="noopener noreferer">
+        <img className="blog-image" src={blog.avatar} alt={blog.name}/>
         <div className="blog-name">{blog.name}</div>
       </CardWrapper>
     </CardContainer>
