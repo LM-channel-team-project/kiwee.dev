@@ -62,10 +62,17 @@ const borderStyle = css<BaseProps>`
   }
 `;
 
+const selectedStyle = css<BaseProps>`
+  ${baseStyle};
+  color: ${({ theme }) => theme['font']};
+  background-color: ${({ theme }) => theme['btn-hover-bg-1']};
+`;
+
 const buttonStyle = {
   default: defaultStyle,
   primary: primaryStyle,
   border: borderStyle,
+  selected: selectedStyle,
 };
 
 export const styles = css<BaseProps>`

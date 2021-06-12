@@ -2,7 +2,7 @@ import { LinkProps } from 'next/link';
 
 interface BaseProps {
   children?: React.ReactNode;
-  styleType?: 'default' | 'primary' | 'border';
+  styleType?: 'default' | 'primary' | 'border' | 'selected';
   size?: 'small' | 'medium' | 'large' | 'none';
   fontSize?: string;
   fullWidth?: boolean;
