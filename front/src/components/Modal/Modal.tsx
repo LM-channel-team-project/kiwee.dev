@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useModal } from '@/hooks/useModalContext';
-import styled, { keyframes, css } from 'styled-components';
-
-import IconButton from '@/components/Common/Button/Icon';
 import { useSession } from 'next-auth/client';
+import { ModalBackground, ModalBlock, CloseButton } from './styles';
+
 import Login from '@/components/Login';
 import ProfileDetails from '@/components/Profile/ProfileDetails';
 
-interface Modal {
-  disappear: boolean;
-}
 
 function Modal() {
   const [modal, toggleModal] = useModal();
@@ -38,89 +34,5 @@ function Modal() {
   );
 }
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0
-  }
-  to {
-    opacity: 1
-  }
-`;
-
-const fadeOut = keyframes`
-  from {
-    opacity: 1
-  }
-  to {
-    opacity: 0
-  }
-`;
-
-const slideUp = keyframes`
-  from {
-    transform: translateY(200px);
-  }
-  to {
-    transform: translateY(0px);
-  }
-`;
-
-const slideDown = keyframes`
-  from {
-    transform: translateY(0px);
-  }
-  to {
-    transform: translateY(200px);
-  }
-`;
-const ModalBackground = styled.div<Modal>`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${({ theme }) => theme['modal-bg']};
-
-  animation-duration: 0.25s;
-  animation-timing-function: ease-out;
-  animation-name: ${fadeIn};
-  animation-fill-mode: forwards;
-
-  ${props =>
-    props.disappear &&
-    css`
-      animation-name: ${fadeOut};
-    `}
-`;
-
-const ModalBlock = styled.div<Modal>`
-  position: relative;
-  width: 400px;
-  height: 360px;
-  padding: 2rem;
-  background: ${({ theme }) => theme[`background`]};
-  border: ${({ theme }) => theme[`modal-border`]};
-  box-shadow: ${({ theme }) => theme[`modal-shadow`]};
-  border-radius: 10px;
-
-  animation-duration: 0.25s;
-  animation-timing-function: ease-out;
-  animation-name: ${slideUp};
-  animation-fill-mode: forwards;
-
-  ${props =>
-    props.disappear &&
-    css`
-      animation-name: ${slideDown};
-    `}
-`;
-
-const CloseButton = styled(IconButton)`
-  position: absolute;
-  right: 1.5rem;
-`;
 
 export default Modal;

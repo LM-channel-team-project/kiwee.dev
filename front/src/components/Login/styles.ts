@@ -57,7 +57,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const LoginPolicy = styled.div`
-  margin-top: 3rem;
-  font-size: 1.25rem;
+  margin-top: 3.5rem;
+  font-size: 1.3rem;
   line-height: 1.5rem;
 `;
