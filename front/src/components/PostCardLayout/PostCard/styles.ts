@@ -1,4 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import IconButton from '@/components/Common/Button/Icon';
+
+type CardIconButtonType = {
+  actived: boolean;
+  iconName: 'like' | 'bookmark';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const CardContainer = styled.article`
   width: 32rem;
@@ -22,7 +28,7 @@ export const CardContainer = styled.article`
   }
 `;
 
-export const CardImage = styled.a`
+export const CardImage = styled.a<{ thumbnail: string }>`
   display: block;
   color: inherit;
   width: 100%;
@@ -87,3 +93,25 @@ export const CardInfoWrap = styled.div`
     }
   }
 `;
+
+export const CardIconButton = styled(IconButton)<CardIconButtonType>`
+  ${({ iconName, actived }) => setIconStyle(iconName, actived)}
+`;
+
+const setIconStyle = (iconName: 'like' | 'bookmark', actived: boolean) => {
+  const hoverColor = `${iconName}-icon-hover` as const;
+  const activeColor = `${iconName}-icon-active` as const;
+  const activeHoverColor = `${iconName}-icon-active-hover` as const;
+  return css`
+    svg {
+      color: ${actived ? ({ theme }) => theme[activeColor] : ''};
+    }
+    &:hover {
+      svg {
+        color: ${actived
+          ? ({ theme }) => theme[activeHoverColor]
+          : ({ theme }) => theme[hoverColor]};
+      }
+    }
+  `;
+};
