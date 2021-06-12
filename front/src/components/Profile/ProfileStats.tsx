@@ -6,6 +6,7 @@ import {
   useMutationObserverTarget,
 } from '@/context/MutationObserverContext';
 import useGetArticlesInfos from '@/hooks/swr/useGetArticleInfos';
+
 import ProfileStatsItem from './ProfileStatsItem';
 
 interface ProfileStatsProps {
