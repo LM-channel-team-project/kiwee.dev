@@ -1,6 +1,4 @@
-import providerRepository, {
-  SaveProviderProps,
-} from '../repository/providerRepository';
+import providerRepository, { SaveProviderProps } from '../repository/providerRepository';
 import bookmarkRepository from '../repository/BookmarkRepository';
 import HistoryRepository from '../repository/HistoryRepository';
 class ProviderService {
@@ -22,8 +20,12 @@ class ProviderService {
     ]);
     return results;
   }
-  async findProviderById(providerId: string) {
-    return await this.providerRepository.findProviderById(providerId);
+
+  async findAllBlogProviders() {
+    return await this.providerRepository.findByQuery({ $nor: [{ rssLink: 'default' }] });
+  }
+  async findOneByProviderId(providerId: string) {
+    return await this.providerRepository.findOneByProviderId(providerId);
   }
   async resetLastModifiedTime() {
     return await this.providerRepository.resetLastModifiedTimes();
