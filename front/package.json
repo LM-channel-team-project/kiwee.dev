@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn prebuild && next dev",
-    "build": "next build",
+    "build": "yarn prebuild && next build",
     "start": "next start",
     "prebuild": "rm -rf .next",
     "storybook": "start-storybook -p 6006",

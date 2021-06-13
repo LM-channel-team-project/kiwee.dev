@@ -9,7 +9,7 @@ import { IS_PROD } from '@/config/constants';
 const JWT_SECRET = process.env.JWT_SECRET;
 const GITHUB_EMAIL_API = 'https://api.github.com/user/emails';
 const API_SERVER_URL = process.env.API_SERVER_URL;
-
+console.log(JWT_SECRET);
 const jsonify = (obj: any) => JSON.stringify(obj, null, 2);
 const options: NextAuthOptions = {
   providers: [
@@ -24,7 +24,7 @@ const options: NextAuthOptions = {
   ],
   jwt: {
     secret: JWT_SECRET,
-    encryption: IS_PROD,
+    encryption: !IS_PROD,
   },
   session: { jwt: true },
   callbacks: {

@@ -6,7 +6,6 @@ import { ModalBackground, ModalBlock, CloseButton } from './styles';
 import Login from '@/components/Login';
 import ProfileDetails from '@/components/Profile/ProfileDetails';
 
-
 function Modal() {
   const [modal, toggleModal] = useModal();
   const [session, loading] = useSession();
@@ -25,14 +24,13 @@ function Modal() {
   if (!animate && !localModal) return null;
 
   return (
-    <ModalBackground disappear={!modal} >
-      <ModalBlock disappear={!modal} >
+    <ModalBackground disappear={!modal}>
+      <ModalBlock disappear={!modal}>
         <CloseButton iconName="close" size="medium" styleType="default" onClick={toggleModal} />
         {!session ? <Login /> : <ProfileDetails />}
       </ModalBlock>
     </ModalBackground>
   );
 }
-
 
 export default Modal;

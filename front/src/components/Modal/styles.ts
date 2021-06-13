@@ -1,5 +1,6 @@
 import styled, { keyframes, css } from 'styled-components';
-import IconButton from '../Common/Button/Icon/IconButton';
+import IconButton from '@/components/Common/Button/Icon';
+import { IconButtonProps } from '@/components/Common/Button/Icon/IconButton';
 
 interface Modal {
   disappear: boolean;
@@ -56,7 +57,7 @@ export const ModalBackground = styled.div<Modal>`
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
 
-  ${props =>
+  ${(props) =>
     props.disappear &&
     css`
       animation-name: ${fadeOut};
@@ -78,14 +79,14 @@ export const ModalBlock = styled.div<Modal>`
   animation-name: ${slideUp};
   animation-fill-mode: forwards;
 
-  ${props =>
+  ${(props) =>
     props.disappear &&
     css`
       animation-name: ${slideDown};
     `}
 `;
 
-export const CloseButton = styled(IconButton)`
+export const CloseButton = styled(IconButton)<IconButtonProps>`
   position: absolute;
   right: 1.5rem;
 `;

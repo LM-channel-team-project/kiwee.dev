@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useSession } from 'next-auth/client';
@@ -12,7 +12,7 @@ import TextButton from '@/components/Common/Button/Text';
 
 function header() {
   const [session] = useSession();
-  const [, toggleModal] = useModal()
+  const [, toggleModal] = useModal();
   const [isSettingView, setIsSettingView] = useState(false);
   const { pathname } = useRouter();
 
@@ -20,7 +20,7 @@ function header() {
     setIsSettingView(!isSettingView);
   };
   console.log(pathname);
-  
+
   return (
     <>
       <HeaderBlock>
@@ -34,13 +34,8 @@ function header() {
           <nav className="header-nav">
             <ul className="header-nav-list">
               <li>
-                {pathname === "/blogs" ? (
-                  <TextButton
-                    label="기술 블로그 목록"
-                    to="/blogs"
-                    size="medium"
-                    styleType="selected"
-                  />
+                {pathname === '/blogs' ? (
+                  <TextButton label="기술 블로그 목록" to="/blogs" size="medium" selected={true} />
                 ) : (
                   <TextButton
                     label="기술 블로그 목록"
@@ -52,9 +47,15 @@ function header() {
               </li>
               <li>
                 {!session ? (
-                  <IconButton to="/" iconName="bookmark" size="small" styleType="default" onClick={toggleModal} />
-                ) : pathname === "/bookmark" ? (
-                  <IconButton to="/bookmark" iconName="bookmark" size="small" styleType="selected" />
+                  <IconButton
+                    to="/"
+                    iconName="bookmark"
+                    size="small"
+                    styleType="default"
+                    onClick={toggleModal}
+                  />
+                ) : pathname === '/bookmark' ? (
+                  <IconButton to="/bookmark" iconName="bookmark" size="small" selected={true} />
                 ) : (
                   <IconButton to="/bookmark" iconName="bookmark" size="small" styleType="default" />
                 )}
@@ -64,7 +65,7 @@ function header() {
                   <IconButton
                     iconName="setting"
                     size="small"
-                    styleType="selected"
+                    selected={true}
                     onClick={onClickSetting}
                   />
                 ) : (
@@ -118,10 +119,10 @@ const HeaderBlock = styled.header`
         list-style: none;
 
         li {
-          margin-left: .5rem;
+          margin-left: 0.5rem;
         }
         .header-auth-block {
-          margin-left: .5rem;
+          margin-left: 0.5rem;
         }
       }
     }
