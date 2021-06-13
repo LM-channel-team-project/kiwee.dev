@@ -5,7 +5,12 @@ import { signout } from 'next-auth/client';
 function ProfileDetails() {
   return (
     <div>
-      <TextButton label="LogOut" styleType="primary" size="large" onClick={signout}></TextButton>
+      <TextButton
+        label="LogOut"
+        styleType="primary"
+        size="large"
+        onClick={() => signout()}
+      ></TextButton>
     </div>
   );
 }
