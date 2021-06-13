@@ -16,12 +16,20 @@ function Home() {
     }
   };
 
-  const [onInfiniteScrollUpdate, onInfiniteScrollDisconnect] = useInfiniteScroll(handleObserver);
+  const [
+    onInfiniteScrollInit,
+    onInfiniteScrollUpdate,
+    onInfiniteScrollDisconnect,
+  ] = useInfiniteScroll(handleObserver);
+
+  useEffect(() => {
+    onInfiniteScrollInit(document.querySelector('footer'));
+  });
 
   useEffect(() => {
     const target = document.querySelector('footer');
-    if (articles.length > 1) onInfiniteScrollUpdate(target);
-    if (!hasNextPage) onInfiniteScrollDisconnect(target);
+    if (!hasNextPage) return onInfiniteScrollDisconnect(target);
+    onInfiniteScrollUpdate(target);
   }, [articles, hasNextPage]);
 
   return <PostCardLayout articles={articles} isLoading={isValidating} />;
