@@ -33,20 +33,16 @@ function PostCard({ article }: PropTypes) {
   });
   const setMutateTarget = useMutationObserverSetTarget();
 
-  const onUpdate = useCallback(
-    async (updateTarget: FilterType, isActived: boolean) => {
-      if (!me) return updateTarget === 'histories' ? null : alert('로그인이 필요합니다.');
-      if (updateTarget === 'histories' && isActived) return;
-      const result = await updateArticleInfo(updateTarget, articleId, !isActived);
-      if (result) {
-        setIsActived((prev) => ({ ...prev, [updateTarget]: !isActived }));
-        setMutateTarget({ filter: updateTarget, articleId, isSave: !isActived });
-      }
-    },
-    [me],
-  );
+  const onUpdate = useCallback(async (updateTarget: FilterType, isActived: boolean) => {
+    if (updateTarget === 'histories' && isActived) return;
+    const result = await updateArticleInfo(updateTarget, articleId, !isActived);
+    if (result) {
+      setIsActived((prev) => ({ ...prev, [updateTarget]: !isActived }));
+      setMutateTarget({ filter: updateTarget, articleId, isSave: !isActived });
+    }
+  }, []);
 
-  const debounceOnUpdate = useCallback(debounce(onUpdate, 500), [me]);
+  const debounceOnUpdate = useCallback(debounce(onUpdate, 500), []);
 
   const onClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
@@ -54,6 +50,7 @@ function PostCard({ article }: PropTypes) {
         updateTarget: FilterType;
         actived: string;
       };
+      if (!me) return updateTarget === 'histories' ? null : alert('로그인이 필요합니다.');
       const isActived = actived === 'true' || false;
       setIsActived((prev) => ({ ...prev, [updateTarget]: !isActived }));
       debounceOnUpdate(updateTarget, isActived);
