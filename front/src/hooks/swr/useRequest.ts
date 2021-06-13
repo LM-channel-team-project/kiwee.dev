@@ -10,7 +10,7 @@ export interface Config<Data = unknown, Error = unknown>
   initialData?: Data;
 }
 
-export default function useRequest<Data = unknown, Error = unknown>(
+function useRequest<Data = unknown, Error = unknown>(
   request: AxiosRequestConfig,
   { initialData, ...config }: Config<Data, Error> = {},
 ) {
@@ -29,3 +29,5 @@ export default function useRequest<Data = unknown, Error = unknown>(
     },
   );
 }
+
+export default useRequest;

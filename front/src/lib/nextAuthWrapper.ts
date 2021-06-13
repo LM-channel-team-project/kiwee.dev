@@ -2,15 +2,15 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { getSession } from 'next-auth/client';
 
-type NextAuthWrapper2 = <
-  P extends { [key: string]: any } = { [key: string]: any },
+type NextAuthWrapper = <
+  P extends { [key: string]: unknown } = { [key: string]: unknown },
   Q extends ParsedUrlQuery = ParsedUrlQuery
 >(
   redirect?: { redirectToHome: boolean },
   callback?: (ctx: GetServerSidePropsContext<Q | ParsedUrlQuery>) => Promise<{ props: P }>,
 ) => GetServerSideProps;
 
-export const nextAuthWrapper: NextAuthWrapper2 = (
+export const nextAuthWrapper: NextAuthWrapper = (
   { redirectToHome } = { redirectToHome: false },
   callback,
 ) => {

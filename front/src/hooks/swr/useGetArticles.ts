@@ -19,7 +19,7 @@ async function getArticles(url: string) {
   return response.data;
 }
 
-export function useGetArticles<Error = unknown>(
+function useGetArticles<Error = unknown>(
   filter?: FilterType | Config<Error>,
   config?: Config<Error>,
 ) {
@@ -40,3 +40,5 @@ export function useGetArticles<Error = unknown>(
     isValidating,
   };
 }
+
+export default useGetArticles;

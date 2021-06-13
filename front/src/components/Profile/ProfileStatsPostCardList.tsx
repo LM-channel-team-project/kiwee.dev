@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import useGetArticles from '@/hooks/swr/useGetArticles';
 import {
   useMutationObserverSetTarget,
   useMutationObserverTarget,
 } from '@/context/MutationObserverContext';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { useGetArticles } from '@/hooks/swr/useGetArticles';
+
 import PostCardLayout from '../PostCardLayout';
 
 interface ProfileStatsPostCardListProps {
@@ -15,27 +16,37 @@ interface ProfileStatsPostCardListProps {
 function ProfileStatsPostCardList({ selected }: ProfileStatsPostCardListProps) {
   const { articles, onNextPage, hasNextPage, isValidating, refresh } = useGetArticles(selected, {
     suspense: true,
-    revalidateOnFocus: false,
+    revalidateAll: true,
   });
-  const target = useMutationObserverTarget();
-  const setTarget = useMutationObserverSetTarget();
+  const mutateTarget = useMutationObserverTarget();
+  const setMutateTarget = useMutationObserverSetTarget();
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting) {
       onNextPage();
     }
   };
-  const [onInfiniteScrollUpdate, onInfiniteScrollDisconnect] = useInfiniteScroll(handleObserver);
+
+  const [
+    onInfiniteScrollInit,
+    onInfiniteScrollUpdate,
+    onInfiniteScrollDisconnect,
+  ] = useInfiniteScroll(handleObserver);
+
+  useEffect(() => {
+    onInfiniteScrollInit(document.querySelector('footer'));
+  });
 
   useEffect(() => {
     const target = document.querySelector('footer');
-    if (articles.length > 1) onInfiniteScrollUpdate(target);
-    if (!hasNextPage) onInfiniteScrollDisconnect(target);
+    if (!hasNextPage) return onInfiniteScrollDisconnect(target);
+    onInfiniteScrollUpdate(target);
   }, [articles, hasNextPage]);
 
   useEffect(() => {
-    if (selected === target?.filter) refresh();
-    setTarget(null);
-  }, [target, selected]);
+    //TODO: 좋아요, 북마크 업데이트 시 새로고침 (임시. API 다시 요청하는 것이 아니라 프론트에서 처리하도록 리팩토링해보자.)
+    if (mutateTarget?.filter === selected) refresh();
+    setMutateTarget(null);
+  }, [mutateTarget]);
 
   return (
     <section>

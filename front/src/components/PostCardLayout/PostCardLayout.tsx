@@ -14,7 +14,7 @@ function PostCardLayout({ articles, isLoading }: PropTypes) {
       <CardsWrap>
         {articles &&
           articles.map((article) => {
-            return <PostCard data={article} key={article.articleId} />;
+            return <PostCard article={article} key={article.articleId} />;
           })}
         {isLoading && new Array(4).fill(1).map((_, i) => <SkeletonPostCard key={i} />)}
       </CardsWrap>

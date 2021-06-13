@@ -1,10 +1,13 @@
-import PostCardLayout from '@/components/PostCardLayout';
-import { useGetArticles } from '@/hooks/swr/useGetArticles';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import React, { useEffect } from 'react';
 
+import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
+import useGetArticles from '@/hooks/swr/useGetArticles';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+
+import PostCardLayout from '@/components/PostCardLayout';
+
 function Home() {
-  const { articles, onNextPage, hasNextPage, isValidating, refresh } = useGetArticles();
+  const { articles, onNextPage, hasNextPage, isValidating } = useGetArticles();
 
   // 무한 스크롤
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
@@ -23,5 +26,7 @@ function Home() {
 
   return <PostCardLayout articles={articles} isLoading={isValidating} />;
 }
+
+export const getServerSideProps = nextAuthWrapper({ redirectToHome: false });
 
 export default Home;

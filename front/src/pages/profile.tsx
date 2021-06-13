@@ -1,6 +1,9 @@
 import { useCallback, useState } from 'react';
 import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 
+import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
+import useDeleteErrorCache from '@/hooks/swr/useDeleteErrorCache';
+
 import ProfileStats from '@/components/Profile/ProfileStats';
 import ProfileUser from '@/components/Profile/ProfileUser';
 import ProfileStatsPostCardList from '@/components/Profile/ProfileStatsPostCardList';
@@ -9,9 +12,6 @@ import SkeletonProfileUser from '@/components/Skeleton/Profile/SkeletonProfileUs
 import SKeletonPostCardLayout from '@/components/Skeleton/PostCardLayout';
 import FallbackProfileUser from '@/components/ErrorFallback/Profile/FallbackProfileUser';
 import FallbackPostCardLayout from '@/components/ErrorFallback/PostCardLayout/FallbackPostCardLayout';
-
-import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
-import { useDeleteErrorCache } from '@/hooks/swr/useDeleteErrorCache';
 
 type SelectedType = 'histories' | 'likes';
 

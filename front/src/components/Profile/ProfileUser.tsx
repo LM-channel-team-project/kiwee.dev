@@ -2,10 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import TextButton from '@/components/Common/Button/Text';
-
 import { useModal } from '@/hooks/useModalContext';
-import { useGetMe } from '@/hooks/swr/useGetMe';
+import useGetMe from '@/hooks/swr/useGetMe';
+import TextButton from '@/components/Common/Button/Text';
 
 function ProfileUser() {
   const [modal, toggleModal] = useModal();
