@@ -3,14 +3,14 @@
 nohub python3 ./tag_extractor/server.py
 
 cd rss_batch_crawler 
-nohub yarn dev 
+nohup yarn dev 
 cd ..
 
 cd api_server
-nohub yarn dev 
+nohup yarn dev 
 cd ..
 
 cd front
 yarn build
-nohub yarn start
+nohup yarn start
 cd ..
