@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
 
-import BlogCardLayout from "@/components/BlogCardLayout";
-import { client } from "@/lib/api";
+import { BlogsResponse, Provider } from '@/types/response';
+import { API_URL } from '@/config/constants/api';
 
-function blogs() {
-  const [blogList, setBlogList] = useState([]);
-  const [blogCount, setBlogCount] = useState(0);
+import BlogCardLayout from '@/components/BlogCardLayout';
 
-useEffect(() => {
-  const getBlogList = async () => {
-    const blogList = await client.get('/provider/blogs');
-    const { blogs, count } = blogList.data;
-    setBlogList(blogs);
-    setBlogCount(count);
-  }
-  getBlogList();
-}, [])
-
+function blogs({ blogs, count }: { blogs: Provider[]; count: number }) {
   return (
     <section>
-      <BlogCardLayout blogList={blogList} blogCount={blogCount} />
+      <BlogCardLayout blogList={blogs} blogCount={count} />
     </section>
-  )
+  );
 }
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { data } = await axios.get<BlogsResponse>(`${API_URL}/provider/blogs`);
+  return {
+    props: {
+      blogs: data?.blogs,
+      count: data?.count,
+    },
+  };
+};
 
 export default blogs;

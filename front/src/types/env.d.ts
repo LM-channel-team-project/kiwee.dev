@@ -4,6 +4,7 @@ declare namespace NodeJS {
     PORT: string;
     HOST: string;
     NEXT_PUBLIC_API_URL: string;
+    API_URL: string;
     API_SERVER_URL: string;
     GITHUB_ID: string;
     GITHUB_SECRET: string;
