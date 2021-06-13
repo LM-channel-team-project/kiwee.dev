@@ -1,111 +1,107 @@
-import IconButton from '@/components/Common/Button/Icon';
-import { CardContainer, CardContent, CardContentWrap, CardImage, CardInfoWrap } from './styles';
-import { IArticle } from '@/types/article';
+import React, { memo, useCallback, useState, ComponentProps, useMemo } from 'react';
 import dayjs from 'dayjs';
-import { memo, useState } from 'react';
+
+import { IArticle } from '@/types/article';
+import { FilterType } from '@/types/apiType';
+import { updateArticleInfo } from '@/lib/api/article';
 import { useNewTabContext } from '@/hooks/useNewTabContext';
-import { useSession } from 'next-auth/client';
-import { DefaultTheme } from 'styled-components';
-import useUpdateArticleInfo from '@/hooks/useUpdateArticleInfo';
+import { useMutationObserverSetTarget } from '@/context/MutationObserverContext';
+import useGetMe from '@/hooks/swr/useGetMe';
+import debounce from '@/lib/utils/debounce';
+
+import {
+  CardContainer,
+  CardContent,
+  CardContentWrap,
+  CardImage,
+  CardInfoWrap,
+  CardIconButton,
+} from './styles';
 
 interface PropTypes {
-  data: IArticle;
+  article: IArticle;
 }
 
-function PostCard({ data }: PropTypes) {
+function PostCard({ article }: PropTypes) {
+  const { title, articleId, articleUrl, provider, ...info } = article;
   const [isNewTab] = useNewTabContext();
-  const [session] = useSession();
-  const [isLiked, setIsLiked] = useState<boolean>(data.isLiked);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(data.isBookmarked);
-  const providerId: string | unknown = session?.sub;
-  const { onUpdate } = useUpdateArticleInfo();
+  const { provider: me } = useGetMe();
+  const [isActived, setIsActived] = useState({
+    likes: info.isLiked,
+    bookmarks: info.isBookmarked,
+    histories: info.isVisited,
+  });
+  const setMutateTarget = useMutationObserverSetTarget();
 
-  const onClickLike = async () => {
-    if (!providerId) alert('로그인이 필요합니다.');
-    const result = await onUpdate('likes', data.articleId, !isLiked);
-    // console.log(result);
-    result && setIsLiked(!isLiked);
-  };
+  const onUpdate = useCallback(
+    async (updateTarget: FilterType, isActived: boolean) => {
+      if (!me) return updateTarget === 'histories' ? null : alert('로그인이 필요합니다.');
+      if (updateTarget === 'histories' && isActived) return;
+      const result = await updateArticleInfo(updateTarget, articleId, !isActived);
+      if (result) {
+        setIsActived((prev) => ({ ...prev, [updateTarget]: !isActived }));
+        setMutateTarget({ filter: updateTarget, articleId, isSave: !isActived });
+      }
+    },
+    [me],
+  );
 
-  const onClickPost = async () => {
-    if (!providerId) return;
-    await onUpdate('histories', data.articleId, true);
-  };
+  const debounceOnUpdate = useCallback(debounce(onUpdate, 500), [me]);
 
-  const onClickBookmark = async () => {
-    if (!providerId) alert('로그인이 필요합니다.');
-    const result = await onUpdate('bookmarks', data.articleId, !isBookmarked);
-    // console.log(result);
-    result && setIsBookmarked(!isBookmarked);
-  };
+  const onClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      const { updateTarget, actived } = e.currentTarget.dataset as {
+        updateTarget: FilterType;
+        actived: string;
+      };
+      const isActived = actived === 'true' || false;
+      setIsActived((prev) => ({ ...prev, [updateTarget]: !isActived }));
+      debounceOnUpdate(updateTarget, isActived);
+    },
+    [me],
+  );
 
-  const cardProps = {
-    href: data.articleUrl,
-    target: isNewTab ? '_blank' : '_self',
-    rel: isNewTab ? 'noopener noreferrer' : '',
-    onClick: onClickPost,
-    thumbnail: data.provider.name,
-  };
+  const cardProps = useMemo(
+    () => getCardProps(articleUrl, provider.name, info.isVisited, isNewTab),
+    [article, isNewTab],
+  );
 
   return (
     <CardContainer>
-      <CardImage {...cardProps} />
+      <CardImage onClick={onClick} {...cardProps} />
       <CardContentWrap>
-        <div className="sub-info">{dayjs(data.insertDate).format('MMM DD, YYYY')}</div>
+        <div className="sub-info">{dayjs(info.insertDate).format('MMM DD, YYYY')}</div>
         <CardContent {...cardProps}>
-          <h3>{data.title}</h3>
+          <h3>{title}</h3>
         </CardContent>
       </CardContentWrap>
       <CardInfoWrap>
         <div className="card-info-left">
-          <img className="post-info-image" src={data.provider.avatar} alt={data.provider.name} />
-          {data.provider.name}
+          <img className="post-info-image" src={provider.avatar} alt={provider.name} />
+          {provider.name}
         </div>
         <div className="card-info-right">
           <ul className="buttons">
             <li>
-              <IconButton
+              <CardIconButton
                 iconName="like"
                 size="small"
                 styleType={'default'}
-                onClick={onClickLike}
-                css={`
-                  &:hover {
-                    svg {
-                      color: ${!isLiked
-                        ? ({ theme }: { theme: DefaultTheme }) => theme['like-icon-hover']
-                        : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active-hover']};
-                    }
-                  }
-                  svg {
-                    color: ${!isLiked
-                      ? ''
-                      : ({ theme }: { theme: DefaultTheme }) => theme['like-icon-active']};
-                  }
-                `}
+                onClick={onClick}
+                actived={isActived.likes}
+                data-update-target="likes"
+                data-actived={isActived.likes}
               />
             </li>
             <li>
-              <IconButton
+              <CardIconButton
                 iconName="bookmark"
                 size="small"
                 styleType="default"
-                onClick={onClickBookmark}
-                css={`
-                  &:hover {
-                    svg {
-                      color: ${!isBookmarked
-                        ? ({ theme }: { theme: DefaultTheme }) => theme['bookmark-icon-hover']
-                        : ({ theme }: { theme: DefaultTheme }) =>
-                            theme['bookmark-icon-active-hover']};
-                    }
-                  }
-                  svg {
-                    color: ${!isBookmarked
-                      ? ''
-                      : ({ theme }: { theme: DefaultTheme }) => theme['bookmark-icon-active']};
-                  }
-                `}
+                onClick={onClick}
+                actived={isActived.bookmarks}
+                data-update-target="bookmarks"
+                data-actived={isActived.bookmarks}
               />
             </li>
           </ul>
@@ -114,5 +110,19 @@ function PostCard({ data }: PropTypes) {
     </CardContainer>
   );
 }
+
+const getCardProps = (
+  href: string,
+  thumbnail: string,
+  isVisited: boolean,
+  isNewTab: boolean,
+): ComponentProps<typeof CardImage> => ({
+  href,
+  thumbnail,
+  target: isNewTab ? '_blank' : '_self',
+  rel: isNewTab ? 'noopener noreferrer' : '',
+  ['data-update-target']: 'histories',
+  ['data-actived']: isVisited,
+});
 
 export default memo(PostCard);
