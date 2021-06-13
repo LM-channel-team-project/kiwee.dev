@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const SwitchButton = styled.label`
   position: relative;
   display: inline-block;
-  width: 55px;
-  height: 30px;
+  width: 45px;
+  height: 25px;
   margin-right: 1.2rem;
 
   input {
@@ -19,8 +19,8 @@ export const SwitchButton = styled.label`
   }
 
   input:checked + span:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
+    -webkit-transform: translateX(22px);
+    -ms-transform: translateX(22px);
     transform: translateX;
   }
 `;
@@ -41,8 +41,8 @@ export const SwitchOnOff = styled.span`
   &:before {
     position: absolute;
     content: '';
-    height: 22px;
-    width: 22px;
+    height: 18px;
+    width: 18px;
     left: 4px;
     bottom: 4px;
     background-color: #fff;

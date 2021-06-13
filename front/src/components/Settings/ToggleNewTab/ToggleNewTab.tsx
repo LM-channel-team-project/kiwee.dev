@@ -1,5 +1,5 @@
 import { useNewTabContext } from '@/hooks/useNewTabContext';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SwitchButton, SwitchOnOff } from '../common/styles';
 import { Container } from '../ToggleDarkmode/styles';
 

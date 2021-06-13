@@ -4,8 +4,9 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 156px;
+  height: 120px;
   padding: 2.4rem 1.6rem 2.4rem 8rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   background: ${({ theme }) => theme['settings-bg']};
 `;
 
@@ -17,7 +18,8 @@ export const Division = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 3.2rem;
+  font-size: 3rem;
+  font-weight: 600;
 `;
 
 export const Switches = styled.div`
