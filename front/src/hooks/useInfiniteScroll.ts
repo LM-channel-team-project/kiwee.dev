@@ -32,7 +32,6 @@ function useInfiniteScroll(callbackFn: PropTypes) {
   };
 
   const onInfiniteScrollDisconnect = () => {
-    console.log('disco');
     return io.current && io.current.disconnect();
   };
 
