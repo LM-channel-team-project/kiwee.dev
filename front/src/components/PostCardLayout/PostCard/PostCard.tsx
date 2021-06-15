@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, ComponentProps, useMemo } from 'react';
+import React, { memo, useCallback, useState, useMemo } from 'react';
 import dayjs from 'dayjs';
 
 import { IArticle } from '@/types/article';
