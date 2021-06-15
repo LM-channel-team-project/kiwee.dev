@@ -22,6 +22,12 @@ interface PropTypes {
   article: IArticle;
 }
 
+interface CardImageType extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  thumbnail: string;
+  'data-update-target': FilterType;
+  'data-actived': boolean;
+}
+
 function PostCard({ article }: PropTypes) {
   const { title, articleId, articleUrl, provider, ...info } = article;
   const [isNewTab] = useNewTabContext();
@@ -59,7 +65,7 @@ function PostCard({ article }: PropTypes) {
   );
 
   const cardProps = useMemo(
-    () => getCardProps(articleUrl, provider.name, info.isVisited, isNewTab),
+    () => getCardProps(articleUrl, provider.name, info.isVisited, isNewTab, title),
     [article, isNewTab],
   );
 
@@ -81,6 +87,7 @@ function PostCard({ article }: PropTypes) {
           <ul className="buttons">
             <li>
               <CardIconButton
+                aria-label="like-button"
                 iconName="like"
                 size="small"
                 styleType={'default'}
@@ -92,6 +99,7 @@ function PostCard({ article }: PropTypes) {
             </li>
             <li>
               <CardIconButton
+                aria-label="bookmark-button"
                 iconName="bookmark"
                 size="small"
                 styleType="default"
@@ -113,13 +121,15 @@ const getCardProps = (
   thumbnail: string,
   isVisited: boolean,
   isNewTab: boolean,
-): ComponentProps<typeof CardImage> => ({
+  ariaLabel: string,
+): CardImageType => ({
   href,
   thumbnail,
   target: isNewTab ? '_blank' : '_self',
   rel: isNewTab ? 'noopener noreferrer' : '',
   ['data-update-target']: 'histories',
   ['data-actived']: isVisited,
+  'aria-label': ariaLabel,
 });
 
 export default memo(PostCard);
