@@ -4,6 +4,7 @@ import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
 import useDeleteErrorCache from '@/hooks/swr/useDeleteErrorCache';
 
+import SEO from '@/components/SEO';
 import ProfileStats from '@/components/Profile/ProfileStats';
 import ProfileUser from '@/components/Profile/ProfileUser';
 import ProfileStatsPostCardList from '@/components/Profile/ProfileStatsPostCardList';
@@ -24,6 +25,7 @@ function profile() {
 
   return (
     <>
+      <SEO />
       <AsyncBoundary
         rejectedFallback={FallbackProfileUser}
         pendingFallback={<SkeletonProfileUser />}
