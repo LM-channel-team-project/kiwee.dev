@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -19,7 +19,12 @@ function header() {
   const onClickSetting = () => {
     setIsSettingView(!isSettingView);
   };
-  console.log(pathname);
+
+  const onToggleModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (session) return;
+    e.preventDefault();
+    toggleModal();
+  };
 
   return (
     <>
@@ -34,48 +39,32 @@ function header() {
           <nav className="header-nav">
             <ul className="header-nav-list">
               <li>
-                {pathname === '/blogs' ? (
-                  <TextButton label="기술 블로그 목록" to="/blogs" size="medium" selected={true} />
-                ) : (
-                  <TextButton
-                    label="기술 블로그 목록"
-                    to="/blogs"
-                    size="medium"
-                    styleType="default"
-                  />
-                )}
+                <TextButton
+                  label="기술 블로그 목록"
+                  to="/blogs"
+                  size="medium"
+                  styleType="default"
+                  selected={pathname === '/blogs'}
+                />
               </li>
               <li>
-                {!session ? (
-                  <IconButton
-                    to="/"
-                    iconName="bookmark"
-                    size="small"
-                    styleType="default"
-                    onClick={toggleModal}
-                  />
-                ) : pathname === '/bookmark' ? (
-                  <IconButton to="/bookmark" iconName="bookmark" size="small" selected={true} />
-                ) : (
-                  <IconButton to="/bookmark" iconName="bookmark" size="small" styleType="default" />
-                )}
+                <IconButton
+                  to="/bookmark"
+                  iconName="bookmark"
+                  size="small"
+                  styleType="default"
+                  selected={pathname === '/bookmark'}
+                  onClick={onToggleModal}
+                />
               </li>
               <li>
-                {isSettingView ? (
-                  <IconButton
-                    iconName="setting"
-                    size="small"
-                    selected={true}
-                    onClick={onClickSetting}
-                  />
-                ) : (
-                  <IconButton
-                    iconName="setting"
-                    size="small"
-                    styleType="default"
-                    onClick={onClickSetting}
-                  />
-                )}
+                <IconButton
+                  aria-label="setting-button"
+                  iconName="setting"
+                  size="small"
+                  selected={isSettingView}
+                  onClick={onClickSetting}
+                />
               </li>
               <li>
                 <div className="header-auth-block">
