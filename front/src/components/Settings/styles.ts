@@ -15,11 +15,23 @@ export const Division = styled.div`
   height: 100px;
   margin: 0 10rem;
   opacity: 0.2;
+
+  @media (max-width: 767px) {
+    margin: 0 5rem;
+  }
+
+  @media (max-width: 480px) {
+    margin: 0 2.5rem;
+  }
 `;
 
 export const Title = styled.div`
   font-size: 3rem;
   font-weight: 600;
+
+  @media (max-width: 480px) {
+    margin-left: -5rem;
+  }
 `;
 
 export const Switches = styled.div`
