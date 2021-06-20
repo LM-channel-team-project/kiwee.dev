@@ -1,16 +1,16 @@
 #!bin/bash
 
-nohub python3 ./tag_extractor/server.py
+nohup python3 ./tag_extractor/server.py
 
 cd rss_batch_crawler 
-nohup yarn dev 
+nohup yarn dev & > log.out
 cd ..
 
 cd api_server
-nohup yarn dev 
+nohup yarn dev & > log.out
 cd ..
 
 cd front
 yarn build
-nohup yarn start
+nohup yarn start & > log.out
 cd ..
