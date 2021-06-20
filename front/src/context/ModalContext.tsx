@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-type ContextType = [boolean, () => void];
+type ContextType = [boolean, () => void, () => void];
 
 interface ChildrenType {
   children: React.ReactNode | string;
@@ -15,7 +15,11 @@ function ModalProvider({ children }: ChildrenType) {
     setModal(!modal);
   };
 
-  return <ModalContext.Provider value={[modal, toggleModal]}>{children}</ModalContext.Provider>;
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  return <ModalContext.Provider value={[modal, toggleModal, closeModal]}>{children}</ModalContext.Provider>;
 }
 
 export default ModalProvider;
