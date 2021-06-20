@@ -4,7 +4,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useSession } from 'next-auth/client';
 import { useModal } from '@/hooks/useModalContext';
-// import { ReactComponent as Logo } from 'img/logo.svg';
 
 import HeaderAuth from './HeaderAuth';
 import Settings from '../Settings';
@@ -27,7 +26,7 @@ function header() {
       <HeaderBlock>
         <Link href="/">
           <a className="header-logo-wrapper">
-            <img src="/img/logo.svg" alt="" />
+            <img src="/img/logo.svg" alt="로고" />
           </a>
         </Link>
         <div className="header-contents">
