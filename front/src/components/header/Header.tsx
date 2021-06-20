@@ -33,7 +33,7 @@ function header() {
         <h1>
           <Link href="/">
             <a className="header-logo-wrapper">
-              <Image src="/img/logo.svg" width="100%" height="40px" alt="로고" layout="intrinsic" />
+              <Image src="/img/logo.svg" width="84px" height="40px" alt="로고" layout="intrinsic" />
             </a>
           </Link>
         </h1>
