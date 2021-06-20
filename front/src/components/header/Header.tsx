@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useSession } from 'next-auth/client';
 import { useModal } from '@/hooks/useModalContext';
+// import { ReactComponent as Logo } from 'img/logo.svg';
 
 import HeaderAuth from './HeaderAuth';
 import Settings from '../Settings';
@@ -26,8 +27,7 @@ function header() {
       <HeaderBlock>
         <Link href="/">
           <a className="header-logo-wrapper">
-            <span>LOGO</span>&nbsp;
-            <span>LOGONAME</span>
+            <img src="/img/logo.svg" alt="" />
           </a>
         </Link>
         <div className="header-contents">
@@ -35,14 +35,9 @@ function header() {
             <ul className="header-nav-list">
               <li>
                 {pathname === '/blogs' ? (
-                  <TextButton label="기술 블로그 목록" to="/blogs" size="medium" selected={true} />
+                  <TextButton label="blogs" to="/blogs" size="medium" selected={true} />
                 ) : (
-                  <TextButton
-                    label="기술 블로그 목록"
-                    to="/blogs"
-                    size="medium"
-                    styleType="default"
-                  />
+                  <TextButton label="blogs" to="/blogs" size="medium" styleType="default" />
                 )}
               </li>
               <li>
@@ -93,17 +88,45 @@ function header() {
 
 const HeaderBlock = styled.header`
   display: flex;
-  width: 100%;
-  height: 60px;
-  padding: 0 1.6rem;
+  width: 1728px;
+  height: 100px;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
+  margin-top: 1.6rem;
+  margin-bottom: -1.6rem;
   .header-logo-wrapper {
     display: flex;
-    height: 100%;
-    justify-content: center;
+    width: 200px;
+    height: 64px;
+    justify-content: flex-start;
     align-items: center;
-    background-color: #eeeeee;
+    img {
+      height: 100%;
+    }
+
+    @media (max-width: 480px) {
+      margin-top: 0.8rem;
+      padding-left: 0;
+      height: 48px;
+      width: 100px;
+    }
+  }
+
+  @media (max-width: 1919px) {
+    width: 1376px;
+  }
+
+  @media (max-width: 1440px) {
+    width: 1024px;
+  }
+
+  @media (max-width: 1056px) {
+    width: calc(100% - 3.2rem);
+  }
+
+  @media (max-width: 480px) {
+    height: 64px;
   }
 
   .header-contents {
@@ -123,6 +146,7 @@ const HeaderBlock = styled.header`
         }
         .header-auth-block {
           margin-left: 0.5rem;
+          border-radius: 8px;
         }
       }
     }
