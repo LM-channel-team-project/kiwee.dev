@@ -67,7 +67,7 @@ export const ModalBackground = styled.div<Modal>`
 export const ModalBlock = styled.div<Modal>`
   position: relative;
   width: 400px;
-  height: 360px;
+  height: 400px;
   padding: 2rem;
   background: ${({ theme }) => theme[`background`]};
   border: ${({ theme }) => theme[`modal-border`]};
