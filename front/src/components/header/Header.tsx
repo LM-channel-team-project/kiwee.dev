@@ -39,7 +39,7 @@ function header() {
             <ul className="header-nav-list">
               <li>
                 <TextButton
-                  label="기술 블로그 목록"
+                  label="blogs"
                   to="/blogs"
                   size="medium"
                   styleType="default"
