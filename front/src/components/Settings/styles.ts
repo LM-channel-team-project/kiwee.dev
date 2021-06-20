@@ -5,9 +5,15 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 120px;
-  padding: 2.4rem 1.6rem 2.4rem 8rem;
+  margin-top: 1.6rem;
+  padding: 2.4rem 1.6rem 2.4rem 12rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   background: ${({ theme }) => theme['settings-bg']};
+
+  @media (max-width: 767px) {
+    margin-top: 2.4rem;
+    padding-left: 8rem;
+  }
 `;
 
 export const Division = styled.div`
