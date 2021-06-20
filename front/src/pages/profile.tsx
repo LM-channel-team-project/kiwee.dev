@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 
 import { GET_ME_KEY } from '@/hooks/swr/useGetMe';
@@ -19,9 +19,9 @@ type SelectedType = 'histories' | 'likes';
 function profile() {
   const [selected, setSelected] = useState<SelectedType>('histories');
 
-  const onSetSelected = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSetSelected = (e: React.MouseEvent<HTMLButtonElement>) => {
     setSelected(e.currentTarget.name as SelectedType);
-  }, []);
+  };
 
   return (
     <>
@@ -34,13 +34,16 @@ function profile() {
         <ProfileUser />
       </AsyncBoundary>
       <ProfileStats selected={selected} onClick={onSetSelected} />
-      <AsyncBoundary
-        rejectedFallback={FallbackPostCardLayout}
-        pendingFallback={<SKeletonPostCardLayout />}
-        onReset={() => useDeleteErrorCache()}
-      >
-        <ProfileStatsPostCardList selected={selected} />
-      </AsyncBoundary>
+      {
+        <AsyncBoundary
+          rejectedFallback={FallbackPostCardLayout}
+          pendingFallback={<SKeletonPostCardLayout />}
+          onReset={() => useDeleteErrorCache()}
+        >
+          {selected === 'histories' && <ProfileStatsPostCardList selected="histories" />}
+          {selected === 'likes' && <ProfileStatsPostCardList selected="likes" />}
+        </AsyncBoundary>
+      }
     </>
   );
 }

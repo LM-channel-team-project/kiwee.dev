@@ -15,8 +15,8 @@ interface ProfileStatsPostCardListProps {
 
 function ProfileStatsPostCardList({ selected }: ProfileStatsPostCardListProps) {
   const { articles, onNextPage, hasNextPage, isValidating, refresh } = useGetArticles(selected, {
-    suspense: true,
     revalidateAll: true,
+    suspense: true,
   });
   const mutateTarget = useMutationObserverTarget();
   const setMutateTarget = useMutationObserverSetTarget();
@@ -43,10 +43,10 @@ function ProfileStatsPostCardList({ selected }: ProfileStatsPostCardListProps) {
   }, [articles, hasNextPage]);
 
   useEffect(() => {
-    //TODO: 좋아요, 북마크 업데이트 시 새로고침 (임시. API 다시 요청하는 것이 아니라 프론트에서 처리하도록 리팩토링해보자.)
+    // TODO: 좋아요, 북마크 업데이트 시 새로고침 (임시. API 다시 요청하는 것이 아니라 프론트에서 처리하도록 리팩토링해보자.)
     if (mutateTarget?.filter === selected) refresh();
     setMutateTarget(null);
-  }, [mutateTarget]);
+  }, [mutateTarget, selected]);
 
   return (
     <section>
