@@ -59,6 +59,9 @@ const HeaderAuthBlock = styled.div`
     border: none;
     border-radius: 0.4rem;
     cursor: pointer;
+    img {
+      border-radius: 0.4rem;
+    }
   }
 `;
 
