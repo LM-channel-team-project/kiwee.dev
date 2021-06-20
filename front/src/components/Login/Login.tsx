@@ -5,8 +5,6 @@ import { google as Google, github as GitHub } from '@/components/Common/Icon/svg
 import { useThemeContext } from '@/hooks/useThemeContext';
 import Link from 'next/link';
 
-const HOST_URL = 'http://localhost:3000';
-
 const Login = () => {
   const [mode] = useThemeContext();
   const [csrfToken, setCsrfToken] = useState<string>('');
@@ -19,20 +17,22 @@ const Login = () => {
 
   return (
     <LoginContainer>
-      <Logo>LOGO</Logo>
+      <Logo>
+        <img src="/img/logo.svg" alt="로고" />
+      </Logo>
       <LoginTip>Tech-Blog에 로그인 하고 북마크와 같은 다양한 기능들을 이용해보세요!</LoginTip>
       <ButtonWrapper>
-        <form action={`${HOST_URL}/api/auth/signin/google`} method="POST">
+        <form action={`/api/auth/signin/google`} method="POST">
           <input type="hidden" name="csrfToken" value={csrfToken}></input>
-          <input type="hidden" name="callbackUrl" value={HOST_URL}></input>
+          <input type="hidden" name="callbackUrl" value="/"></input>
           <button className="login-btn" type="submit">
             <Google className="icon" />
             <span>Sign in with Google</span>
           </button>
         </form>
-        <form action={`${HOST_URL}/api/auth/signin/github`} method="POST">
+        <form action={`/api/auth/signin/github`} method="POST">
           <input type="hidden" name="csrfToken" value={csrfToken}></input>
-          <input type="hidden" name="callbackUrl" value={HOST_URL}></input>
+          <input type="hidden" name="callbackUrl" value="/"></input>
           <button className="login-btn" type="submit">
             {mode === 'light' ? (
               <GitHub className="icon" fill="#fff" />

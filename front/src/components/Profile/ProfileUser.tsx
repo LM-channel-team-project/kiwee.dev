@@ -2,12 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { useModal } from '@/hooks/useModalContext';
 import useGetMe from '@/hooks/swr/useGetMe';
-import TextButton from '@/components/Common/Button/Text';
 
 function ProfileUser() {
-  const [modal, toggleModal] = useModal();
   const { provider } = useGetMe({ suspense: true });
   if (!provider) return null;
   return (
@@ -26,15 +23,6 @@ function ProfileUser() {
         </div>
         <h1 className="profile-name">{provider.name}</h1>
       </div>
-
-      <TextButton
-        label="계정 설정"
-        styleType="primary"
-        size="large"
-        fullWidth
-        className="profile-auth-btn"
-        onClick={toggleModal}
-      />
     </ProfileUserBlock>
   );
 }
@@ -42,6 +30,7 @@ function ProfileUser() {
 const ProfileUserBlock = styled.section`
   display: flex;
   width: 100%;
+  margin-top: 1.6rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;

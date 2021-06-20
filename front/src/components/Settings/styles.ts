@@ -3,12 +3,24 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 1728px;
   height: 120px;
-  margin-top: 1.6rem;
+  margin: 0 auto;
   padding: 2.4rem 1.6rem 2.4rem 12rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   background: ${({ theme }) => theme['settings-bg']};
+
+  @media (max-width: 1919px) {
+    width: 1376px;
+  }
+
+  @media (max-width: 1440px) {
+    width: 1024px;
+  }
+
+  @media (max-width: 1056px) {
+    width: calc(100% - 3.2rem);
+  }
 
   @media (max-width: 767px) {
     margin-top: 2.4rem;

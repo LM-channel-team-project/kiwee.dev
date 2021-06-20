@@ -82,12 +82,10 @@ function header() {
 const HeaderBlock = styled.header`
   display: flex;
   width: 1728px;
-  height: 100px;
+  height: 80px;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  margin-top: 1.6rem;
-  margin-bottom: -1.6rem;
   .header-logo-wrapper {
     display: flex;
     width: 200px;
@@ -95,7 +93,8 @@ const HeaderBlock = styled.header`
     justify-content: flex-start;
     align-items: center;
     img {
-      height: 100%;
+      width: 105px;
+      height: 80%;
     }
 
     @media (max-width: 480px) {

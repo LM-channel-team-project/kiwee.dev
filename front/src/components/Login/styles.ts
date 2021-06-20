@@ -7,6 +7,9 @@ export const LoginContainer = styled.div`
 
 export const Logo = styled.div`
   margin: 0.5rem 0;
+  img {
+    width: 100px;
+  }
 `;
 
 export const LoginTip = styled.div`
