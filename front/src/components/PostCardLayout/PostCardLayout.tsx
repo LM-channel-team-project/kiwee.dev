@@ -1,4 +1,4 @@
-import { CardsWrap, Container } from './styles';
+import { CardsWrap, Container, Heading2 } from './styles';
 import { IArticle } from '@/types/article';
 import PostCard from './PostCard/PostCard';
 import SkeletonPostCard from '@/components/Skeleton/PostCardLayout/PostCard';
@@ -11,6 +11,7 @@ interface PropTypes {
 function PostCardLayout({ articles, isLoading }: PropTypes) {
   return (
     <Container>
+      <Heading2>IT기술 블로그 게시물 목록</Heading2>
       <CardsWrap>
         {articles &&
           articles.map((article) => {
