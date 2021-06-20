@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import SEO from '@/components/SEO';
 import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 import useGetArticles from '@/hooks/swr/useGetArticles';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
@@ -32,7 +33,12 @@ function Home() {
     onInfiniteScrollUpdate(target);
   }, [articles, hasNextPage]);
 
-  return <PostCardLayout articles={articles} isLoading={isValidating} />;
+  return (
+    <>
+      <SEO />
+      <PostCardLayout articles={articles} isLoading={isValidating} />
+    </>
+  );
 }
 
 export const getServerSideProps = nextAuthWrapper({ redirectToHome: false });

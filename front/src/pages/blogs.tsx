@@ -5,10 +5,12 @@ import { BlogsResponse, Provider } from '@/types/response';
 import { API_URL } from '@/config/constants/api';
 
 import BlogCardLayout from '@/components/BlogCardLayout';
+import SEO from '@/components/SEO';
 
 function blogs({ blogs, count }: { blogs: Provider[]; count: number }) {
   return (
     <section>
+      <SEO />
       <BlogCardLayout blogList={blogs} blogCount={count} />
     </section>
   );
