@@ -93,6 +93,7 @@ const HeaderBlock = styled.header`
     justify-content: flex-start;
     align-items: center;
     img {
+      width: 105px;
       height: 80%;
     }
 
