@@ -5,9 +5,15 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 120px;
-  padding: 2.4rem 1.6rem 2.4rem 8rem;
+  margin-top: 1.6rem;
+  padding: 2.4rem 1.6rem 2.4rem 12rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   background: ${({ theme }) => theme['settings-bg']};
+
+  @media (max-width: 767px) {
+    margin-top: 2.4rem;
+    padding-left: 8rem;
+  }
 `;
 
 export const Division = styled.div`
@@ -15,11 +21,23 @@ export const Division = styled.div`
   height: 100px;
   margin: 0 10rem;
   opacity: 0.2;
+
+  @media (max-width: 767px) {
+    margin: 0 5rem;
+  }
+
+  @media (max-width: 480px) {
+    margin: 0 2.5rem;
+  }
 `;
 
 export const Title = styled.div`
   font-size: 3rem;
   font-weight: 600;
+
+  @media (max-width: 480px) {
+    margin-left: -5rem;
+  }
 `;
 
 export const Switches = styled.div`

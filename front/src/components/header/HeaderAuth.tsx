@@ -51,6 +51,7 @@ const HeaderAuthBlock = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   .profile-button {
     width: 4rem;
     height: 4rem;
@@ -58,10 +59,6 @@ const HeaderAuthBlock = styled.div`
     border: none;
     border-radius: 0.4rem;
     cursor: pointer;
-  }
-
-  img {
-    border-radius: 0.4rem;
   }
 `;
 

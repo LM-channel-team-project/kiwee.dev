@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import SEO from '@/components/SEO';
 import {
   useMutationObserverSetTarget,
   useMutationObserverTarget,
@@ -45,6 +46,7 @@ function bookmark() {
 
   return (
     <section>
+      <SEO />
       <PostCardLayout articles={articles} isLoading={isValidating} />
     </section>
   );

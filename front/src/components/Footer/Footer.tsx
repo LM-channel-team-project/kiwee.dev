@@ -4,9 +4,7 @@ function Footer() {
   return (
     <FooterBlock>
       <ul>
-        <li>
-          &#169; 2021 LOGONAME.
-        </li>
+        <li>&#169; 2021 kiwee.</li>
       </ul>
     </FooterBlock>
   );
