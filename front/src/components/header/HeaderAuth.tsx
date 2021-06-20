@@ -43,6 +43,9 @@ const HeaderAuthBlock = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  img {
+    border-radius: 8px;
+  }
 `;
 
 export default HeaderAuth;
