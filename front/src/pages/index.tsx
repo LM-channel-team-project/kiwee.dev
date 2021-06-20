@@ -29,9 +29,9 @@ function Home() {
 
   useEffect(() => {
     const target = document.querySelector('footer');
-    if (!hasNextPage) return onInfiniteScrollDisconnect(target);
-    onInfiniteScrollUpdate(target);
-  }, [articles, hasNextPage]);
+    if (!hasNextPage || isValidating) onInfiniteScrollDisconnect(target);
+    else onInfiniteScrollUpdate(target);
+  }, [articles, hasNextPage, isValidating]);
 
   return (
     <>
