@@ -1,5 +1,7 @@
 #!bin/bash
 
+git pull origin main
+
 killall nodemon
 killall python3
 killall node
