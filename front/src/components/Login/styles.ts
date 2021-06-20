@@ -16,7 +16,7 @@ export const LoginTip = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
 
   form {
     display: flex;
@@ -56,8 +56,37 @@ export const ButtonWrapper = styled.div`
   }
 `;
 
-export const LoginPolicy = styled.div`
+export const LoginPolicy = styled.ul`
+  display: flex;
+  justify-content: center;
   margin-top: 3.5rem;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   line-height: 1.5rem;
 `;
+
+export const Privacy = styled.li`
+
+  a {
+    padding: .75rem;
+    text-decoration: none;
+
+    &:visited  {
+      text-decoration: none;
+      color: ${({ theme }) => theme['font']};
+    }
+  }
+`;
+
+export const Term = styled.li`
+
+  a {
+    padding: .75rem;
+    text-decoration: none;
+
+    &:visited  {
+      text-decoration: none;
+      color: ${({ theme }) => theme['font']};
+    }
+  }
+`;
+
