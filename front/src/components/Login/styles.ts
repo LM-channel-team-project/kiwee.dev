@@ -73,8 +73,13 @@ export const Privacy = styled.li`
   a {
     padding: .75rem;
     text-decoration: none;
+    color: ${({ theme }) => theme['font']};
 
     &:visited  {
+      text-decoration: none;
+      color: ${({ theme }) => theme['font']};
+    }
+    &:focus  {
       text-decoration: none;
       color: ${({ theme }) => theme['font']};
     }
@@ -86,8 +91,13 @@ export const Term = styled.li`
   a {
     padding: .75rem;
     text-decoration: none;
+    color: ${({ theme }) => theme['font']};
 
     &:visited  {
+      text-decoration: none;
+      color: ${({ theme }) => theme['font']};
+    }
+    &:focus  {
       text-decoration: none;
       color: ${({ theme }) => theme['font']};
     }
