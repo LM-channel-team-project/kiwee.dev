@@ -15,11 +15,12 @@ export const Logo = styled.div`
 export const LoginTip = styled.div`
   margin: 2.5rem 0 2rem;
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: 2.5rem;
+  font-weight: 600;
 `;
 
 export const ButtonWrapper = styled.div`
-  margin: 1.25rem 0;
+  margin: 2rem 0;
 
   form {
     display: flex;

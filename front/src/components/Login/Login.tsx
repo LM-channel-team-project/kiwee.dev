@@ -20,7 +20,7 @@ const Login = () => {
       <Logo>
         <img src="/img/logo.svg" alt="로고" />
       </Logo>
-      <LoginTip>Tech-Blog에 로그인 하고 북마크와 같은 다양한 기능들을 이용해보세요!</LoginTip>
+      <LoginTip>Kiwee에 로그인하고 북마크와 같은 다양한 기능들을 사용해보세요!!</LoginTip>
       <ButtonWrapper>
         <form action={`/api/auth/signin/google`} method="POST">
           <input type="hidden" name="csrfToken" value={csrfToken}></input>
