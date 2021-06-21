@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useSession } from 'next-auth/client';
 import { useModal } from '@/hooks/useModalContext';
@@ -29,11 +30,13 @@ function header() {
   return (
     <>
       <HeaderBlock>
-        <Link href="/">
-          <a className="header-logo-wrapper">
-            <img src="/img/logo.svg" alt="로고" />
-          </a>
-        </Link>
+        <h1>
+          <Link href="/">
+            <a className="header-logo-wrapper">
+              <Image src="/img/logo.svg" width="84px" height="40px" alt="로고" layout="intrinsic" />
+            </a>
+          </Link>
+        </h1>
         <div className="header-contents">
           <nav className="header-nav">
             <ul className="header-nav-list">
@@ -44,6 +47,7 @@ function header() {
                   size="medium"
                   styleType="default"
                   selected={pathname === '/blogs'}
+                  passHref
                 />
               </li>
               <li>
@@ -54,6 +58,8 @@ function header() {
                   styleType="default"
                   selected={pathname === '/bookmark'}
                   onClick={onToggleModal}
+                  aria-label="bookmark page"
+                  passHref
                 />
               </li>
               <li>
@@ -86,24 +92,6 @@ const HeaderBlock = styled.header`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  .header-logo-wrapper {
-    display: flex;
-    width: 200px;
-    height: 64px;
-    justify-content: flex-start;
-    align-items: center;
-    img {
-      width: 105px;
-      height: 80%;
-    }
-
-    @media (max-width: 480px) {
-      margin-top: 0.8rem;
-      padding-left: 0;
-      height: 48px;
-      width: 100px;
-    }
-  }
 
   @media (max-width: 1919px) {
     width: 1376px;

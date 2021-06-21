@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface HeaderMenuItemProps {
   to?: string;
@@ -10,8 +10,8 @@ interface HeaderMenuItemProps {
 function HeaderMenuItem({ to, onClick, children }: HeaderMenuItemProps) {
   if (to) {
     return (
-      <Link href={to}>
-        <MenuItemBlock className="menu-item">{children}</MenuItemBlock>
+      <Link href={to} passHref>
+        <MenuItemLink className="menu-item">{children}</MenuItemLink>
       </Link>
     );
   }
@@ -22,7 +22,7 @@ function HeaderMenuItem({ to, onClick, children }: HeaderMenuItemProps) {
   );
 }
 
-const MenuItemBlock = styled.div`
+const baseStyle = css`
   display: flex;
   justify-content: center;
   padding: 1.6rem 1.6rem;
@@ -34,6 +34,18 @@ const MenuItemBlock = styled.div`
   &:hover {
     color: ${({ theme }) => theme['font']};
     background-color: ${({ theme }) => theme['btn-hover-bg-3']};
+  }
+`;
+
+const MenuItemBlock = styled.div`
+  ${baseStyle}
+`;
+
+const MenuItemLink = styled.a`
+  ${baseStyle}
+  &:visited, &:link {
+    text-decoration: none;
+    color: inherit;
   }
 `;
 

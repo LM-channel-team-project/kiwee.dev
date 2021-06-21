@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { Session } from 'next-auth';
@@ -12,7 +13,19 @@ interface HeaderAuthProps {
 }
 
 function HeaderAuth({ session, toggleModal }: HeaderAuthProps) {
+  const { asPath } = useRouter();
   const [openMenu, setOpenMenu] = useState(false);
+  const [isProfilePage, setIsProfilePage] = useState(false);
+
+  useEffect(() => {
+    setIsProfilePage(asPath === '/profile');
+  }, [asPath]);
+  useEffect(() => {
+    if (isProfilePage) {
+      onClose();
+    }
+  }, [isProfilePage]);
+
   const onOpenMenu = () => {
     setOpenMenu((open) => !open);
   };
