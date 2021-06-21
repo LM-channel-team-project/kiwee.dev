@@ -20,7 +20,7 @@ export const Container = styled.div`
   }
 `;
 
-export const CardsWrap = styled.div`
+export const CardsWrap = styled.section`
   display: flex;
   justify-content: flex-start;
   flex: 1 1 0%;
@@ -30,4 +30,13 @@ export const CardsWrap = styled.div`
   .buttons {
     display: flex;
   }
+`;
+
+export const Heading2 = styled.h2`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 0 0, 0 0);
 `;

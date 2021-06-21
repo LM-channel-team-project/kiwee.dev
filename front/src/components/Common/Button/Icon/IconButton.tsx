@@ -27,18 +27,12 @@ const StyledIcon = styled(Icon).attrs((props: IconButtonProps) => ({
     const colorStyle = {
       default: css`
         color: ${selected ? theme['font'] : theme['font-inactive']};
-        /* &:hover {
-          color: ${theme['font']};
-        } */
       `,
       primary: css`
         color: ${theme['btn-active-font']};
       `,
       border: css`
         color: ${theme['font-inactive']};
-        /* &:hover {
-          color: ${theme['font']};
-        } */
       `,
     };
     return colorStyle[styleType];
