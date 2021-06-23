@@ -35,7 +35,7 @@ function useInfiniteScroll(callbackFn: PropTypes) {
     return io.current && io.current.disconnect();
   };
 
-  return [onInfiniteScrollInit, onInfiniteScrollUpdate, onInfiniteScrollDisconnect];
+  return { onInfiniteScrollInit, onInfiniteScrollUpdate, onInfiniteScrollDisconnect };
 }
 
 export default useInfiniteScroll;
