@@ -40,11 +40,7 @@ function TopButton() {
     <>
       {scrollDirection > 0 && scrollY > 300 && (
         <Button onClick={onScrollTo}>
-          {mode === 'light' ? (
-            <Top width="30" height="35" fill="#fff"></Top>
-          ) : (
-            <Top width="30" height="35" fill="#000"></Top>
-          )}
+          <Top width="30" height="35"></Top>
         </Button>
       )}
     </>

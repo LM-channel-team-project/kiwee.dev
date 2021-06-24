@@ -40,5 +40,6 @@ declare module 'styled-components' {
     'bookmark-icon-hover': string;
     'bookmark-icon-active': string;
     'bookmark-icon-active-hover': string;
+    'top-button': string;
   }
 }

@@ -13,6 +13,10 @@ export const Button = styled.button`
   z-index: 500;
   background: ${({ theme }) => theme['login-btn-bg']};
 
+  svg {
+    fill: ${({ theme }) => theme['top-button']};
+  }
+
   @media (max-width: 1056px) {
     width: 45px;
     height: 45px;

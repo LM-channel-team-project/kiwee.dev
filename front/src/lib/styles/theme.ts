@@ -37,6 +37,7 @@ const light = {
   'bookmark-icon-hover': '#bac8ff',
   'bookmark-icon-active': '#748ffc',
   'bookmark-icon-active-hover': '#748ffc',
+  'top-button': '#ffffff',
 };
 
 const dark = {
@@ -78,6 +79,7 @@ const dark = {
   'bookmark-icon-hover': '#bac8ff',
   'bookmark-icon-active': '#91a7ff',
   'bookmark-icon-active-hover': '#91a7ff',
+  'top-button': '#000000',
 };
 
 export const theme = { light, dark };
