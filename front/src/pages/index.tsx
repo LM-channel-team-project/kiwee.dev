@@ -18,20 +18,16 @@ function Home() {
     }
   };
 
-  const [
-    onInfiniteScrollInit,
-    onInfiniteScrollUpdate,
-    onInfiniteScrollDisconnect,
-  ] = useInfiniteScroll(handleObserver);
+  const { onInfiniteScrollInit, onInfiniteScrollUpdate, onInfiniteScrollDisconnect } =
+    useInfiniteScroll(handleObserver);
 
   useEffect(() => {
     onInfiniteScrollInit(document.querySelector('footer'));
   });
 
   useEffect(() => {
-    const target = document.querySelector('footer');
-    if (!hasNextPage || isValidating) onInfiniteScrollDisconnect(target);
-    else onInfiniteScrollUpdate(target);
+    if (!hasNextPage || isValidating) onInfiniteScrollDisconnect();
+    else onInfiniteScrollUpdate();
   }, [articles, hasNextPage, isValidating]);
 
   return (

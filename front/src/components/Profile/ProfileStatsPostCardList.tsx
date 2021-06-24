@@ -21,11 +21,8 @@ function ProfileStatsPostCardList({ selected }: ProfileStatsPostCardListProps) {
     }
   };
 
-  const [
-    onInfiniteScrollInit,
-    onInfiniteScrollUpdate,
-    onInfiniteScrollDisconnect,
-  ] = useInfiniteScroll(handleObserver);
+  const { onInfiniteScrollInit, onInfiniteScrollUpdate, onInfiniteScrollDisconnect } =
+    useInfiniteScroll(handleObserver);
 
   useEffect(() => {
     refresh();
@@ -38,9 +35,8 @@ function ProfileStatsPostCardList({ selected }: ProfileStatsPostCardListProps) {
   }, []);
 
   useEffect(() => {
-    const target = document.querySelector('footer');
-    if (!hasNextPage || isValidating) onInfiniteScrollDisconnect(target);
-    else onInfiniteScrollUpdate(target);
+    if (!hasNextPage || isValidating) onInfiniteScrollDisconnect();
+    else onInfiniteScrollUpdate();
   }, [articles, hasNextPage, isValidating]);
 
   if (!articles.length && !isValidating) {
