@@ -26,7 +26,6 @@ class HistoryRepository {
     return await this.History.updateOne({ providerId }, { histories: [] }, { new: true }).exec();
   }
   async findHistoryByProviderId(providerId: string) {
-    // console.log(object);
     return await this.History.findOne({ providerId }, { histories: { _id: 0 } }).exec();
   }
 }

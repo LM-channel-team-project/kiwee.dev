@@ -28,7 +28,6 @@ router.post('/', async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'articleId, providerId, isSave가 필요합니다.' });
   }
   try {
-    console.log(articleId, providerId, isSave);
     await likeService.updateLike(providerId, articleId, isSave);
     await articleService.updateOneByLike(providerId, articleId, isSave);
     return res.status(201).json({ message: '정상적으로 처리되었습니다' });
