@@ -5,6 +5,7 @@ interface Provider {
   name: string;
   avatar: string;
   rssLink: string;
+  blogUrl: string;
 }
 
 export interface BlogsResponse {

@@ -16,6 +16,7 @@ const ProviderSchema = new Schema(
       type: String,
       required: true,
     },
+    blogUrl: { type: String, required: true },
     lastModifiedTime: Date,
   },
   {
