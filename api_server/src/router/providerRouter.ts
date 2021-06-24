@@ -52,25 +52,27 @@ router.get('/me', async (req: Request, res: Response) => {
 router.get('/blogs', async (req, res) => {
   try {
     const result = await providerService.findAllBlogProviders();
-    return res
-      .status(200)
-      .json({
-        message: '정상적으로 처리되었습니다.',
-        blogs: result || [],
-        count: result.length || 0,
-      });
+    return res.status(200).json({
+      message: '정상적으로 처리되었습니다.',
+      blogs: result || [],
+      count: result.length || 0,
+    });
   } catch (error) {
     return res.status(500).json({ message: '서버 오류.' });
   }
 });
 
 router.post('/rss', async (req: Request, res: Response) => {
-  const { providerId, rssUrl } = req.body;
-  if (!providerId || !rssUrl)
+  const { providerId, rssUrl, blogUrl } = req.body as {
+    providerId: string;
+    rssUrl: string;
+    blogUrl: string;
+  };
+  if (!providerId || !rssUrl || !blogUrl)
     return res.status(401).json({ message: 'providerId, RssUrl이 필요합니다.' });
 
   try {
-    const result = await providerService.saveRssUrl(providerId, rssUrl);
+    const result = await providerService.saveRssUrl(providerId, rssUrl, blogUrl);
 
     // RSS crawling 요청
     axios
