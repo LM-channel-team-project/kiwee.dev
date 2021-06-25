@@ -4,12 +4,10 @@ import { Awaitable, NextApiRequest, NextApiResponse } from 'next-auth/internals/
 import { JWT } from 'next-auth/jwt';
 import Providers from 'next-auth/providers';
 
-import { IS_PROD } from '@/config/constants';
-
 const JWT_SECRET = process.env.JWT_SECRET;
 const GITHUB_EMAIL_API = 'https://api.github.com/user/emails';
 const API_SERVER_URL = process.env.API_SERVER_URL;
-const jsonify = (obj: any) => JSON.stringify(obj, null, 2);
+// const jsonify = (obj: any) => JSON.stringify(obj, null, 2);
 const options: NextAuthOptions = {
   providers: [
     Providers.GitHub({
@@ -30,9 +28,6 @@ const options: NextAuthOptions = {
   callbacks: {
     async signIn(user: User, account: Account, profile: Profile): Promise<string | boolean> {
       // TODO API 서버에 사용자 정보 저장 or 업데이트 요청
-      // // console.log(`user: ${jsonify(user)}`);
-      // // console.log(`account: ${jsonify(account)}`);
-      // // console.log(`profile: ${jsonify(profile)}`);
 
       // Oauth Login 이후 반환된 회원 정보 추가 및 업데이트 요청 (Upsert)
       try {
@@ -53,17 +48,10 @@ const options: NextAuthOptions = {
           email = responseEmail;
         }
 
-        const response = await axios.post(`${API_SERVER_URL}/provider`, {
-          providerId,
-          email,
-          avatar,
-          name,
-        });
-        // // console.log(`${API_SERVER_URL}/provider`, response.data);
+        await axios.post(`${API_SERVER_URL}/provider`, { providerId, email, avatar, name });
       } catch (e) {
-        // console.log(`${API_SERVER_URL}/provider`, e.message);
+        console.log(`${API_SERVER_URL}/provider`, e.message);
       }
-
       return true;
     },
     session(session: Session, userOrToken: User | JWT): Awaitable<Session> {

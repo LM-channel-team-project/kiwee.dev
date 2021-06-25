@@ -4,6 +4,6 @@ export interface ProviderType {
   email: string;
   avatar: string;
   rssLink?: string;
-  likes?: string[];
+  blogUrl?: string;
   lastModifiedTime?: Date;
 }

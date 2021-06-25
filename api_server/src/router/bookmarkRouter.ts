@@ -14,7 +14,6 @@ router.get('/', async (req: Request, res: Response) => {
     const { bookmarks } = (await bookmarkService.findBookmarkByProviderId(
       providerId,
     )) as BookmarksType;
-    console.log(bookmarks);
     if (!bookmarks) return res.status(404).json({ message: '존재하지 않는 회원입니다.' });
     return res.status(200).json({ message: '정상적으로 처리되었습니다.', bookmarks });
   } catch (e) {

@@ -29,6 +29,7 @@ class providerRepository {
   async createProvider({ providerId, email, avatar, name }: SaveProviderProps) {
     const lastModifiedTime = new Date(1970, 1, 1);
     const rssLink = 'default';
+    const blogUrl = '';
     return await this.Provider.findOneAndUpdate(
       { providerId },
       {
@@ -37,6 +38,7 @@ class providerRepository {
         name,
         avatar,
         rssLink,
+        blogUrl,
         lastModifiedTime,
       },
       {
@@ -61,10 +63,10 @@ class providerRepository {
       { new: true },
     ).exec();
   }
-  async saveRssUrl(providerId: string, RssLink: string) {
+  async saveRssUrl(providerId: string, RssLink: string, blogUrl: string) {
     return await this.Provider.updateOne(
       { providerId },
-      { $set: { RssLink } },
+      { $set: { RssLink, blogUrl } },
       { new: true },
     ).exec();
   }
