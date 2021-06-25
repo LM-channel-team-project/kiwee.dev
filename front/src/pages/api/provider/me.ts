@@ -16,10 +16,9 @@ export default withCheckJwt(async (req: NextApiRequest, res: NextApiResponse, to
   try {
     const requestUrl = `${API_SERVER_URL}/provider/me?providerId=${providerId}`;
     const { data, status } = await axios.get(requestUrl);
-    // // console.log(data);
     return res.status(status).json(data);
   } catch (e) {
-    // console.log(e);
+    console.log(e);
     return res.status(500).json({ message: e.message });
   }
 });

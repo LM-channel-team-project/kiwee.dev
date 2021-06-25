@@ -1,6 +1,3 @@
-export interface Blog {
-	email: string,
-	name: string,
-	avatar: string,
-	rssLink: string
-}
+import { Provider } from './response';
+
+export type Blog = Provider;

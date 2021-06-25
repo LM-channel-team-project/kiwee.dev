@@ -19,7 +19,6 @@ router.get('/', async (req: Request, res: Response) => {
     filter: FilterType;
   };
   if (!page) return res.status(400).json({ message: 'page가 필요합니다' });
-  console.log(req.query);
   // 필터에 따라 아티클 조회
   if (FILTER.includes(filter) && providerId) {
     try {
@@ -66,7 +65,6 @@ router.get('/comments', async (req: Request, res: Response) => {
 
   try {
     const { comments } = (await commentService.findCommentsByArticleId(articleId)) as CommentsModel;
-    // console.log(comments);
     if (!comments) return res.status(404).json({ message: '존재하지 않는 article입니다.' });
     return res.status(200).json({ message: '정상적으로 처리되었습니다.', comments });
   } catch (e) {
