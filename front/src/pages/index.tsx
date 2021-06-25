@@ -6,6 +6,7 @@ import useGetArticles from '@/hooks/swr/useGetArticles';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 import PostCardLayout from '@/components/PostCardLayout';
+import TopButton from '@/components/TopButton';
 
 function Home() {
   const { articles, onNextPage, hasNextPage, isValidating } = useGetArticles();
@@ -33,6 +34,7 @@ function Home() {
     <>
       <SEO />
       <PostCardLayout articles={articles} isLoading={isValidating} />
+      <TopButton />
     </>
   );
 }

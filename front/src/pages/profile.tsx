@@ -13,6 +13,7 @@ import SkeletonProfileUser from '@/components/Skeleton/Profile/SkeletonProfileUs
 import SKeletonPostCardLayout from '@/components/Skeleton/PostCardLayout';
 import FallbackProfileUser from '@/components/ErrorFallback/Profile/FallbackProfileUser';
 import FallbackPostCardLayout from '@/components/ErrorFallback/PostCardLayout/FallbackPostCardLayout';
+import TopButton from '@/components/TopButton';
 
 type SelectedType = 'histories' | 'likes';
 
@@ -34,6 +35,7 @@ function profile() {
         <ProfileUser />
       </AsyncBoundary>
       <ProfileStats selected={selected} onClick={onSetSelected} />
+      <TopButton />
       {
         <AsyncBoundary
           rejectedFallback={FallbackPostCardLayout}

@@ -8,6 +8,7 @@ import {
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useGetArticles from '@/hooks/swr/useGetArticles';
 import PostCardLayout from '@/components/PostCardLayout';
+import TopButton from '@/components/TopButton';
 
 function bookmark() {
   const { articles, onNextPage, hasNextPage, isValidating, refresh } = useGetArticles(
@@ -44,6 +45,7 @@ function bookmark() {
     <section>
       <SEO />
       <PostCardLayout articles={articles} isLoading={isValidating} />
+      <TopButton />
     </section>
   );
 }

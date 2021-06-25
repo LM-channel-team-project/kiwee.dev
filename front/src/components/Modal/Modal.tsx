@@ -8,7 +8,7 @@ import ProfileDetails from '@/components/Profile/ProfileDetails';
 
 function Modal() {
   const [modal, toggleModal] = useModal();
-  const [session, loading] = useSession();
+  const [session] = useSession();
   const [animate, setAnimate] = useState(false);
   const [localModal, setLocalModal] = useState(modal);
 
