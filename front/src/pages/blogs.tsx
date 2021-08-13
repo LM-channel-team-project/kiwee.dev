@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { GetServerSideProps } from 'next';
 
 import { BlogsResponse, Provider } from '@/types/response';
 import { API_URL } from '@/config/constants/api';
 
 import BlogCardLayout from '@/components/BlogCardLayout';
 import SEO from '@/components/SEO';
+import { nextAuthWrapper } from '@/lib/nextAuthWrapper';
 
 function blogs({ blogs, count }: { blogs: Provider[]; count: number }) {
   return (
@@ -15,7 +15,8 @@ function blogs({ blogs, count }: { blogs: Provider[]; count: number }) {
     </section>
   );
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
+export const getStaticProps = nextAuthWrapper({ redirectToHome: false }, async () => {
   const { data } = await axios.get<BlogsResponse>(`${API_URL}/provider/blogs`);
   return {
     props: {
@@ -23,6 +24,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       count: data?.count,
     },
   };
-};
+});
 
 export default blogs;
