@@ -9,7 +9,7 @@ import PostCardLayout from '@/components/PostCardLayout';
 import TopButton from '@/components/TopButton';
 
 function Home() {
-  const { articles, onNextPage, hasNextPage, isValidating } = useGetArticles();
+  const { articles, onNextPage, hasNextPage, isValidating, refresh } = useGetArticles();
 
   // 무한 스크롤
   const handleObserver: IntersectionObserverCallback = ([entry]) => {
@@ -23,7 +23,10 @@ function Home() {
 
   useEffect(() => {
     onInfiniteScrollInit(document.querySelector('footer'));
-  });
+    return () => {
+      refresh([], false);
+    };
+  }, []);
 
   useEffect(() => {
     if (!hasNextPage || isValidating) onInfiniteScrollDisconnect();
