@@ -16,7 +16,7 @@ function blogs({ blogs, count }: { blogs: Provider[]; count: number }) {
   );
 }
 
-export const getStaticProps = nextAuthWrapper({ redirectToHome: false }, async () => {
+export const getServerSideProps = nextAuthWrapper({ redirectToHome: false }, async () => {
   const { data } = await axios.get<BlogsResponse>(`${API_URL}/provider/blogs`);
   return {
     props: {
