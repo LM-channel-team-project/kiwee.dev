@@ -14,8 +14,7 @@ function NewTabProvider({ children }: ChildrenType) {
   useEffect(() => {
     // LocalStorage에는 boolean이 string형태로 저장되므로 getItem을 할 시에 boolean으로 바꿔준다.
     let initialState = window?.localStorage?.getItem('NEWTAB') as InitialStateType;
-    if (initialState === 'false') initialState = false;
-    else initialState = true;
+    initialState = initialState === 'false' ? false : true;
 
     setIsNewTab(initialState || false);
   }, []);
