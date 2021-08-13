@@ -16,10 +16,8 @@ function ThemeProvider({ children }: ChildrenType) {
   const [isNewTab, toggleNewTab] = useContext(NewTabContext);
 
   useEffect(() => {
-    if (window !== undefined) {
-      const initialMode = window?.localStorage?.getItem('MODE') as ModeType | null;
-      setMode(initialMode || 'light');
-    }
+    const initialMode = window?.localStorage?.getItem('MODE') as ModeType | null;
+    setMode(initialMode || 'light');
   }, []);
 
   const toggleMode = () => {

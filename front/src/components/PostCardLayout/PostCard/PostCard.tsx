@@ -5,7 +5,6 @@ import { IArticle } from '@/types/article';
 import { FilterType } from '@/types/apiType';
 import { updateArticleInfo } from '@/lib/api/article';
 import { useNewTabContext } from '@/hooks/useNewTabContext';
-import { useMutationObserverSetTarget } from '@/context/MutationObserverContext';
 import useGetMe from '@/hooks/swr/useGetMe';
 import debounce from '@/lib/utils/debounce';
 
@@ -37,14 +36,12 @@ function PostCard({ article }: PropTypes) {
     bookmarks: info.isBookmarked,
     histories: info.isVisited,
   });
-  const setMutateTarget = useMutationObserverSetTarget();
 
   const onUpdate = useCallback(async (updateTarget: FilterType, isActived: boolean) => {
     if (updateTarget === 'histories' && isActived) return;
     const result = await updateArticleInfo(updateTarget, articleId, !isActived);
     if (result) {
       setIsActived((prev) => ({ ...prev, [updateTarget]: !isActived }));
-      setMutateTarget({ filter: updateTarget, articleId, isSave: !isActived });
     }
   }, []);
 
